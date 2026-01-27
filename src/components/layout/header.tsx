@@ -12,14 +12,28 @@ import { PROFILE } from "@/lib/data"
 export function Header() {
     const [isOpen, setIsOpen] = React.useState(false)
     const [isScrolled, setIsScrolled] = React.useState(false)
+    const [isVisible, setIsVisible] = React.useState(true)
+    const [lastScrollY, setLastScrollY] = React.useState(0)
 
     React.useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50)
+            const currentScrollY = window.scrollY
+
+            // Scrolled state for glassmorphism
+            setIsScrolled(currentScrollY > 50)
+
+            // Smart hide/show logic
+            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                setIsVisible(false) // Scrolling down
+            } else {
+                setIsVisible(true) // Scrolling up
+            }
+
+            setLastScrollY(currentScrollY)
         }
-        window.addEventListener("scroll", handleScroll)
+        window.addEventListener("scroll", handleScroll, { passive: true })
         return () => window.removeEventListener("scroll", handleScroll)
-    }, [])
+    }, [lastScrollY])
 
     const navItems = [
         { name: PROFILE.nav.about, href: "#about" },
@@ -31,8 +45,17 @@ export function Header() {
     return (
         <motion.header
             initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            animate={{
+                y: isVisible ? 0 : -100,
+                opacity: isVisible ? 1 : 0
+            }}
+            transition={{
+                duration: 0.4,
+                ease: [0.22, 1, 0.36, 1],
+                type: "spring",
+                stiffness: 260,
+                damping: 30
+            }}
             className={`fixed top-0 z-50 w-full transition-all duration-500 ${isScrolled
                 ? "bg-background/80 backdrop-blur-xl border-b border-border/50 shadow-sm"
                 : "bg-transparent"
