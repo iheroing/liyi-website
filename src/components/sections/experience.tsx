@@ -10,7 +10,7 @@ const smoothEase = [0.22, 1, 0.36, 1] as const
 
 export function Experience() {
     return (
-        <section id="experience" className="py-28 md:py-36 bg-background">
+        <section id="experience" className="py-28 md:py-36 bg-muted/10">
             <div className="container px-6 md:px-8 max-w-4xl mx-auto">
                 {/* Section Header */}
                 <motion.div
