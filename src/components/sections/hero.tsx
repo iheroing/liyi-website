@@ -1,98 +1,152 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ArrowRight, Download, Github, Mail, Code, Brain, Zap } from "lucide-react"
+import { ArrowRight, Code, Brain, Zap } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ShimmerButton } from "@/components/ui/shimmer-button"
 import { PROFILE } from "@/lib/data"
 import { AuroraBackground } from "@/components/ui/aurora-background"
-import { FloatingDock } from "@/components/ui/floating-dock"
-import { Icons } from "@/components/icons"
 
 const floatingIcons = [
-    { Icon: Code, delay: 0, x: -150, y: -100 },
-    { Icon: Brain, delay: 2, x: 180, y: -80 },
-    { Icon: Zap, delay: 4, x: 0, y: -180 }, // Top centerish
+    { Icon: Code, delay: 0, x: -180, y: -120 },
+    { Icon: Brain, delay: 2, x: 200, y: -100 },
+    { Icon: Zap, delay: 4, x: 0, y: -200 },
 ]
+
+// Premium easing curve
+const smoothEase = [0.22, 1, 0.36, 1] as const
 
 export function Hero() {
     return (
         <AuroraBackground>
-            <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-80px)] w-full px-4 md:px-6 pt-20 pb-32">
+            <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-80px)] w-full px-6 md:px-8 pt-24 pb-36">
 
-                {/* Visual Anchor: Floating Icons (Subtle) */}
-                <div className="absolute inset-0 pointer-events-none hidden md:block opacity-30">
+                {/* Floating Icons - Extremely subtle */}
+                <div className="absolute inset-0 pointer-events-none hidden lg:block">
                     {floatingIcons.map(({ Icon, delay, x, y }, i) => (
                         <motion.div
                             key={i}
-                            className="absolute left-1/2 top-1/2 text-primary/10"
+                            className="absolute left-1/2 top-1/2 text-foreground/[0.03]"
                             initial={{ x, y, opacity: 0 }}
                             animate={{
-                                y: [y, y - 20, y],
-                                opacity: 0.5
+                                y: [y, y - 15, y],
+                                opacity: 0.3
                             }}
                             transition={{
-                                y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay },
-                                opacity: { duration: 1 }
+                                y: { duration: 5, repeat: Infinity, ease: "easeInOut", delay },
+                                opacity: { duration: 1.5 }
                             }}
                         >
-                            <Icon className="w-16 h-16" />
+                            <Icon className="w-20 h-20" strokeWidth={0.5} />
                         </motion.div>
                     ))}
                 </div>
 
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                    className="flex flex-col items-center text-center space-y-8 max-w-4xl mx-auto"
+                    transition={{ duration: 1.2, ease: smoothEase }}
+                    className="flex flex-col items-center text-center space-y-10 max-w-4xl mx-auto"
                 >
-                    {/* Elegant Title - No more pill background, just pure text */}
+                    {/* Subtitle */}
                     <motion.span
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.3, duration: 1 }}
-                        className="text-sm md:text-base font-light tracking-[0.2em] text-muted-foreground uppercase"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4, duration: 0.8, ease: smoothEase }}
+                        className="text-xs md:text-sm font-light tracking-[0.35em] text-muted-foreground/60 uppercase"
                     >
                         {PROFILE.title}
                     </motion.span>
 
-                    {/* Name - Cleaner typography */}
-                    <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight font-heading text-foreground">
+                    {/* Name - Dramatic typography */}
+                    <motion.h1
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 1, ease: smoothEase }}
+                        className="text-6xl md:text-8xl lg:text-[9rem] font-bold tracking-tighter font-heading text-foreground leading-none"
+                    >
                         {PROFILE.name}
-                        <span className="block mt-2 text-2xl md:text-3xl font-light text-muted-foreground font-sans tracking-widest opacity-60">
-                            Li Yi
-                        </span>
-                    </h1>
+                    </motion.h1>
 
-                    {/* Role - Spacious and thin */}
-                    <p className="text-lg md:text-xl text-muted-foreground font-light tracking-wide max-w-2xl leading-loose">
+                    <motion.span
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.6, duration: 1 }}
+                        className="text-xl md:text-2xl font-extralight text-muted-foreground/50 tracking-[0.4em] uppercase"
+                    >
+                        Li Yi
+                    </motion.span>
+
+                    {/* Role Pills - Elegant separation */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.8, duration: 0.8, ease: smoothEase }}
+                        className="flex flex-wrap justify-center gap-4 text-muted-foreground/70"
+                    >
                         {PROFILE.role.split(" | ").map((r, i) => (
-                            <span key={i} className="inline-block mx-3">
+                            <motion.span
+                                key={i}
+                                className="text-sm md:text-base font-light tracking-wide"
+                                whileHover={{ color: "var(--foreground)", transition: { duration: 0.3 } }}
+                            >
                                 {r}
-                            </span>
+                            </motion.span>
                         ))}
-                    </p>
+                    </motion.div>
 
-                    {/* Buttons - More spacing */}
-                    <div className="pt-8 flex flex-col sm:flex-row gap-6 items-center">
+                    {/* CTA Buttons */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1, duration: 0.8, ease: smoothEase }}
+                        className="pt-12 flex flex-col sm:flex-row gap-6 items-center"
+                    >
                         <Link href="#contact">
-                            <ShimmerButton className="shadow-xl h-14 px-10 rounded-full">
-                                <span className="text-base font-medium tracking-wide text-white dark:from-white dark:to-slate-900/10">
-                                    {PROFILE.hero.cta_contact}
-                                </span>
-                            </ShimmerButton>
+                            <motion.div
+                                whileHover={{ scale: 1.03 }}
+                                whileTap={{ scale: 0.98 }}
+                                transition={{ duration: 0.2 }}
+                            >
+                                <ShimmerButton className="shadow-2xl h-14 px-12 rounded-full">
+                                    <span className="text-base font-medium tracking-wider text-white">
+                                        {PROFILE.hero.cta_contact}
+                                    </span>
+                                </ShimmerButton>
+                            </motion.div>
                         </Link>
                         <Link href="#projects">
-                            <Button size="lg" variant="ghost" className="h-14 px-10 rounded-full text-base font-medium hover:bg-primary/5 text-foreground/80">
-                                {PROFILE.hero.cta_projects} <ArrowRight className="ml-2 h-4 w-4 opacity-50" />
-                            </Button>
+                            <motion.div
+                                whileHover={{ x: 5 }}
+                                transition={{ duration: 0.2 }}
+                            >
+                                <Button
+                                    size="lg"
+                                    variant="ghost"
+                                    className="h-14 px-10 rounded-full text-base font-light hover:bg-transparent text-foreground/60 hover:text-foreground group"
+                                >
+                                    {PROFILE.hero.cta_projects}
+                                    <ArrowRight className="ml-3 h-4 w-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
+                                </Button>
+                            </motion.div>
                         </Link>
-                    </div>
+                    </motion.div>
                 </motion.div>
 
-                {/* Social icons moved to footer as requested */}
+                {/* Scroll Indicator */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.5, duration: 1 }}
+                    className="absolute bottom-12 left-1/2 -translate-x-1/2"
+                >
+                    <motion.div
+                        animate={{ y: [0, 8, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                        className="w-[1px] h-12 bg-gradient-to-b from-foreground/20 to-transparent"
+                    />
+                </motion.div>
             </div>
         </AuroraBackground>
     )
