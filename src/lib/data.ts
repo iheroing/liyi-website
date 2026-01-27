@@ -2,7 +2,7 @@ import { Github, Twitter, Mail, MapPin, Linkedin, Link as LinkIcon, Download } f
 
 export const PROFILE = {
     name: "李弋",
-    title: "Vibecoding Educator",
+    title: "Knowledge Architect",
     role: "医学 · 代码 · AI",
     bio: "左手医学，右手代码。致力于用技术重塑教育体验，让知识获取像呼吸一样自然。",
     location: "北京",
@@ -41,9 +41,9 @@ export const PROFILE = {
             description: "多款 5⭐ 浏览器插件与教育工具的创造者。每一行代码，都是对某个痛点的回答。"
         },
         {
-            role: "AI 布道者",
-            title: "AI Evangelist",
-            description: "DeepSeek、ChatGPT 的深度实践者。不只是使用工具，更在设计工作流——让 AI 成为每个人的外脑。"
+            role: "AI 智能体架构师",
+            title: "AI Workflow Architect",
+            description: "拒绝「对话框式」的浅层交互。我致力于构建人机共生的『数字外壳』，在算法的密林中，为人类认知寻找更轻盈的落点。"
         }
     ],
     products: {
