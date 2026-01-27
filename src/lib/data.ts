@@ -27,7 +27,7 @@ export const PROFILE = {
         cta_projects_en: "View Projects",
         scroll: "以手抵心，上下求索",
     },
-    summary: "跨越医学与计算机的两栖探索者。从上海交大医学院到千万营收的金牌讲师，再到深耕教育场景的独立开发者。我相信：代码可以打破学科边界，AI 能够重新定义知识生产力。",
+    summary: "跨越医学与计算机的两栖探索者。从上海交大医学院的严谨科研，到赋能万千学子的教学实践，再到深耕教育场景的独立开发。我相信：代码可以打破学科边界，AI 能够重新定义知识生产力。",
     avatar: "/placeholder.jpg",
     identities: [
         {
