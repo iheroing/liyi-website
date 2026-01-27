@@ -34,8 +34,8 @@ export function Header() {
             animate={{ y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className={`fixed top-0 z-50 w-full transition-all duration-500 ${isScrolled
-                    ? "bg-background/80 backdrop-blur-xl border-b border-border/50 shadow-sm"
-                    : "bg-transparent"
+                ? "bg-background/80 backdrop-blur-xl border-b border-border/50 shadow-sm"
+                : "bg-transparent"
                 }`}
         >
             <div className="container max-w-5xl mx-auto flex h-16 md:h-20 items-center justify-between px-6 md:px-8">
@@ -78,27 +78,79 @@ export function Header() {
                 </nav>
 
                 {/* Mobile Navigation */}
-                <div className="md:hidden flex items-center gap-3">
+                <div className="md:hidden flex items-center gap-4">
                     <ThemeToggle />
                     <Sheet open={isOpen} onOpenChange={setIsOpen}>
                         <SheetTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-9 w-9">
-                                <Menu className="h-5 w-5" strokeWidth={1.5} />
+                            <Button variant="ghost" size="icon" className="h-10 w-10 relative">
+                                <motion.div
+                                    animate={isOpen ? "open" : "closed"}
+                                    className="flex flex-col gap-1.5 items-end"
+                                >
+                                    <motion.span
+                                        variants={{
+                                            closed: { width: 24 },
+                                            open: { width: 24, rotate: 45, y: 7.5 }
+                                        }}
+                                        className="h-[1px] bg-foreground block"
+                                    />
+                                    <motion.span
+                                        variants={{
+                                            closed: { width: 16, opacity: 1 },
+                                            open: { width: 0, opacity: 0 }
+                                        }}
+                                        className="h-[1px] bg-foreground block"
+                                    />
+                                    <motion.span
+                                        variants={{
+                                            closed: { width: 24 },
+                                            open: { width: 24, rotate: -45, y: -7.5 }
+                                        }}
+                                        className="h-[1px] bg-foreground block"
+                                    />
+                                </motion.div>
                                 <span className="sr-only">Toggle menu</span>
                             </Button>
                         </SheetTrigger>
-                        <SheetContent side="right" className="w-72 bg-background/95 backdrop-blur-xl">
-                            <nav className="flex flex-col gap-6 mt-12">
+                        <SheetContent
+                            side="right"
+                            className="w-full sm:w-full border-none bg-background/95 backdrop-blur-2xl p-0 flex flex-col"
+                            showCloseButton={false}
+                        >
+                            <div className="flex justify-between items-center px-6 h-16 border-b border-border/10">
+                                <span className="font-bold text-lg tracking-tighter">Li Yi.</span>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => setIsOpen(false)}
+                                    className="h-10 w-10"
+                                >
+                                    <motion.div
+                                        initial={false}
+                                        animate={{ rotate: 90 }}
+                                        className="relative flex items-center justify-center"
+                                    >
+                                        <span className="absolute h-[1px] w-6 bg-foreground rotate-45" />
+                                        <span className="absolute h-[1px] w-6 bg-foreground -rotate-45" />
+                                    </motion.div>
+                                </Button>
+                            </div>
+
+                            <nav className="flex-1 flex flex-col items-center justify-center gap-10">
                                 {navItems.map((item, i) => (
                                     <motion.div
                                         key={item.name}
-                                        initial={{ opacity: 0, x: 20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ duration: 0.3, delay: 0.05 * i }}
+                                        initial={{ opacity: 0, y: 30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{
+                                            duration: 0.6,
+                                            delay: 0.1 + (i * 0.1),
+                                            ease: [0.22, 1, 0.36, 1]
+                                        }}
                                     >
                                         <Link
                                             href={item.href}
-                                            className="text-2xl font-light tracking-wide text-foreground/80 hover:text-foreground transition-colors"
+                                            className="text-4xl font-light tracking-[0.2em] uppercase text-foreground/70 hover:text-foreground transition-all duration-500 hover:tracking-[0.25em]"
                                             onClick={() => setIsOpen(false)}
                                         >
                                             {item.name}
@@ -106,6 +158,19 @@ export function Header() {
                                     </motion.div>
                                 ))}
                             </nav>
+
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.6 }}
+                                className="p-12 flex flex-col items-center gap-6"
+                            >
+                                <div className="h-[1px] w-12 bg-border/50" />
+                                <div className="flex gap-8 text-muted-foreground/60">
+                                    <span className="text-xs tracking-widest uppercase font-light">Beijing</span>
+                                    <span className="text-xs tracking-widest uppercase font-light">2026</span>
+                                </div>
+                            </motion.div>
                         </SheetContent>
                     </Sheet>
                 </div>
