@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { PROFILE } from "@/lib/data"
-import { User, Code, Brain, Mail, MapPin } from "lucide-react"
+import { User, Code, Brain } from "lucide-react"
 
 const iconMap = {
     "教育管理者": User,
@@ -130,31 +130,7 @@ export function About() {
                     })}
                 </motion.div>
 
-                {/* Contact Info */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                    className="flex flex-wrap justify-center gap-8 mt-20 text-muted-foreground/70"
-                >
-                    <motion.div
-                        className="flex items-center gap-3 group cursor-default"
-                        whileHover={{ x: 3 }}
-                        transition={{ duration: 0.2 }}
-                    >
-                        <Mail className="h-4 w-4 group-hover:text-foreground transition-colors duration-300" strokeWidth={1.5} />
-                        <span className="text-sm font-light tracking-wide">{PROFILE.email}</span>
-                    </motion.div>
-                    <motion.div
-                        className="flex items-center gap-3 group cursor-default"
-                        whileHover={{ x: 3 }}
-                        transition={{ duration: 0.2 }}
-                    >
-                        <MapPin className="h-4 w-4 group-hover:text-foreground transition-colors duration-300" strokeWidth={1.5} />
-                        <span className="text-sm font-light tracking-wide">{PROFILE.location}</span>
-                    </motion.div>
-                </motion.div>
+
             </div>
         </section>
     )

@@ -113,9 +113,11 @@ export const PROFILE = {
     ],
     tags: ["#Vibecoding", "#全栈开发者", "#AI布道者", "#多维表格深度用户", "#医学教育专家"],
     philosophy: [
-        { title: "M-Factor Algorithm", description: "基于帕累托原理，精准筛选决定 80% 结果的 20% 黄金变量。" },
-        { title: "IDEART Model", description: "符合大脑认知规律的教学心流设计 (Import, Define, Explain, Application, Review, Task)。" },
-        { title: "Atomic Notes", description: "知识颗粒的标准化拆解与重组，像精密加工珠宝一样打磨每一个知识点。" },
-        { title: "AI Amplifier", description: "AI 是外脑，是执行者，更是模拟器。它让每一个个体都能进化为一支「超级战队」。" }
+        { title: "M-Factor Algorithm", description: "从海量信息中锁定决定 80% 结果的黄金变量，让备考从盲目刷题进化为精准打击。" },
+        { title: "IDEART Model", description: "告别填鸭式灌输，用脉冲式断点与多巴胺机制，让知识像河流一样自然流入大脑。" },
+        { title: "Atomic Notes", description: "像切割钻石一样打磨每一个知识颗粒，让散落的沙子被烧制成闪耀的玻璃。" },
+        { title: "AI Amplifier", description: "AI 是思考的伙伴，是执行的利器，更是认知的放大器——让每个人都能进化为一支超级战队。" },
+        { title: "稀缺性转移", description: "AI 时代，'怎么做'变得廉价，'做什么'成为真正的稀缺——人类的价值在于定方向，而非搬砖。" },
+        { title: "率先垂范", description: "在要求团队创新之前，自己先做出可视化 Demo。管理者不是指挥官，而是探路者。" }
     ]
 }
