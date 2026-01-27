@@ -173,7 +173,7 @@ export function Header() {
                                     >
                                         <Link
                                             href={item.href}
-                                            className="text-5xl font-medium font-serif italic tracking-[0.05em] text-foreground/80 hover:text-foreground transition-all duration-500"
+                                            className="text-5xl font-light font-serif italic tracking-[0.05em] text-foreground/80 hover:text-foreground transition-all duration-500"
                                             onClick={() => setIsOpen(false)}
                                         >
                                             {item.name}
