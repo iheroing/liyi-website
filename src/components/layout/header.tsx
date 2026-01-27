@@ -163,17 +163,17 @@ export function Header() {
                                 {navItems.map((item, i) => (
                                     <motion.div
                                         key={item.name}
-                                        initial={{ opacity: 0, y: 30 }}
-                                        animate={{ opacity: 1, y: 0 }}
+                                        initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+                                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                                         transition={{
-                                            duration: 0.6,
+                                            duration: 0.5,
                                             delay: 0.1 + (i * 0.1),
                                             ease: [0.22, 1, 0.36, 1]
                                         }}
                                     >
                                         <Link
                                             href={item.href}
-                                            className="text-4xl font-light tracking-[0.2em] uppercase text-foreground/70 hover:text-foreground transition-all duration-500 hover:tracking-[0.25em]"
+                                            className="text-5xl font-medium font-serif italic tracking-[0.05em] text-foreground/80 hover:text-foreground transition-all duration-500"
                                             onClick={() => setIsOpen(false)}
                                         >
                                             {item.name}

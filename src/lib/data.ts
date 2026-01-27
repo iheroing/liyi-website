@@ -49,8 +49,8 @@ export const PROFILE = {
     products: {
         extensions: [
             { name: "MarkWord", version: "v2.1", status: "5星", description: "Markdown 转 Word，保留完美格式。文档转换，从此不再痛苦。", url: "https://chromewebstore.google.com/detail/markword-markdown%E8%BD%ACword%E7%A5%9E%E5%99%A8/nfcbgjehfbamkkgloincpebmmdfhnoje?authuser=0&hl=zh-CN" },
-            { name: "书映 MindFlow", version: "v1.1.1", status: "5星", description: "边读边生成思维导图。让阅读，真正发生心流。", url: "https://chromewebstore.google.com/detail/%E4%B9%A6%E6%98%A0-mindflow/degeinlckofhmknnmenpeglapopcamif?authuser=0&hl=zh-CN" },
-            { name: "Code2HTML Pro", version: "v1.0.0", status: "已发布", description: "代码片段一键转为设计感网页。分享代码，也可以很美。", url: "https://chromewebstore.google.com/detail/code2html-pro-%E6%9E%81%E7%AE%80%E4%BB%A3%E7%A0%81%E8%BD%AC%E7%BD%91%E9%A1%B5%E5%B7%A5%E5%85%B7/iiggflpmjjdkdpobemhjpjlljohpglip?authuser=0&hl=zh-CN" },
+            { name: "书映 MindFlow", version: "v1.1.1", status: "5星", description: "将书籍内容直接『溶解』为思维导图。让阅读，真正发生心流。", url: "https://chromewebstore.google.com/detail/%E4%B9%A6%E6%98%A0-mindflow/degeinlckofhmknnmenpeglapopcamif?authuser=0&hl=zh-CN" },
+            { name: "Code2HTML Pro", version: "v1.0.0", status: "已发布", description: "代码片段一键交付为完美网页。代码的优雅，由你定义。", url: "https://chromewebstore.google.com/detail/code2html-pro-%E6%9E%81%E7%AE%80%E4%BB%A3%E7%A0%81%E8%BD%AC%E7%BD%91%E9%A1%B5%E5%B7%A5%E5%85%B7/iiggflpmjjdkdpobemhjpjlljohpglip?authuser=0&hl=zh-CN" },
             { name: "文档查重助手 Pro", version: "v2.0", status: "已发布", description: "教研质检的守门员。守护每一份原创内容的价值。", url: "https://chromewebstore.google.com/detail/%E6%96%87%E6%A1%A3%E6%9F%A5%E9%87%8D%E5%8A%A9%E6%89%8B-pro/iicjkpmhadepfgmminjoljgbjaaobkef?authuser=0&hl=zh-CN" }
         ],
         apps: [
@@ -60,8 +60,8 @@ export const PROFILE = {
         ],
         enterprise: [
             { name: "华图培训管理系统", description: "覆盖 3000+ 教师的数字底座。NPS + 360 环评，让师资质量可衡量、可迭代。" },
-            { name: "医疗交付管理平台", description: "年度创新奖作品。200+ 团队的协作中枢，让复杂管理变得透明可见。" },
-            { name: "AI 教研质检体系", description: "DeepSeek + Python 自动化。让 AI 点评规模化落地，让内容生产力跃升。" }
+            { name: "医疗交付管理平台", description: "复杂业务的透明化中枢。连接 200+ 团队的协作脉络，让流程井然有序。" },
+            { name: "AI 师资个性化培训", description: "AI 辅助的师资成长引擎。为每一位讲师，打造独一无二的进化方案。" }
         ]
     },
     experience: [
