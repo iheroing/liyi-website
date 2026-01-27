@@ -15,14 +15,14 @@ export function Philosophy() {
                     transition={{ duration: 0.5 }}
                     className="flex flex-col items-center text-center mb-12"
                 >
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Philosophy & Vision</h2>
-                    <span className="text-muted-foreground text-sm tracking-widest uppercase mt-2">核心理念</span>
+                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-heading">核心理念</h2>
+                    <span className="text-muted-foreground text-sm tracking-widest uppercase mt-2 opacity-60">Philosophy & Vision</span>
                     <p className="text-muted-foreground mt-4 max-w-[800px]">
                         驱动我工作的核心方法论与思维模型。
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
                     {PROFILE.philosophy.map((item, index) => (
                         <motion.div
                             key={index}

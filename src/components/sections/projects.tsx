@@ -32,14 +32,14 @@ export function Projects() {
                 <Tabs defaultValue="extensions" className="w-full">
                     <div className="flex justify-center mb-8">
                         <TabsList className="grid w-full max-w-[400px] grid-cols-3">
-                            <TabsTrigger value="extensions">Extensions</TabsTrigger>
-                            <TabsTrigger value="apps">Apps</TabsTrigger>
-                            <TabsTrigger value="enterprise">Enterprise</TabsTrigger>
+                            <TabsTrigger value="extensions">浏览器插件</TabsTrigger>
+                            <TabsTrigger value="apps">应用</TabsTrigger>
+                            <TabsTrigger value="enterprise">企业项目</TabsTrigger>
                         </TabsList>
                     </div>
 
                     <TabsContent value="extensions">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
                             {PROFILE.products.extensions.map((project, index) => (
                                 <CardSpotlight key={index} className="flex flex-col h-full bg-card">
                                     <div className="p-6 flex flex-col h-full">
@@ -70,7 +70,7 @@ export function Projects() {
                     </TabsContent>
 
                     <TabsContent value="apps">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
                             {PROFILE.products.apps.map((project, index) => (
                                 <CardSpotlight key={index} className="flex flex-col h-full bg-card">
                                     <div className="p-6 flex flex-col h-full">
@@ -92,7 +92,7 @@ export function Projects() {
                     </TabsContent>
 
                     <TabsContent value="enterprise">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
                             {PROFILE.products.enterprise.map((project, index) => (
                                 <CardSpotlight key={index} className="flex flex-col h-full bg-card">
                                     <div className="p-6 flex flex-col h-full">

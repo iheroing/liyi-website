@@ -54,8 +54,8 @@ export const ShimmerButton = React.forwardRef<
                     </div>
                 </div>
 
-                {/* Backdrop */}
-                <div className="absolute inset-[2px] -z-20 rounded-[calc(var(--border-radius))]" style={{ backgroundColor: 'var(--background)' }} />
+                {/* Backdrop - Direct inline black background */}
+                <div className="absolute inset-[2px] -z-20 rounded-[calc(var(--border-radius))] bg-black" />
 
                 {/* Content */}
                 <div className="relative z-10 flex items-center justify-center gap-2">
