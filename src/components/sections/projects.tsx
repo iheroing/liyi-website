@@ -52,6 +52,15 @@ export function Projects() {
                                     <CardContent className="flex-1">
                                         <p className="text-muted-foreground">{project.description}</p>
                                     </CardContent>
+                                    {project.url && (
+                                        <CardFooter>
+                                            <Link href={project.url} target="_blank" className="w-full">
+                                                <Button variant="outline" className="w-full">
+                                                    Visit Extension <ExternalLink className="ml-2 h-4 w-4" />
+                                                </Button>
+                                            </Link>
+                                        </CardFooter>
+                                    )}
                                 </Card>
                             ))}
                         </div>

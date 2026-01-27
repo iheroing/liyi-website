@@ -28,9 +28,9 @@ export const PROFILE = {
     ],
     products: {
         extensions: [
-            { name: "MarkWord", version: "v2.1", status: "5星", description: "Markdown 转 Word 神器。完美保留格式，解决文档转换痛点。" },
-            { name: "书映 MindFlow", version: "v1.1.1", status: "5星", description: "沉浸式阅读工具。支持边读边生成思维导图，提升阅读心流。" },
-            { name: "Code2HTML Pro", version: "v1.0.0", status: "已发布", description: "代码转网页工具。一键将代码片段转化为美观的 HTML 分享页。" },
+            { name: "MarkWord", version: "v2.1", status: "5星", description: "Markdown 转 Word 神器。完美保留格式，解决文档转换痛点。", url: "https://chromewebstore.google.com/detail/markword-markdown%E8%BD%ACword%E7%A5%9E%E5%99%A8/nfcbgjehfbamkkgloincpebmmdfhnoje?authuser=0&hl=zh-CN" },
+            { name: "书映 MindFlow", version: "v1.1.1", status: "5星", description: "沉浸式阅读工具。支持边读边生成思维导图，提升阅读心流。", url: "https://chromewebstore.google.com/detail/%E4%B9%A6%E6%98%A0-mindflow/degeinlckofhmknnmenpeglapopcamif?authuser=0&hl=zh-CN" },
+            { name: "Code2HTML Pro", version: "v1.0.0", status: "已发布", description: "代码转网页工具。一键将代码片段转化为美观的 HTML 分享页。", url: "https://chromewebstore.google.com/detail/code2html-pro-%E6%9E%81%E7%AE%80%E4%BB%A3%E7%A0%81%E8%BD%AC%E7%BD%91%E9%A1%B5%E5%B7%A5%E5%85%B7/iiggflpmjjdkdpobemhjpjlljohpglip?authuser=0&hl=zh-CN" },
             { name: "文档查重助手 Pro", version: "v2.0", status: "已发布", description: "教研质检利器。高效检测文档重复率，保障内容原创性。" }
         ],
         apps: [
