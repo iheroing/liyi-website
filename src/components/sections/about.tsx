@@ -35,7 +35,7 @@ export function About() {
                         transition={{ duration: 0.5, delay: 0.2 }}
                         className="space-y-6"
                     >
-                        <h3 className="text-2xl font-bold">Profile</h3>
+                        <h3 className="text-2xl font-bold">个人简介</h3>
                         <p className="text-lg text-muted-foreground leading-relaxed">
                             {PROFILE.summary}
                         </p>

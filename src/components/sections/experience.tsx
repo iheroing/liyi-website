@@ -17,6 +17,7 @@ export function Experience() {
                     className="flex flex-col items-center text-center mb-16"
                 >
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Experience & Education</h2>
+                    <span className="text-muted-foreground text-sm tracking-widest uppercase mt-2">经历与教育</span>
                 </motion.div>
 
                 <TracerBeam className="px-4">

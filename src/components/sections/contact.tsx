@@ -18,8 +18,9 @@ export function Contact() {
                     className="flex flex-col items-center text-center space-y-6"
                 >
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">get in touch.</h2>
+                    <span className="text-muted-foreground text-sm tracking-widest uppercase mt-2">保持联系</span>
                     <p className="text-muted-foreground max-w-[600px] text-lg">
-                        Whether you're interested in educational technology, AI integration, or just want to say hi, I'd love to hear from you.
+                        对教育科技、AI 落地感兴趣，或者只是想交个朋友？欢迎随时联系。
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-6 mt-8">
@@ -37,7 +38,7 @@ export function Contact() {
                         <a href={`mailto:${PROFILE.email}`}>
                             <ShimmerButton className="shadow-2xl">
                                 <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
-                                    Say Hello
+                                    Say Hello <span className="text-xs opacity-70 ml-1">打个招呼</span>
                                 </span>
                             </ShimmerButton>
                         </a>

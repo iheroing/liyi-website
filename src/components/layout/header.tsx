@@ -12,11 +12,10 @@ export function Header() {
     const [isOpen, setIsOpen] = React.useState(false)
 
     const navItems = [
-        { name: "About", href: "#about" },
-        { name: "Experience", href: "#experience" },
-        { name: "Projects", href: "#projects" },
-        { name: "Philosophy", href: "#philosophy" },
-        { name: "Contact", href: "#contact" },
+        { name: PROFILE.nav.about, href: "#about" },
+        { name: PROFILE.nav.experience, href: "#experience" },
+        { name: PROFILE.nav.projects, href: "#projects" },
+        { name: PROFILE.nav.contact, href: "#contact" },
     ]
 
     return (

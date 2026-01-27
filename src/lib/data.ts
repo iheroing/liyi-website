@@ -1,12 +1,32 @@
 import { Github, Twitter, Mail, MapPin, Linkedin, Link as LinkIcon, Download } from "lucide-react"
 
 export const PROFILE = {
-    name: "Li Yi (李弋)",
+    name: "李弋",
     title: "Vibecoding Educator",
-    role: "跨界教育管理者 | 全栈开发者 | AI 布道者",
-    location: "Beijing, China",
-    email: "sjtuliyi@163.com",
-    phone: "18508486115",
+    role: "敏捷教育者 | 全栈开发者 | AI 布道师",
+    bio: "致力于通过技术赋能教育，让每个人都能享受编程的乐趣。擅长将复杂的概念简化，用直观的方式传授知识。",
+    location: "中国, 北京",
+    email: "yixuelilaoshi@example.com", // Placeholder, will update if needed
+    socials: {
+        github: "https://github.com/iheroing", // Assuming github exists or keep placeholders
+        xiaohongshu: "https://www.xiaohongshu.com/user/profile/61d313ec000000001000e0df",
+        wechat: "白衣卿相碎碎念", // ID/Name
+        douyin: "yixuelilaoshi", // ID
+    },
+    nav: {
+        home: "首页",
+        about: "关于我",
+        experience: "经历",
+        projects: "项目",
+        contact: "联系",
+    },
+    hero: {
+        cta_contact: "联系我",
+        cta_contact_en: "Contact Me",
+        cta_projects: "查看项目",
+        cta_projects_en: "View Projects",
+        scroll: "向下滑动",
+    },
     summary: "一位懂技术的医学教育专家，也是一位深耕教育场景的全栈开发者。拥有上海交通大学医学院肿瘤学硕士背景，从一线金牌讲师起步，成长为华图教育医疗板块的核心操盘手。极具极客精神与深度反思习惯，信奉 'Vibecoding'，致力于弥合'业务'与'技术'的鸿沟。",
     avatar: "/placeholder.jpg", // We will need an image
     identities: [

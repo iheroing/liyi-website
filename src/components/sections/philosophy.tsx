@@ -16,8 +16,9 @@ export function Philosophy() {
                     className="flex flex-col items-center text-center mb-12"
                 >
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Philosophy & Vision</h2>
+                    <span className="text-muted-foreground text-sm tracking-widest uppercase mt-2">核心理念</span>
                     <p className="text-muted-foreground mt-4 max-w-[800px]">
-                        Core methodologies and intellectual assets that drive my work.
+                        驱动我工作的核心方法论与思维模型。
                     </p>
                 </motion.div>
 
