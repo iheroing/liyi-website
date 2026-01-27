@@ -113,10 +113,10 @@ export function Hero() {
                             <ShimmerButton
                                 as="div"
                                 className="shadow-2xl h-14 px-12 rounded-full cursor-pointer"
-                                background="var(--primary)"
-                                shimmerColor="var(--background)"
+                                background="#1a1a1a"
+                                shimmerColor="#ffffff"
                             >
-                                <span className="text-base font-medium tracking-wider text-primary-foreground">
+                                <span className="text-base font-medium tracking-wider text-white">
                                     {PROFILE.hero.cta_contact}
                                 </span>
                             </ShimmerButton>
