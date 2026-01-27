@@ -6,7 +6,7 @@ export const PROFILE = {
     role: "敏捷教育者 | 全栈开发者 | AI 布道师",
     bio: "致力于通过技术赋能教育，让每个人都能享受编程的乐趣。擅长将复杂的概念简化，用直观的方式传授知识。",
     location: "中国, 北京",
-    email: "yixuelilaoshi@example.com", // Placeholder, will update if needed
+    email: "sjtuliyi@163.com",
     socials: {
         github: "https://github.com/iheroing", // Assuming github exists or keep placeholders
         xiaohongshu: "https://www.xiaohongshu.com/user/profile/61d313ec000000001000e0df",
