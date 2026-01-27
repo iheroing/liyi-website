@@ -1,5 +1,9 @@
+"use client"
+
 import Link from "next/link"
-import { Github, Twitter, Mail } from "lucide-react"
+import { Mail } from "lucide-react"
+import { Icons } from "@/components/icons"
+import { PROFILE } from "@/lib/data"
 
 export function Footer() {
     return (
@@ -8,8 +12,23 @@ export function Footer() {
                 <p className="text-sm text-center text-muted-foreground md:text-left">
                     &copy; {new Date().getFullYear()} Li Yi. All rights reserved.
                 </p>
-                <div className="flex gap-4">
-                    {/* Add social links here if available in PROFILE, currently hardcoded generic or from data if possible */}
+                <div className="flex gap-6 items-center">
+                    <Link href={PROFILE.socials.xiaohongshu} target="_blank" className="text-muted-foreground hover:text-[#FF2442] transition-colors">
+                        <Icons.xiaohongshu className="h-5 w-5" />
+                        <span className="sr-only">Little Red Book</span>
+                    </Link>
+                    <button onClick={() => { navigator.clipboard.writeText("白衣卿相碎碎念"); alert("公众号ID已复制"); }} className="text-muted-foreground hover:text-[#07C160] transition-colors">
+                        <Icons.wechat className="h-5 w-5" />
+                        <span className="sr-only">WeChat</span>
+                    </button>
+                    <Link href={PROFILE.socials.douyin || "#"} target="_blank" className="text-muted-foreground hover:text-black dark:hover:text-white transition-colors">
+                        <Icons.douyin className="h-5 w-5" />
+                        <span className="sr-only">Douyin</span>
+                    </Link>
+                    <Link href={`mailto:${PROFILE.email}`} className="text-muted-foreground hover:text-blue-500 transition-colors">
+                        <Mail className="h-5 w-5" />
+                        <span className="sr-only">Email</span>
+                    </Link>
                 </div>
             </div>
         </footer>

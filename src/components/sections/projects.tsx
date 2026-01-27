@@ -22,8 +22,8 @@ export function Projects() {
                     transition={{ duration: 0.5 }}
                     className="flex flex-col items-center text-center mb-12"
                 >
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Selected Projects</h2>
-                    <span className="text-muted-foreground text-sm tracking-widest uppercase mt-2">我的项目</span>
+                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-heading">精选项目</h2>
+                    <span className="text-muted-foreground text-sm tracking-widest uppercase mt-2 opacity-60">Selected Projects</span>
                     <p className="text-muted-foreground mt-4 max-w-[800px]">
                         从独立开发到企业级系统，致力于弥合教育与技术之间的鸿沟。
                     </p>

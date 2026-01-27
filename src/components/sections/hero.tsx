@@ -92,23 +92,7 @@ export function Hero() {
                     </div>
                 </motion.div>
 
-                {/* Social Dock - Pinned to bottom, subtle, grayscale until hover */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1, duration: 1 }}
-                    className="fixed bottom-12 left-1/2 -translate-x-1/2 z-50 scale-90 opacity-60 hover:opacity-100 transition-all duration-500 hover:scale-100"
-                >
-                    <FloatingDock
-                        desktopClassName="bg-transparent dark:bg-transparent border-none shadow-none"
-                        items={[
-                            { title: "Xiaohongshu", icon: <Icons.xiaohongshu className="h-full w-full text-muted-foreground group-hover:text-[#FF2442] transition-colors" />, href: PROFILE.socials.xiaohongshu },
-                            { title: "WeChat", icon: <Icons.wechat className="h-full w-full text-muted-foreground group-hover:text-[#07C160] transition-colors" />, href: "#", action: () => { alert("公众号ID: 白衣卿相碎碎念"); navigator.clipboard.writeText("白衣卿相碎碎念"); } },
-                            { title: "Douyin", icon: <Icons.douyin className="h-full w-full text-muted-foreground group-hover:text-foreground transition-colors" />, href: "https://www.douyin.com/user/self?from_tab_name=main&showSubTab=compilation&showTab=favorite_collection" },
-                            { title: "Email", icon: <Mail className="h-full w-full text-muted-foreground group-hover:text-blue-500 transition-colors" />, href: `mailto:${PROFILE.email}` },
-                        ]}
-                    />
-                </motion.div>
+                {/* Social icons moved to footer as requested */}
             </div>
         </AuroraBackground>
     )
