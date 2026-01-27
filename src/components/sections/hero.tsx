@@ -116,21 +116,15 @@ export function Hero() {
                                 </ShimmerButton>
                             </motion.div>
                         </Link>
-                        <Link href="#projects">
-                            <motion.div
-                                whileHover={{ x: 5 }}
-                                transition={{ duration: 0.2 }}
-                            >
-                                <Button
-                                    size="lg"
-                                    variant="ghost"
-                                    className="h-14 px-10 rounded-full text-base font-light hover:bg-transparent text-foreground/60 hover:text-foreground group"
-                                >
-                                    {PROFILE.hero.cta_projects}
-                                    <ArrowRight className="ml-3 h-4 w-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
-                                </Button>
-                            </motion.div>
-                        </Link>
+                        <motion.a
+                            href="#projects"
+                            whileHover={{ x: 5 }}
+                            transition={{ duration: 0.2 }}
+                            className="inline-flex items-center h-14 px-10 rounded-full text-base font-light text-foreground/60 hover:text-foreground group cursor-pointer"
+                        >
+                            {PROFILE.hero.cta_projects}
+                            <ArrowRight className="ml-3 h-4 w-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
+                        </motion.a>
                     </motion.div>
                 </motion.div>
 
