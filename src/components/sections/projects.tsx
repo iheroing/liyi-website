@@ -9,6 +9,8 @@ import { PROFILE } from "@/lib/data"
 import { ExternalLink, Github, Star } from "lucide-react"
 import Link from "next/link"
 
+import { CardSpotlight } from "@/components/ui/card-spotlight"
+
 export function Projects() {
     return (
         <section id="projects" className="py-20 bg-background">
@@ -38,30 +40,30 @@ export function Projects() {
                     <TabsContent value="extensions">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
                             {PROFILE.products.extensions.map((project, index) => (
-                                <Card key={index} className="flex flex-col">
-                                    <CardHeader>
-                                        <div className="flex justify-between items-start">
-                                            <CardTitle className="text-xl font-bold">{project.name}</CardTitle>
+                                <CardSpotlight key={index} className="flex flex-col h-full bg-card">
+                                    <div className="p-6 flex flex-col h-full">
+                                        <div className="flex justify-between items-start mb-4">
+                                            <h3 className="text-xl font-bold leading-none tracking-tight">{project.name}</h3>
                                             <Badge variant={project.status.includes("5") ? "default" : "secondary"}>
                                                 {project.status.includes("5") && <Star className="h-3 w-3 mr-1 fill-current" />}
                                                 {project.status}
                                             </Badge>
                                         </div>
-                                        <CardDescription className="text-sm font-mono mt-1">{project.version}</CardDescription>
-                                    </CardHeader>
-                                    <CardContent className="flex-1">
-                                        <p className="text-muted-foreground">{project.description}</p>
-                                    </CardContent>
-                                    {project.url && (
-                                        <CardFooter>
-                                            <Link href={project.url} target="_blank" className="w-full">
-                                                <Button variant="outline" className="w-full">
-                                                    Visit Extension <ExternalLink className="ml-2 h-4 w-4" />
-                                                </Button>
-                                            </Link>
-                                        </CardFooter>
-                                    )}
-                                </Card>
+                                        <p className="text-sm font-mono text-muted-foreground mb-4">{project.version}</p>
+                                        <div className="flex-1">
+                                            <p className="text-muted-foreground">{project.description}</p>
+                                        </div>
+                                        {project.url && (
+                                            <div className="mt-6">
+                                                <Link href={project.url} target="_blank" className="w-full">
+                                                    <Button variant="outline" className="w-full">
+                                                        Visit Extension <ExternalLink className="ml-2 h-4 w-4" />
+                                                    </Button>
+                                                </Link>
+                                            </div>
+                                        )}
+                                    </div>
+                                </CardSpotlight>
                             ))}
                         </div>
                     </TabsContent>
@@ -69,14 +71,12 @@ export function Projects() {
                     <TabsContent value="apps">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {PROFILE.products.apps.map((project, index) => (
-                                <Card key={index} className="flex flex-col">
-                                    <CardHeader>
-                                        <CardTitle className="text-xl font-bold">{project.name}</CardTitle>
-                                    </CardHeader>
-                                    <CardContent className="flex-1">
-                                        <p className="text-muted-foreground">{project.description}</p>
-                                    </CardContent>
-                                    <CardFooter>
+                                <CardSpotlight key={index} className="flex flex-col h-full bg-card">
+                                    <div className="p-6 flex flex-col h-full">
+                                        <h3 className="text-xl font-bold leading-none tracking-tight mb-4">{project.name}</h3>
+                                        <div className="flex-1 mb-6">
+                                            <p className="text-muted-foreground">{project.description}</p>
+                                        </div>
                                         {project.url && (
                                             <Link href={project.url} target="_blank" className="w-full">
                                                 <Button variant="outline" className="w-full">
@@ -84,8 +84,8 @@ export function Projects() {
                                                 </Button>
                                             </Link>
                                         )}
-                                    </CardFooter>
-                                </Card>
+                                    </div>
+                                </CardSpotlight>
                             ))}
                         </div>
                     </TabsContent>
@@ -93,14 +93,14 @@ export function Projects() {
                     <TabsContent value="enterprise">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {PROFILE.products.enterprise.map((project, index) => (
-                                <Card key={index} className="flex flex-col">
-                                    <CardHeader>
-                                        <CardTitle className="text-xl font-bold">{project.name}</CardTitle>
-                                    </CardHeader>
-                                    <CardContent className="flex-1">
-                                        <p className="text-muted-foreground">{project.description}</p>
-                                    </CardContent>
-                                </Card>
+                                <CardSpotlight key={index} className="flex flex-col h-full bg-card">
+                                    <div className="p-6 flex flex-col h-full">
+                                        <h3 className="text-xl font-bold leading-none tracking-tight mb-4">{project.name}</h3>
+                                        <div className="flex-1">
+                                            <p className="text-muted-foreground">{project.description}</p>
+                                        </div>
+                                    </div>
+                                </CardSpotlight>
                             ))}
                         </div>
                     </TabsContent>

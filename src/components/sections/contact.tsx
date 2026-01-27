@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { PROFILE } from "@/lib/data"
 import { Button } from "@/components/ui/button"
+import { ShimmerButton } from "@/components/ui/shimmer-button"
 import { Mail, MapPin } from "lucide-react"
 
 export function Contact() {
@@ -34,9 +35,11 @@ export function Contact() {
 
                     <div className="pt-8">
                         <a href={`mailto:${PROFILE.email}`}>
-                            <Button size="lg" className="px-8 text-lg h-12">
-                                Say Hello
-                            </Button>
+                            <ShimmerButton className="shadow-2xl">
+                                <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
+                                    Say Hello
+                                </span>
+                            </ShimmerButton>
                         </a>
                     </div>
                 </motion.div>
