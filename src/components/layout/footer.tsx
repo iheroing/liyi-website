@@ -47,7 +47,7 @@ export function Footer() {
                 >
                     {socialLinks.map((social, i) => {
                         const IconComponent = social.icon
-                        const commonClasses = `text-muted-foreground/50 ${social.hoverColor} transition-all duration-300 p-2 rounded-full hover:bg-muted/50`
+                        const commonClasses = `text-muted-foreground/50 ${social.hoverColor} transition-colors duration-300`
 
                         if (social.onClick) {
                             return (
