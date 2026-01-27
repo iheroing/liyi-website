@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Inter, Outfit, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import { Header } from "@/components/layout/header"
@@ -15,6 +15,13 @@ const outfit = Outfit({
   subsets: ["latin"],
 });
 
+const cormorant = Cormorant_Garamond({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+});
+
 export const metadata: Metadata = {
   title: "Li Yi (李弋) | Vibecoding Educator",
   description: "Personal website of Li Yi (李弋) - Agile Educator, Full Stack Developer, and AI Evangelist.",
@@ -28,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${outfit.variable} font-sans antialiased flex flex-col min-h-screen`}
+        className={`${inter.variable} ${outfit.variable} ${cormorant.variable} font-sans antialiased flex flex-col min-h-screen`}
       >
         <ThemeProvider
           attribute="class"

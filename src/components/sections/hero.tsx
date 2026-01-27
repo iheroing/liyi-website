@@ -60,23 +60,29 @@ export function Hero() {
                     </motion.span>
 
                     {/* Name - Dramatic typography */}
-                    <motion.h1
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2, duration: 1, ease: smoothEase }}
-                        className="text-6xl md:text-8xl lg:text-[9rem] font-bold tracking-tighter font-heading text-foreground leading-none"
-                    >
-                        {PROFILE.name}
-                    </motion.h1>
+                    <div className="flex flex-col items-center">
+                        <motion.h1
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2, duration: 1, ease: smoothEase }}
+                            className="text-7xl md:text-9xl lg:text-[10rem] font-medium tracking-tight font-serif text-foreground leading-none drop-shadow-sm italic"
+                        >
+                            {PROFILE.name}
+                        </motion.h1>
 
-                    <motion.span
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.6, duration: 1 }}
-                        className="text-xl md:text-2xl font-extralight text-muted-foreground/50 tracking-[0.4em] uppercase"
-                    >
-                        Li Yi
-                    </motion.span>
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.5, duration: 1.2, ease: smoothEase }}
+                            className="mt-4 flex items-center gap-4"
+                        >
+                            <div className="h-[1px] w-8 md:w-16 bg-foreground/10" />
+                            <span className="text-xl md:text-3xl font-light font-serif italic text-muted-foreground/60 tracking-[0.2em] uppercase">
+                                Li Yi
+                            </span>
+                            <div className="h-[1px] w-8 md:w-16 bg-foreground/10" />
+                        </motion.div>
+                    </div>
 
                     {/* Role Pills - Elegant separation */}
                     <motion.div
