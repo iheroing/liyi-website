@@ -46,7 +46,7 @@ export function Experience() {
                                 >
                                     {/* Timeline Dot */}
                                     <motion.span
-                                        className="absolute -left-[49px] top-2 h-4 w-4 rounded-full border-2 border-background bg-foreground/80 z-10 group-hover:scale-125 transition-transform duration-300"
+                                        className="absolute -left-[38px] top-2 h-4 w-4 rounded-full border-2 border-background bg-foreground/80 z-10 group-hover:scale-125 transition-transform duration-300"
                                         whileHover={{ scale: 1.3 }}
                                     />
                                     <div className="space-y-3">
@@ -80,7 +80,7 @@ export function Experience() {
                                     className="relative group"
                                 >
                                     <motion.span
-                                        className="absolute -left-[49px] top-2 h-4 w-4 rounded-full border-2 border-background bg-muted-foreground/50 z-10 group-hover:scale-125 transition-transform duration-300"
+                                        className="absolute -left-[38px] top-2 h-4 w-4 rounded-full border-2 border-background bg-muted-foreground/50 z-10 group-hover:scale-125 transition-transform duration-300"
                                     />
                                     <div className="space-y-3">
                                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
