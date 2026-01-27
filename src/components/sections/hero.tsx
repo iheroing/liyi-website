@@ -96,13 +96,13 @@ export function Hero() {
                         </Link>
                     </div>
 
-                    <div className="mt-8">
+                    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 scale-75 opacity-80 hover:opacity-100 transition-opacity duration-300">
                         <FloatingDock
                             items={[
-                                { title: "小红书", icon: <Icons.xiaohongshu className="h-full w-full text-red-500" />, href: PROFILE.socials.xiaohongshu },
-                                { title: "公众号: 白衣卿相碎碎念", icon: <Icons.wechat className="h-full w-full text-green-600" />, href: "#", action: () => { alert("公众号ID: 白衣卿相碎碎念 (已复制)"); navigator.clipboard.writeText("白衣卿相碎碎念"); } }, // Mock action
-                                { title: "抖音", icon: <Icons.douyin className="h-full w-full text-black dark:text-white" />, href: "#", action: () => { alert("抖音ID: yixuelilaoshi (已复制)"); navigator.clipboard.writeText("yixuelilaoshi"); } },
-                                { title: "Email", icon: <Mail className="h-full w-full" />, href: `mailto:${PROFILE.email}` },
+                                { title: "小红书", icon: <Icons.xiaohongshu className="h-full w-full" />, href: PROFILE.socials.xiaohongshu },
+                                { title: "公众号 (复制ID)", icon: <Icons.wechat className="h-full w-full" />, href: "#", action: () => { alert("公众号ID: 白衣卿相碎碎念 (已复制)"); navigator.clipboard.writeText("白衣卿相碎碎念"); } },
+                                { title: "抖音", icon: <Icons.douyin className="h-full w-full" />, href: PROFILE.socials.douyin }, // Using direct link as requested
+                                { title: "Email", icon: <Mail className="h-full w-full text-zinc-900 dark:text-zinc-100" />, href: `mailto:${PROFILE.email}` },
                             ]}
                         />
                     </div>

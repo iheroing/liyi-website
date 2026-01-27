@@ -11,7 +11,7 @@ export const PROFILE = {
         github: "https://github.com/iheroing",
         xiaohongshu: "https://www.xiaohongshu.com/user/profile/61d313ec000000001000e0df",
         wechat: "白衣卿相碎碎念",
-        douyin: "yixuelilaoshi",
+        douyin: "https://www.douyin.com/user/self?from_tab_name=main&showSubTab=compilation&showTab=favorite_collection",
     },
     nav: {
         home: "首页",
@@ -25,7 +25,7 @@ export const PROFILE = {
         cta_contact_en: "Get in Touch",
         cta_projects: "探索作品",
         cta_projects_en: "View Projects",
-        scroll: "向下滑动",
+        scroll: "以手抵心，上下求索", // More poetic/elegant than "Scroll down"
     },
     summary: "一位跨越医学与计算机的「两栖」探索者。拥有上海交通大学医学院肿瘤学硕士背景，曾是千万级营收的医学金牌讲师，如今也是深耕教育场景的独立开发者。我信奉 'Vibecoding' 哲学，擅长用代码打破学科边界，用 AI 重新定义知识生产力。",
     avatar: "/placeholder.jpg",
