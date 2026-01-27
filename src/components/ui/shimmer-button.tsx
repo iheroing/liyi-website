@@ -9,6 +9,7 @@ export const ShimmerButton = React.forwardRef<
         borderRadius?: string;
         shimmerDuration?: string;
         background?: string;
+        as?: React.ElementType;
     }
 >(
     (
@@ -20,12 +21,13 @@ export const ShimmerButton = React.forwardRef<
             background = "rgba(0, 0, 0, 1)",
             className,
             children,
+            as: Component = "button",
             ...props
         },
         ref,
     ) => {
         return (
-            <button
+            <Component
                 ref={ref}
                 className={cn(
                     "group relative flex cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap border-slate-800 border-0 px-6 py-3 font-medium text-slate-400 transition-all hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50",
@@ -54,15 +56,15 @@ export const ShimmerButton = React.forwardRef<
                     </div>
                 </div>
 
-                {/* Backdrop - Direct inline black background */}
-                <div className="absolute inset-[2px] -z-20 rounded-[calc(var(--border-radius))] bg-black" />
+                {/* Backdrop - Use CSS variable for background */}
+                <div className="absolute inset-[2px] -z-20 rounded-[calc(var(--border-radius))] bg-[var(--background)]" />
 
                 {/* Content */}
                 <div className="relative z-10 flex items-center justify-center gap-2">
                     {children}
                 </div>
 
-            </button>
+            </Component>
         );
     },
 );

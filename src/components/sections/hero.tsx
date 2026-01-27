@@ -103,19 +103,24 @@ export function Hero() {
                         transition={{ delay: 1, duration: 0.8, ease: smoothEase }}
                         className="pt-12 flex flex-col sm:flex-row gap-6 items-center"
                     >
-                        <Link href="#contact">
-                            <motion.div
-                                whileHover={{ scale: 1.03 }}
-                                whileTap={{ scale: 0.98 }}
-                                transition={{ duration: 0.2 }}
+                        <motion.a
+                            href="#contact"
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.98 }}
+                            transition={{ duration: 0.2 }}
+                            className="inline-block"
+                        >
+                            <ShimmerButton
+                                as="div"
+                                className="shadow-2xl h-14 px-12 rounded-full cursor-pointer"
+                                background="var(--primary)"
+                                shimmerColor="var(--background)"
                             >
-                                <ShimmerButton className="shadow-2xl h-14 px-12 rounded-full">
-                                    <span className="text-base font-medium tracking-wider text-white">
-                                        {PROFILE.hero.cta_contact}
-                                    </span>
-                                </ShimmerButton>
-                            </motion.div>
-                        </Link>
+                                <span className="text-base font-medium tracking-wider text-primary-foreground">
+                                    {PROFILE.hero.cta_contact}
+                                </span>
+                            </ShimmerButton>
+                        </motion.a>
                         <motion.a
                             href="#projects"
                             whileHover={{ x: 5 }}
