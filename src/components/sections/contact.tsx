@@ -36,11 +36,24 @@ export function Contact() {
 
                     <div className="pt-8">
                         <a href={`mailto:${PROFILE.email}`}>
-                            <ShimmerButton className="shadow-2xl" background="black">
-                                <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white lg:text-lg">
-                                    Send Email <span className="text-xs opacity-70 ml-1 font-normal">发送邮件</span>
-                                </span>
-                            </ShimmerButton>
+                            <button
+                                style={{
+                                    backgroundColor: '#000000',
+                                    color: '#ffffff',
+                                    padding: '16px 32px',
+                                    borderRadius: '50px',
+                                    fontWeight: 500,
+                                    fontSize: '16px',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    boxShadow: '0 10px 40px rgba(0,0,0,0.15)',
+                                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                                }}
+                                onMouseOver={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 15px 50px rgba(0,0,0,0.2)'; }}
+                                onMouseOut={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 10px 40px rgba(0,0,0,0.15)'; }}
+                            >
+                                发送邮件 <span style={{ opacity: 0.7, marginLeft: '4px', fontWeight: 400 }}>Send Email</span>
+                            </button>
                         </a>
                     </div>
                 </motion.div>
