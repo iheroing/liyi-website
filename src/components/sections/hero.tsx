@@ -19,103 +19,95 @@ const floatingIcons = [
 export function Hero() {
     return (
         <AuroraBackground>
-            <div className="container px-4 md:px-6 relative z-10 flex flex-col items-center text-center">
+            <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-80px)] w-full px-4 md:px-6 pt-20 pb-32">
 
-                {/* Floating Icons Background */}
-                <div className="absolute inset-0 pointer-events-none hidden md:block">
+                {/* Visual Anchor: Floating Icons (Subtle) */}
+                <div className="absolute inset-0 pointer-events-none hidden md:block opacity-30">
                     {floatingIcons.map(({ Icon, delay, x, y }, i) => (
                         <motion.div
                             key={i}
-                            className="absolute left-1/2 top-1/2 text-primary/20"
+                            className="absolute left-1/2 top-1/2 text-primary/10"
                             initial={{ x, y, opacity: 0 }}
                             animate={{
                                 y: [y, y - 20, y],
-                                opacity: 0.3
+                                opacity: 0.5
                             }}
                             transition={{
                                 y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay },
                                 opacity: { duration: 1 }
                             }}
                         >
-                            <Icon className="w-12 h-12" />
+                            <Icon className="w-16 h-16" />
                         </motion.div>
                     ))}
                 </div>
 
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="space-y-6 relative"
+                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    className="flex flex-col items-center text-center space-y-8 max-w-4xl mx-auto"
                 >
-                    <motion.div
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 0.2 }}
-                        className="inline-block rounded-full border border-primary/20 bg-background/50 backdrop-blur-sm px-4 py-1.5 text-sm font-medium text-primary shadow-sm mb-6"
+                    {/* Elegant Title - No more pill background, just pure text */}
+                    <motion.span
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.3, duration: 1 }}
+                        className="text-sm md:text-base font-light tracking-[0.2em] text-muted-foreground uppercase"
                     >
                         {PROFILE.title}
-                    </motion.div>
+                    </motion.span>
 
-                    <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl pb-2 font-heading">
-                        <span className="block bg-clip-text text-transparent bg-gradient-to-br from-foreground via-foreground to-primary/50">
-                            {PROFILE.name}
-                        </span>
-                        <span className="text-xl md:text-3xl text-muted-foreground font-normal tracking-normal block mt-4 font-sans">
-                            (Li Yi)
+                    {/* Name - Cleaner typography */}
+                    <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight font-heading text-foreground">
+                        {PROFILE.name}
+                        <span className="block mt-2 text-2xl md:text-3xl font-light text-muted-foreground font-sans tracking-widest opacity-60">
+                            Li Yi
                         </span>
                     </h1>
 
-                    <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl leading-relaxed">
+                    {/* Role - Spacious and thin */}
+                    <p className="text-lg md:text-xl text-muted-foreground font-light tracking-wide max-w-2xl leading-loose">
                         {PROFILE.role.split(" | ").map((r, i) => (
-                            <span key={i} className="inline-block px-2">
-                                {r} {i < 2 && <span className="text-primary/40 ml-2">|</span>}
+                            <span key={i} className="inline-block mx-3">
+                                {r}
                             </span>
                         ))}
                     </p>
-                </motion.div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                    className="flex flex-col gap-6 items-center mt-10 w-full"
-                >
-                    <div className="flex flex-col sm:flex-row gap-4">
+                    {/* Buttons - More spacing */}
+                    <div className="pt-8 flex flex-col sm:flex-row gap-6 items-center">
                         <Link href="#contact">
-                            <ShimmerButton className="shadow-2xl h-12 px-8">
-                                <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
-                                    {PROFILE.hero.cta_contact} <span className="ml-1 opacity-70 text-xs font-normal">{PROFILE.hero.cta_contact_en}</span>
+                            <ShimmerButton className="shadow-xl h-14 px-10 rounded-full">
+                                <span className="text-base font-medium tracking-wide text-white dark:from-white dark:to-slate-900/10">
+                                    {PROFILE.hero.cta_contact}
                                 </span>
                             </ShimmerButton>
                         </Link>
                         <Link href="#projects">
-                            <Button size="lg" variant="outline" className="h-12 px-8 rounded-full text-base backdrop-blur-sm bg-background/50">
-                                {PROFILE.hero.cta_projects} <span className="ml-2 text-xs opacity-70">{PROFILE.hero.cta_projects_en}</span> <ArrowRight className="ml-2 h-4 w-4" />
+                            <Button size="lg" variant="ghost" className="h-14 px-10 rounded-full text-base font-medium hover:bg-primary/5 text-foreground/80">
+                                {PROFILE.hero.cta_projects} <ArrowRight className="ml-2 h-4 w-4 opacity-50" />
                             </Button>
                         </Link>
                     </div>
-
-                    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 scale-75 opacity-80 hover:opacity-100 transition-opacity duration-300">
-                        <FloatingDock
-                            items={[
-                                { title: "小红书", icon: <Icons.xiaohongshu className="h-full w-full" />, href: PROFILE.socials.xiaohongshu },
-                                { title: "公众号 (复制ID)", icon: <Icons.wechat className="h-full w-full" />, href: "#", action: () => { alert("公众号ID: 白衣卿相碎碎念 (已复制)"); navigator.clipboard.writeText("白衣卿相碎碎念"); } },
-                                { title: "抖音", icon: <Icons.douyin className="h-full w-full" />, href: PROFILE.socials.douyin }, // Using direct link as requested
-                                { title: "Email", icon: <Mail className="h-full w-full text-zinc-900 dark:text-zinc-100" />, href: `mailto:${PROFILE.email}` },
-                            ]}
-                        />
-                    </div>
                 </motion.div>
 
+                {/* Social Dock - Pinned to bottom, subtle, grayscale until hover */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 1, delay: 1 }}
-                    className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center animate-bounce duration-[2000ms]"
+                    transition={{ delay: 1, duration: 1 }}
+                    className="fixed bottom-12 left-1/2 -translate-x-1/2 z-50 scale-90 opacity-60 hover:opacity-100 transition-all duration-500 hover:scale-100"
                 >
-                    <div className="text-xs text-muted-foreground mb-2 uppercase tracking-widest">{PROFILE.hero.scroll}</div>
-                    <ArrowRight className="h-4 w-4 rotate-90 text-muted-foreground" />
+                    <FloatingDock
+                        desktopClassName="bg-transparent dark:bg-transparent border-none shadow-none"
+                        items={[
+                            { title: "Xiaohongshu", icon: <Icons.xiaohongshu className="h-full w-full text-muted-foreground group-hover:text-[#FF2442] transition-colors" />, href: PROFILE.socials.xiaohongshu },
+                            { title: "WeChat", icon: <Icons.wechat className="h-full w-full text-muted-foreground group-hover:text-[#07C160] transition-colors" />, href: "#", action: () => { alert("公众号ID: 白衣卿相碎碎念"); navigator.clipboard.writeText("白衣卿相碎碎念"); } },
+                            { title: "Douyin", icon: <Icons.douyin className="h-full w-full text-muted-foreground group-hover:text-foreground transition-colors" />, href: "https://www.douyin.com/user/self?from_tab_name=main&showSubTab=compilation&showTab=favorite_collection" },
+                            { title: "Email", icon: <Mail className="h-full w-full text-muted-foreground group-hover:text-blue-500 transition-colors" />, href: `mailto:${PROFILE.email}` },
+                        ]}
+                    />
                 </motion.div>
             </div>
         </AuroraBackground>
