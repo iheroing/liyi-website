@@ -14,7 +14,7 @@ import { CardSpotlight } from "@/components/ui/card-spotlight"
 export function Projects() {
     return (
         <section id="projects" className="py-20 bg-background">
-            <div className="container px-4 md:px-6">
+            <div className="container px-4 md:px-6 max-w-4xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}

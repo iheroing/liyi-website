@@ -8,7 +8,7 @@ import { TracerBeam } from "@/components/ui/tracer-beam"
 export function Experience() {
     return (
         <section id="experience" className="py-20 bg-muted/20">
-            <div className="container px-4 md:px-6">
+            <div className="container px-4 md:px-6 max-w-4xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
