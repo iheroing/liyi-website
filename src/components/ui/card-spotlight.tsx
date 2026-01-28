@@ -49,7 +49,7 @@ export const CardSpotlight = ({
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             className={cn(
-                "relative flex flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 transition-colors",
+                "relative flex flex-col overflow-hidden rounded-xl border border-zinc-200 bg-card dark:border-zinc-800 dark:bg-card transition-colors",
                 className
             )}
             {...props}
