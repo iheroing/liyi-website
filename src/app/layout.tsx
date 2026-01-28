@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
+import { SoundController } from "@/components/ui/sound-controller"
 
 const inter = Inter({
   variable: "--font-sans",
@@ -53,6 +54,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <SoundController />
         </ThemeProvider>
       </body>
     </html>
