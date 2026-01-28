@@ -120,7 +120,7 @@ export function About() {
                                         </div>
                                     </CardHeader>
                                     <CardContent>
-                                        <p className="text-base text-foreground/70 leading-relaxed">
+                                        <p className="text-base text-muted-foreground leading-relaxed">
                                             {identity.description}
                                         </p>
                                     </CardContent>
