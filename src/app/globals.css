@@ -163,6 +163,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   ::selection {
@@ -176,6 +177,7 @@
 
   body {
     @apply bg-background text-foreground leading-relaxed tracking-wide;
+    overflow-x: hidden;
   }
 
   .shadow-premium {
