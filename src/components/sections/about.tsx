@@ -115,12 +115,12 @@ export function About() {
                                             <Icon className="h-5 w-5" strokeWidth={1.5} />
                                         </motion.div>
                                         <div>
-                                            <CardTitle className="text-base font-medium tracking-tight">{identity.role}</CardTitle>
-                                            <p className="text-xs text-muted-foreground/70 font-light mt-0.5">{identity.title}</p>
+                                            <CardTitle className="text-lg font-medium tracking-tight">{identity.role}</CardTitle>
+                                            <p className="text-sm text-muted-foreground/80 font-normal mt-0.5">{identity.title}</p>
                                         </div>
                                     </CardHeader>
                                     <CardContent>
-                                        <p className="text-sm text-muted-foreground leading-relaxed font-light">
+                                        <p className="text-base text-foreground/70 leading-relaxed">
                                             {identity.description}
                                         </p>
                                     </CardContent>
