@@ -111,7 +111,7 @@ export const PROFILE = {
         "年度创新奖",
         "春华秋实奖"
     ],
-    tags: ["Vibecoding", "全栈开发", "AI 布道", "多维表格", "医学教育"],
+    tags: ["Vibecoding", "Product Engineering", "System Thinking", "AI First", "Evidence-Based"],
     philosophy: [
         { title: "智力平权", description: "AI 抹平了专业与业余的鸿沟。Claude Code 与 Codex 让想象力成为唯一的门槛。" },
         { title: "原子化内容", description: "喜欢 Obsidian 的颗粒度。将庞大的知识体系拆解为原子，重组为无限可能。" },
