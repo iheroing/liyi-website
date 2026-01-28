@@ -59,7 +59,7 @@ export const PROFILE = {
             { name: "知识原子化中台", url: "https://knowledge-atomizer-liyi.streamlit.app/", description: "知识颗粒的拆解与重组。让复用，成为可能。" }
         ],
         enterprise: [
-            { name: "华图培训管理系统", description: "覆盖 3000+ 教师的数字底座。NPS + 360 环评，让师资质量可衡量、可迭代。" },
+            { name: "华图培训管理系统", description: "践行数据治理与 AI First。让沉淀的数据成为燃料，接入智能体，为组织进化创造无限可能。" },
             { name: "医疗交付管理平台", description: "复杂业务的透明化中枢。连接 200+ 团队的协作脉络，让流程井然有序。" },
             { name: "AI 师资个性化培训", description: "AI 辅助的师资成长引擎。为每一位讲师，打造独一无二的进化方案。" }
         ]
