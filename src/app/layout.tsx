@@ -24,7 +24,7 @@ const cormorant = Cormorant_Garamond({
 
 export const metadata: Metadata = {
   title: "Li Yi (李弋) | Knowledge Architect",
-  description: "跨越医学与计算机的两栖探索者。致力于用技术重塑教育体验，让知识获取像呼吸一样自然。",
+  description: "这是我的数字花园。医学赋予我严谨，代码赋予我自由。在 AI 时代，我们唯一的宿命是无限进步。",
   icons: {
     icon: "/icon.png",
     shortcut: "/icon.png",
