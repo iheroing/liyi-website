@@ -20,8 +20,8 @@ export function Experience() {
                     transition={{ duration: 0.8, ease: smoothEase }}
                     className="flex flex-col items-center text-center mb-20"
                 >
-                    <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground/60 mb-4">Experience & Education</span>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight font-heading">经历与教育</h2>
+                    <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground/60 mb-4">Evolutionary Path</span>
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight font-heading">进化轨迹</h2>
                     <motion.div
                         initial={{ scaleX: 0 }}
                         whileInView={{ scaleX: 1 }}

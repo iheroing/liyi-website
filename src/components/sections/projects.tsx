@@ -47,8 +47,8 @@ export function Projects() {
                     transition={{ duration: 0.8, ease: smoothEase }}
                     className="flex flex-col items-center text-center mb-16"
                 >
-                    <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground/60 mb-4">Selected Projects</span>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight font-heading">精选项目</h2>
+                    <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground/60 mb-4">Digital Creations</span>
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight font-heading">创造与构建</h2>
                     <motion.div
                         initial={{ scaleX: 0 }}
                         whileInView={{ scaleX: 1 }}
