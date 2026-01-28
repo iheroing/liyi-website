@@ -3,7 +3,7 @@ import { Github, Twitter, Mail, MapPin, Linkedin, Link as LinkIcon, Download } f
 export const PROFILE = {
     name: "李弋",
     title: "Knowledge Architect",
-    role: "医学 · 代码 · AI",
+    role: "Medicine · Code · Evolution",
     bio: "这是我的数字花园。在这里，我作为一名「知识架构师」，试着向世界解释我是谁。",
     location: "北京",
     email: "sjtuliyi@163.com",
@@ -27,7 +27,7 @@ export const PROFILE = {
         cta_projects_en: "View Projects",
         scroll: "以手抵心，上下求索",
     },
-    summary: "跨越医学与计算机的两栖探索者。从上海交大医学院的严谨科研，到赋能万千学子的教学实践，再到深耕教育场景的独立开发。我相信：代码可以打破学科边界，AI 能够重新定义知识生产力。",
+    summary: "医学赋予我严谨，代码赋予我自由。但标签终将过时，唯有进化永恒。在 AI 带来的「智力平权」时代，我不再被单一的专家身份定义。致力于探索人机共生的边界，因为我相信：AI 时代，我们唯一的宿命是无限进步。",
     avatar: "/placeholder.jpg",
     identities: [
         {
