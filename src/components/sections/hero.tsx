@@ -23,7 +23,7 @@ export function Hero() {
             <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-80px)] w-full px-6 md:px-8 pt-24 pb-36">
 
                 {/* Floating Icons - Extremely subtle */}
-                <div className="absolute inset-0 pointer-events-none hidden lg:block">
+                <div className="absolute inset-0 pointer-events-none">
                     {floatingIcons.map(({ Icon, delay, x, y }, i) => (
                         <motion.div
                             key={i}
@@ -38,7 +38,7 @@ export function Hero() {
                                 opacity: { duration: 1.5 }
                             }}
                         >
-                            <Icon className="w-20 h-20" strokeWidth={0.5} />
+                            <Icon className="w-12 h-12 md:w-20 md:h-20" strokeWidth={0.5} />
                         </motion.div>
                     ))}
                 </div>
@@ -51,8 +51,8 @@ export function Hero() {
                 >
                     {/* Subtitle */}
                     <motion.span
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                         transition={{ delay: 0.4, duration: 0.8, ease: smoothEase }}
                         className="text-xs md:text-sm font-light tracking-[0.35em] text-muted-foreground/60 uppercase"
                     >
@@ -62,8 +62,8 @@ export function Hero() {
                     {/* Name - Dramatic typography */}
                     <div className="flex flex-col items-center">
                         <motion.h1
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
+                            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                             transition={{ delay: 0.2, duration: 1, ease: smoothEase }}
                             className="text-7xl md:text-9xl lg:text-[10rem] font-medium tracking-tight font-serif text-foreground leading-none drop-shadow-sm italic"
                         >
@@ -91,7 +91,7 @@ export function Hero() {
                         transition={{ delay: 0.8, duration: 0.8, ease: smoothEase }}
                         className="flex flex-wrap justify-center gap-4 text-muted-foreground/70"
                     >
-                        {PROFILE.role.split(" | ").map((r, i) => (
+                        {PROFILE.role.split(" · ").map((r, i) => (
                             <motion.span
                                 key={i}
                                 className="text-sm md:text-base font-light tracking-wide"

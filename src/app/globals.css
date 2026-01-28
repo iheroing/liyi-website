@@ -165,6 +165,11 @@
     scroll-behavior: smooth;
   }
 
+  ::selection {
+    background-color: var(--foreground);
+    color: var(--background);
+  }
+
   * {
     @apply border-border outline-ring/50;
   }

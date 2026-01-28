@@ -68,9 +68,9 @@ export function Philosophy() {
                         <motion.div
                             key={index}
                             variants={itemVariants}
-                            whileHover={{ y: -5, transition: { duration: 0.3, ease: "easeOut" } }}
+                            whileHover={{ y: -5, scale: 1.02, transition: { duration: 0.3, ease: "easeOut" } }}
                         >
-                            <Card className="h-full border-none shadow-sm hover:shadow-lg transition-all duration-500 bg-background/60 backdrop-blur-sm group">
+                            <Card className="h-full border-none shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:hover:shadow-[0_8px_30px_rgb(255,255,255,0.04)] transition-all duration-500 bg-background/60 backdrop-blur-sm group">
                                 <CardHeader className="pb-3">
                                     <CardTitle className="text-lg md:text-xl font-medium tracking-tight text-foreground group-hover:text-foreground/80 transition-colors duration-300">
                                         {item.title}
