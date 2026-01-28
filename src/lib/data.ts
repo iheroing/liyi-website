@@ -4,7 +4,7 @@ export const PROFILE = {
     name: "李弋",
     title: "Knowledge Architect",
     role: "医学 · 代码 · AI",
-    bio: "左手医学，右手代码。致力于用技术重塑教育体验，让知识获取像呼吸一样自然。",
+    bio: "这是我的数字花园。在这里，我作为一名「知识架构师」，试着向世界解释我是谁。",
     location: "北京",
     email: "sjtuliyi@163.com",
     socials: {
@@ -31,14 +31,14 @@ export const PROFILE = {
     avatar: "/placeholder.jpg",
     identities: [
         {
-            role: "教育操盘手",
-            title: "Training Academy Vice Dean",
-            description: "华图教育培训学院副院长，掌舵 3000+ 师资培养体系。在这里，我们不生产课程，我们培育能创造课程的人。"
+            role: "教育实践者",
+            title: "Education Practitioner",
+            description: "在华图教育的一线。我不迷信头衔，只相信「在现场」的力量。培养人，是一场需要耐心的农业活动。"
         },
         {
-            role: "全栈开发者",
+            role: "独立开发者",
             title: "Indie Developer",
-            description: "多款 5⭐ 浏览器插件与教育工具的创造者。每一行代码，都是对某个痛点的回答。"
+            description: "多款 5⭐ 浏览器插件与教育工具的创造者。Claude Code 与 Codex 让智力平权成为可能，我只是那个善用工具的表达者。"
         },
         {
             role: "AI 智能体架构师",
@@ -67,27 +67,27 @@ export const PROFILE = {
     experience: [
         {
             period: "2025 - 至今",
-            role: "副院长",
+            role: "教育实践者",
             company: "华图教育培训学院",
-            description: "统筹师资培养与干部梯队。在这里，我们打造高密度的学习型组织。"
+            description: "负责师资培养体系。去行政化，回归教育本质。在这里，我们打造高密度的学习型组织。"
         },
         {
             period: "2025.09 - 2025.12",
-            role: "战略部轮岗",
+            role: "商业观察者",
             company: "华图教育集团",
-            description: "参与 2026 战略地图制定，完成医疗赛道的深度市场洞察。"
+            description: "以产品经理的视角审视业务。战略不是高谈阔论，而是对市场细节的极致敏锐。"
         },
         {
             period: "2021 - 至今",
-            role: "院长",
+            role: "医疗产品人",
             company: "华图医疗研究院",
-            description: "从 0 到 1 搭建医疗教研体系。不只做管理，更在一线打磨产品。"
+            description: "从 0 到 1 搭建医疗教研体系。比起管理团队，我更享受在一线打磨产品的过程。"
         },
         {
             period: "2017 - 2021",
-            role: "资深培训师",
+            role: "资深讲师",
             company: "华图教育",
-            description: "10,000+ 小时授课积淀。用极简逻辑，诠释复杂医学考点。"
+            description: "10,000+ 小时授课积淀。讲台是最好的试炼场，用极简逻辑，诠释复杂医学考点。"
         }
     ],
     education: [
@@ -113,10 +113,10 @@ export const PROFILE = {
     ],
     tags: ["Vibecoding", "全栈开发", "AI 布道", "多维表格", "医学教育"],
     philosophy: [
-        { title: "黄金变量", description: "锁定决定 80% 结果的关键因子。从盲目刷题，进化为精准打击。" },
+        { title: "智力平权", description: "AI 抹平了专业与业余的鸿沟。Claude Code 与 Codex 让想象力成为唯一的门槛。" },
+        { title: "原子化内容", description: "喜欢 Obsidian 的颗粒度。将庞大的知识体系拆解为原子，重组为无限可能。" },
+        { title: "AI First", description: "不是在旧流程中加入 AI，而是以 AI 为第一性原理重构一切。" },
         { title: "心流教学", description: "告别填鸭式灌输。让知识像河流，自然流入大脑。" },
-        { title: "知识原子", description: "像切割钻石一样打磨每一个知识颗粒。让沙子，被烧制成玻璃。" },
-        { title: "AI 外脑", description: "思考的伙伴，执行的利器，认知的放大器。让每个人，都能成为一支超级战队。" },
         { title: "稀缺性转移", description: "'怎么做'变得廉价，'做什么'成为稀缺。人类的价值，在于定方向。" },
         { title: "率先垂范", description: "要求团队创新之前，自己先做出 Demo。管理者是探路者，不是指挥官。" }
     ]
