@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { SoundController } from "@/components/ui/sound-controller"
+import { Analytics } from "@vercel/analytics/react"
 
 const inter = Inter({
   variable: "--font-sans",
@@ -55,6 +56,7 @@ export default function RootLayout({
           </main>
           <Footer />
           <SoundController />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
