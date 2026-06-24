@@ -1,7 +1,23 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    return [
+      {
+        source: "/poetry-dice",
+        destination: "/poetry-dice/",
+        permanent: true,
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/poetry-dice/:path*",
+        destination: "https://poetry-dice.vercel.app/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
