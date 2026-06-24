@@ -54,6 +54,7 @@ export const PROFILE = {
             { name: "文档查重助手 Pro", version: "v2.0", status: "已发布", description: "教研质检的守门员。守护每一份原创内容的价值。", url: "https://chromewebstore.google.com/detail/%E6%96%87%E6%A1%A3%E6%9F%A5%E9%87%8D%E5%8A%A9%E6%89%8B-pro/iicjkpmhadepfgmminjoljgbjaaobkef?authuser=0&hl=zh-CN" }
         ],
         apps: [
+            { name: "无尽诗骰子", url: "/poetry-dice", description: "把随机词面掷成诗行，再生成可保存的诗句卡片。一个介于游戏、写作练习与灵感抽签之间的小工具。" },
             { name: "爱闪记", url: "https://www.aishanji.com/", description: "AI 生成记忆卡片。用碎片时间，筑起知识宫殿。" },
             { name: "培训师工具箱", url: "https://www.huatupeixun.space/", description: "百款互动工具与教学模型。让课堂的每一秒都精彩。" },
             { name: "知识原子化中台", url: "https://knowledge-atomizer-liyi.streamlit.app/", description: "知识颗粒的拆解与重组。让复用，成为可能。" }

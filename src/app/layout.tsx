@@ -40,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${inter.variable} ${outfit.variable} ${cormorant.variable} font-sans antialiased flex flex-col min-h-screen`}
       >
