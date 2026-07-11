@@ -4,8 +4,10 @@ import React, { useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Volume2, VolumeX } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { usePathname } from "next/navigation"
 
 export function SoundController() {
+    const pathname = usePathname()
     const [isPlaying, setIsPlaying] = useState(false)
     const audioRef = useRef<HTMLAudioElement | null>(null)
     const [volume, setVolume] = useState(0)
@@ -60,6 +62,8 @@ export function SoundController() {
         }
         setIsPlaying(!isPlaying)
     }
+
+    if (pathname.startsWith("/shenlun")) return null
 
     return (
         <motion.div

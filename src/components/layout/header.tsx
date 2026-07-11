@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Menu } from "lucide-react"
 import { motion } from "framer-motion"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -10,6 +11,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { PROFILE } from "@/lib/data"
 
 export function Header() {
+    const pathname = usePathname()
     const [isOpen, setIsOpen] = React.useState(false)
     const [isScrolled, setIsScrolled] = React.useState(false)
     const [isVisible, setIsVisible] = React.useState(true)
@@ -41,6 +43,8 @@ export function Header() {
         { name: PROFILE.nav.projects, href: "#projects" },
         { name: PROFILE.nav.contact, href: "#contact" },
     ]
+
+    if (pathname.startsWith("/shenlun")) return null
 
     return (
         <motion.header

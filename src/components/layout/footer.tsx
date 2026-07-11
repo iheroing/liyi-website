@@ -1,12 +1,14 @@
 "use client"
 
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
 import { Mail } from "lucide-react"
 import { Icons } from "@/components/icons"
 import { PROFILE } from "@/lib/data"
 
 export function Footer() {
+    const pathname = usePathname()
     const socialLinks = [
         {
             icon: Icons.xiaohongshu,
@@ -33,6 +35,8 @@ export function Footer() {
             hoverColor: "hover:text-blue-500"
         }
     ]
+
+    if (pathname.startsWith("/shenlun")) return null
 
     return (
         <footer className="border-t border-border/50 py-16 md:py-20 bg-muted/10">
