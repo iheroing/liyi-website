@@ -3,7 +3,7 @@ import { ShenlunClient } from "./shenlun-client";
 
 export const metadata: Metadata = {
   title: "申论素材库｜李弋的数字花园",
-  description: "持续收集人民日报、中国政府网、新华社与求是材料，由 AI 提炼申论可用观点、数据和案例。",
+  description: "持续收录权威文章全文，筛选重点精读材料，并从主旨、结构、论据、表达与题目等维度完成申论转化。",
 };
 
 export default function ShenlunPage() {

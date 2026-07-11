@@ -13,4 +13,24 @@ export type ShenlunMaterial = {
   url: string;
   fetchedAt?: string;
   originMode?: "auto" | "ai" | "editorial";
+  fullText?: string;
+  wordCount?: number;
+  valueScore?: number;
+  importance?: "重点精读" | "常规积累" | "快速浏览";
+  whyImportant?: string;
+  thesis?: string;
+  structure?: Array<{
+    title: string;
+    detail: string;
+  }>;
+  dimensions?: Array<{
+    name: string;
+    analysis: string;
+  }>;
+  sentences?: string[];
+  examples?: Array<{
+    scenario: string;
+    expression: string;
+  }>;
+  questions?: string[];
 };
