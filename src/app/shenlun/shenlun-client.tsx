@@ -50,6 +50,40 @@ function textParagraphs(text?: string) {
     .filter(Boolean);
 }
 
+function decodeDisplayText(value?: string) {
+  if (!value) return "";
+  let decoded = value;
+  for (let pass = 0; pass < 2 && /&(?:#\d+|#x[\da-f]+|[a-z]+);/i.test(decoded); pass += 1) {
+    const textarea = document.createElement("textarea");
+    textarea.innerHTML = decoded;
+    decoded = textarea.value;
+  }
+  return decoded
+    .replace(/[\u00a0\u2002\u2003\u2009]+/g, " ")
+    .replace(/[ \t]+\n/g, "\n")
+    .trim();
+}
+
+function normalizeMaterial(item: ShenlunMaterial): ShenlunMaterial {
+  return {
+    ...item,
+    title: decodeDisplayText(item.title),
+    summary: decodeDisplayText(item.summary),
+    viewpoint: decodeDisplayText(item.viewpoint),
+    evidence: decodeDisplayText(item.evidence),
+    usage: decodeDisplayText(item.usage),
+    fullText: decodeDisplayText(item.fullText),
+    whyImportant: decodeDisplayText(item.whyImportant),
+    thesis: decodeDisplayText(item.thesis),
+    tags: safeTags(item).map(decodeDisplayText),
+    structure: item.structure?.map((part) => ({ title: decodeDisplayText(part.title), detail: decodeDisplayText(part.detail) })),
+    dimensions: item.dimensions?.map((part) => ({ name: decodeDisplayText(part.name), analysis: decodeDisplayText(part.analysis) })),
+    sentences: item.sentences?.map(decodeDisplayText),
+    examples: item.examples?.map((example) => ({ scenario: decodeDisplayText(example.scenario), expression: decodeDisplayText(example.expression) })),
+    questions: item.questions?.map(decodeDisplayText),
+  };
+}
+
 export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
   const [items, setItems] = useState<ShenlunMaterial[]>([]);
   const [updatedAt, setUpdatedAt] = useState<string | null>(null);
@@ -81,7 +115,7 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
       })
       .then((payload) => {
         if (!active) return;
-        setItems(Array.isArray(payload.items) ? payload.items : []);
+        setItems(Array.isArray(payload.items) ? payload.items.map(normalizeMaterial) : []);
         setUpdatedAt(payload.updatedAt ?? null);
         setLoadState("ready");
       })
@@ -353,9 +387,10 @@ function MaterialWorkbench({
 }) {
   const level = materialImportance(item);
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-[#071426]/65 backdrop-blur-sm" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
-      <aside role="dialog" aria-modal="true" aria-label={`${item.title}材料标注台`} className="flex h-full w-full max-w-[860px] flex-col bg-[#fffdf8] shadow-2xl">
-        <div className="shrink-0 border-b border-[#ddd5c7] bg-[#fffdf8] px-5 pt-5 md:px-10 md:pt-8">
+    <div className="fixed inset-0 z-50 bg-[#fffdf8]" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+      <aside role="dialog" aria-modal="true" aria-label={`${item.title}材料标注台`} className="flex h-full w-full flex-col bg-[#fffdf8]">
+        <div className="shrink-0 border-b border-[#ddd5c7] bg-[#fffdf8] px-5 pt-4 md:px-8 xl:px-12">
+          <div className="mx-auto w-full max-w-[1720px]">
           <div className="flex items-start justify-between gap-5">
             <div className="flex flex-wrap items-center gap-2 text-xs text-[#687486]">
               <ImportanceBadge value={level} />
@@ -363,27 +398,32 @@ function MaterialWorkbench({
               {typeof item.wordCount === "number" && <span>· {item.wordCount.toLocaleString("zh-CN")} 字</span>}
               {typeof item.valueScore === "number" && <span>· 申论价值 {item.valueScore}/100</span>}
             </div>
-            <button onClick={onClose} className="shrink-0 cursor-pointer p-1" aria-label="关闭"><X className="h-6 w-6" /></button>
+            <button onClick={onClose} className="grid h-10 w-10 shrink-0 cursor-pointer place-items-center border border-[#ddd5c7] bg-white hover:border-[#10233f]" aria-label="关闭"><X className="h-5 w-5" /></button>
           </div>
-          <h2 className="mt-5 max-w-3xl font-serif text-2xl font-semibold leading-[1.4] md:text-3xl">{item.title}</h2>
-          <div className="mt-4 flex flex-wrap gap-2">{safeTags(item).map((tag) => <span key={tag} className="bg-[#f0ebe1] px-3 py-1.5 text-[11px]">{tag}</span>)}</div>
-          <div className="mt-6 flex overflow-x-auto border-t border-[#ddd5c7]">
+          <div className="mt-3 grid gap-3 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
+            <h2 className="max-w-6xl font-serif text-2xl font-semibold leading-[1.35] md:text-3xl">{item.title}</h2>
+            <div className="flex flex-wrap gap-2 xl:justify-end">{safeTags(item).map((tag) => <span key={tag} className="bg-[#f0ebe1] px-3 py-1.5 text-[11px]">{tag}</span>)}</div>
+          </div>
+          <div className="mt-4 flex overflow-x-auto border-t border-[#ddd5c7]">
             {detailTabs.map((value) => (
               <button key={value} onClick={() => onTabChange(value)} className={"flex min-w-[124px] cursor-pointer items-center justify-center gap-2 border-b-4 px-4 py-4 text-sm font-semibold transition-colors " + (tab === value ? "border-[#e33b36] text-[#10233f]" : "border-transparent text-[#7a8493] hover:text-[#10233f]") }>
                 {value === "精读分析" ? <Layers3 className="h-4 w-4" /> : value === "申论应用" ? <GraduationCap className="h-4 w-4" /> : <FileText className="h-4 w-4" />}{value}
               </button>
             ))}
           </div>
+          </div>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-7 md:px-10 md:py-9">
-          {tab === "精读分析" && <CloseReading item={item} />}
-          {tab === "申论应用" && <ShenlunApplication item={item} copied={copied} onCopy={onCopy} />}
-          {tab === "原文全文" && <FullArticle item={item} expanded={fullTextExpanded} onToggle={onToggleFullText} />}
+        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-7 md:px-8 xl:px-12 xl:py-9">
+          <div className="mx-auto w-full max-w-[1720px]">
+            {tab === "精读分析" && <CloseReading item={item} />}
+            {tab === "申论应用" && <ShenlunApplication item={item} copied={copied} onCopy={onCopy} />}
+            {tab === "原文全文" && <FullArticle item={item} expanded={fullTextExpanded} onToggle={onToggleFullText} />}
+          </div>
         </div>
 
-        <div className="shrink-0 border-t border-[#ddd5c7] bg-[#f6f1e7] px-5 py-4 md:px-10">
-          <div className="flex flex-wrap gap-3">
+        <div className="shrink-0 border-t border-[#ddd5c7] bg-[#f6f1e7] px-5 py-3 md:px-8 xl:px-12">
+          <div className="mx-auto flex w-full max-w-[1720px] flex-wrap gap-3">
             <button onClick={onBookmark} className="flex cursor-pointer items-center justify-center gap-2 border border-[#10233f] px-4 py-3 text-sm">
               <Bookmark className="h-4 w-4" fill={bookmarked ? "currentColor" : "none"} />{bookmarked ? "已加入摘录" : "加入摘录"}
             </button>
@@ -401,24 +441,27 @@ function CloseReading({ item }: { item: ShenlunMaterial }) {
   const structure = Array.isArray(item.structure) ? item.structure : [];
   const dimensions = Array.isArray(item.dimensions) ? item.dimensions : [];
   return (
-    <div className="mx-auto max-w-3xl">
-      <div className="border-l-4 border-[#e33b36] bg-[#f6f1e7] px-5 py-5">
+    <div>
+      <div className="grid gap-5 xl:grid-cols-2">
+      <div className="border-l-4 border-[#e33b36] bg-[#f6f1e7] px-5 py-5 md:px-7 md:py-6">
         <div className="flex items-center gap-2 text-[10px] font-bold tracking-[0.14em] text-[#e33b36]"><Star className="h-4 w-4" />为什么值得读</div>
         <p className="mt-3 font-serif text-lg leading-8">{item.whyImportant || item.summary || "这篇材料的精读价值正在分析中。"}</p>
       </div>
-      <AnalysisSection icon={<Target className="h-4 w-4" />} title="核心主旨">
-        <p className="font-serif text-lg leading-8">{item.thesis || item.viewpoint || "核心主旨正在提炼中。"}</p>
-      </AnalysisSection>
+      <div className="border border-[#ddd5c7] bg-white px-5 py-5 md:px-7 md:py-6">
+        <div className="flex items-center gap-2 text-[10px] font-bold tracking-[0.14em] text-[#e33b36]"><Target className="h-4 w-4" />核心主旨</div>
+        <p className="mt-3 font-serif text-lg leading-8">{item.thesis || item.viewpoint || "核心主旨正在提炼中。"}</p>
+      </div>
+      </div>
       <AnalysisSection icon={<ListTree className="h-4 w-4" />} title="论证结构">
         {structure.length ? (
-          <ol className="grid gap-4">
-            {structure.map((part, index) => <li key={`${part.title}-${index}`} className="grid grid-cols-[32px_1fr] gap-3"><span className="grid h-8 w-8 place-items-center bg-[#10233f] font-serif text-sm text-white">{index + 1}</span><div><h4 className="font-semibold">{part.title}</h4><p className="mt-1 text-sm leading-7 text-[#687486]">{part.detail}</p></div></li>)}
+          <ol className="grid gap-4 lg:grid-cols-2 2xl:grid-cols-3">
+            {structure.map((part, index) => <li key={`${part.title}-${index}`} className="grid min-w-0 grid-cols-[42px_1fr] gap-4 border border-[#ddd5c7] bg-white p-5"><span className="grid h-10 w-10 place-items-center bg-[#10233f] font-serif text-sm text-white">{index + 1}</span><div className="min-w-0"><h4 className="font-semibold">{part.title}</h4><p className="mt-2 text-sm leading-7 text-[#687486]">{part.detail}</p></div></li>)}
           </ol>
         ) : <EmptyAnalysis text="文章结构正在拆解，现阶段可先结合摘要与全文阅读。" />}
       </AnalysisSection>
       <AnalysisSection icon={<Layers3 className="h-4 w-4" />} title="申论分析维度">
         {dimensions.length ? (
-          <div className="grid gap-px border border-[#ddd5c7] bg-[#ddd5c7] sm:grid-cols-2">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-px border border-[#ddd5c7] bg-[#ddd5c7]">
             {dimensions.map((dimension, index) => <div key={`${dimension.name}-${index}`} className="bg-[#fffdf8] p-5"><h4 className="font-serif text-lg text-[#e33b36]">{dimension.name}</h4><p className="mt-2 text-sm leading-7 text-[#687486]">{dimension.analysis}</p></div>)}
           </div>
         ) : <EmptyAnalysis text="多维分析尚未生成，可先使用核心观点作为论证起点。" />}
@@ -432,19 +475,21 @@ function ShenlunApplication({ item, copied, onCopy }: { item: ShenlunMaterial; c
   const examples = Array.isArray(item.examples) ? item.examples : [];
   const questions = Array.isArray(item.questions) ? item.questions : [];
   return (
-    <div className="mx-auto max-w-3xl">
-      <div className="grid gap-4 md:grid-cols-2">
+    <div>
+      <div className="grid gap-4 xl:grid-cols-2">
         <ApplicationCard title="可用论据" icon={<ClipboardCheck className="h-4 w-4" />} text={item.evidence || "论据正在整理中。"} copyKey="evidence" copied={copied} onCopy={onCopy} />
         <ApplicationCard title="使用方法" icon={<Target className="h-4 w-4" />} text={item.usage || "申论用法正在整理中。"} copyKey="usage" copied={copied} onCopy={onCopy} />
       </div>
-      <AnalysisSection icon={<Quote className="h-4 w-4" />} title="可积累表达">
-        {sentences.length ? <div className="grid gap-3">{sentences.map((sentence, index) => <CopyRow key={index} text={sentence} copyKey={`sentence-${index}`} copied={copied} onCopy={onCopy} />)}</div> : <EmptyAnalysis text="高质量表达正在从全文中标注。" />}
-      </AnalysisSection>
-      <AnalysisSection icon={<GraduationCap className="h-4 w-4" />} title="写作迁移示例">
-        {examples.length ? <div className="grid gap-3">{examples.map((example, index) => <div key={`${example.scenario}-${index}`} className="border border-[#ddd5c7] p-5"><span className="text-xs font-bold text-[#e33b36]">{example.scenario}</span><p className="mt-3 font-serif text-base leading-8">{example.expression}</p></div>)}</div> : <EmptyAnalysis text="正在把材料转化为不同题型和主题下的可用表达。" />}
-      </AnalysisSection>
+      <div className="grid gap-x-8 2xl:grid-cols-[1.05fr_0.95fr]">
+        <AnalysisSection icon={<Quote className="h-4 w-4" />} title="可积累表达">
+          {sentences.length ? <div className="grid gap-3 xl:grid-cols-2 2xl:grid-cols-1">{sentences.map((sentence, index) => <CopyRow key={index} text={sentence} copyKey={`sentence-${index}`} copied={copied} onCopy={onCopy} />)}</div> : <EmptyAnalysis text="高质量表达正在从全文中标注。" />}
+        </AnalysisSection>
+        <AnalysisSection icon={<GraduationCap className="h-4 w-4" />} title="写作迁移示例">
+          {examples.length ? <div className="grid gap-3 xl:grid-cols-2 2xl:grid-cols-1">{examples.map((example, index) => <div key={`${example.scenario}-${index}`} className="border border-[#ddd5c7] bg-white p-5"><span className="text-xs font-bold text-[#e33b36]">{example.scenario}</span><p className="mt-3 font-serif text-base leading-8">{example.expression}</p></div>)}</div> : <EmptyAnalysis text="正在把材料转化为不同题型和主题下的可用表达。" />}
+        </AnalysisSection>
+      </div>
       <AnalysisSection icon={<BookOpen className="h-4 w-4" />} title="关联申论问题">
-        {questions.length ? <ul className="grid gap-3">{questions.map((question, index) => <li key={index} className="flex gap-3 border-b border-[#ddd5c7] pb-3 text-sm leading-7"><span className="font-serif text-[#e33b36]">Q{index + 1}</span><span>{question}</span></li>)}</ul> : <EmptyAnalysis text="关联题目正在生成，可先依据材料主题自行设问。" />}
+        {questions.length ? <ul className="grid gap-3 lg:grid-cols-2 2xl:grid-cols-3">{questions.map((question, index) => <li key={index} className="flex gap-3 border border-[#ddd5c7] bg-white p-4 text-sm leading-7"><span className="font-serif text-[#e33b36]">Q{index + 1}</span><span>{question}</span></li>)}</ul> : <EmptyAnalysis text="关联题目正在生成，可先依据材料主题自行设问。" />}
       </AnalysisSection>
     </div>
   );
@@ -455,24 +500,30 @@ function FullArticle({ item, expanded, onToggle }: { item: ShenlunMaterial; expa
   const visible = expanded ? paragraphs : paragraphs.slice(0, 12);
   const structure = Array.isArray(item.structure) ? item.structure : [];
   return (
-    <div className="mx-auto max-w-[720px]">
+    <div>
       {paragraphs.length ? (
         <>
-          <div className="mb-8 border-y border-[#ddd5c7] py-5 text-sm text-[#687486]">
+          <div className="mb-7 border-y border-[#ddd5c7] py-4 text-sm text-[#687486]">
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
               <span className="flex items-center gap-2"><FileText className="h-4 w-4" />全文 {item.wordCount ? `${item.wordCount.toLocaleString("zh-CN")} 字` : `${item.fullText?.length.toLocaleString("zh-CN")} 字符`}</span>
               <span>来源：{item.source}</span><span>发布日期：{item.date}</span>
             </div>
           </div>
-          {structure.length > 0 && (
-            <nav aria-label="文章结构目录" className="mb-9 bg-[#f0ebe1] p-5">
-              <div className="flex items-center gap-2 text-xs font-bold"><ListTree className="h-4 w-4 text-[#e33b36]" />精读目录</div>
-              <ol className="mt-4 grid gap-2 text-sm text-[#526076] sm:grid-cols-2">{structure.map((part, index) => <li key={`${part.title}-${index}`}><span className="mr-2 font-serif text-[#e33b36]">{String(index + 1).padStart(2, "0")}</span>{part.title}</li>)}</ol>
-            </nav>
-          )}
-          <article className="font-serif text-[17px] leading-[2.05] text-[#263a55] md:text-[18px]">
+          <div className="grid items-start gap-8 xl:grid-cols-[240px_minmax(0,780px)_minmax(260px,1fr)] 2xl:grid-cols-[260px_minmax(0,800px)_360px] 2xl:justify-between">
+          <nav aria-label="文章结构目录" className="order-2 bg-[#f0ebe1] p-5 xl:order-1 xl:sticky xl:top-0">
+            <div className="flex items-center gap-2 text-xs font-bold"><ListTree className="h-4 w-4 text-[#e33b36]" />精读目录</div>
+            {structure.length > 0 ? <ol className="mt-4 grid gap-3 text-sm text-[#526076]">{structure.map((part, index) => <li key={`${part.title}-${index}`} className="border-t border-[#d8d0c3] pt-3 first:border-0 first:pt-0"><span className="mr-2 font-serif text-[#e33b36]">{String(index + 1).padStart(2, "0")}</span>{part.title}</li>)}</ol> : <p className="mt-4 text-sm leading-7 text-[#687486]">结构目录正在生成，可先通读正文。</p>}
+          </nav>
+          <article className="order-1 min-w-0 font-serif text-[17px] leading-[2.05] text-[#263a55] md:text-[18px] xl:order-2">
             {visible.map((paragraph, index) => <p key={index} className={index === 0 ? "first-letter:float-left first-letter:mr-2 first-letter:font-serif first-letter:text-5xl first-letter:font-bold first-letter:leading-[0.9] first-letter:text-[#e33b36]" : "mt-6"}>{paragraph}</p>)}
           </article>
+          <aside className="order-3 border-t-4 border-[#e33b36] bg-[#10233f] p-6 text-white xl:sticky xl:top-0">
+            <div className="text-[10px] font-bold tracking-[0.16em] text-[#ff7771]">申论速记</div>
+            <QuickNote label="核心主旨" text={item.thesis || item.viewpoint || "正在提炼"} />
+            <QuickNote label="可用论据" text={item.evidence || "正在整理"} />
+            <QuickNote label="使用方向" text={item.usage || "正在整理"} />
+          </aside>
+          </div>
           {paragraphs.length > 12 && (
             <div className="mt-9 border-t border-[#ddd5c7] pt-6 text-center">
               <button onClick={onToggle} className="inline-flex cursor-pointer items-center gap-2 border border-[#10233f] px-5 py-3 text-sm font-semibold">
@@ -491,6 +542,10 @@ function FullArticle({ item, expanded, onToggle }: { item: ShenlunMaterial; expa
       )}
     </div>
   );
+}
+
+function QuickNote({ label, text }: { label: string; text: string }) {
+  return <div className="mt-5 border-t border-white/15 pt-4"><h4 className="text-xs font-semibold text-white/65">{label}</h4><p className="mt-2 font-serif text-sm leading-7 text-white/90">{text}</p></div>;
 }
 
 function FilterRow({ label, values, active, onChange, dark = false }: { label: string; values: readonly string[]; active: string; onChange: (value: string) => void; dark?: boolean }) {
