@@ -14,6 +14,14 @@ const nextConfig: NextConfig = {
         source: "/poetry-dice/:path*",
         destination: "https://poetry-dice.vercel.app/poetry-dice/:path*",
       },
+      {
+        source: "/guokao",
+        destination: "https://guokao-job-advisor.vercel.app/guokao",
+      },
+      {
+        source: "/guokao/:path*",
+        destination: "https://guokao-job-advisor.vercel.app/guokao/:path*",
+      },
     ];
   },
 };
