@@ -31,6 +31,11 @@ const topics = ["全部", "高质量发展", "科技创新", "绿色发展", "�
 const importanceLevels = ["全部", "重点精读", "常规积累", "快速浏览"] as const;
 const detailTabs = ["精读分析", "申论应用", "原文全文"] as const;
 type DetailTab = (typeof detailTabs)[number];
+type SyncRunSummary = {
+  discovered: number;
+  processed: number;
+  failureCount: number;
+};
 
 function materialImportance(item: ShenlunMaterial): Exclude<(typeof importanceLevels)[number], "全部"> {
   if (item.importance) return item.importance;
@@ -88,6 +93,8 @@ function normalizeMaterial(item: ShenlunMaterial): ShenlunMaterial {
 export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
   const [items, setItems] = useState<ShenlunMaterial[]>([]);
   const [updatedAt, setUpdatedAt] = useState<string | null>(null);
+  const [checkedAt, setCheckedAt] = useState<string | null>(null);
+  const [lastRun, setLastRun] = useState<SyncRunSummary | null>(null);
   const [loadState, setLoadState] = useState<"loading" | "ready" | "error">("loading");
   const [source, setSource] = useState<(typeof sources)[number]>("全部");
   const [topic, setTopic] = useState<(typeof topics)[number]>("全部");
@@ -116,12 +123,19 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
     fetch(apiUrl)
       .then((response) => {
         if (!response.ok) throw new Error("素材接口不可用");
-        return response.json() as Promise<{ items?: ShenlunMaterial[]; updatedAt?: string | null }>;
+        return response.json() as Promise<{
+          items?: ShenlunMaterial[];
+          updatedAt?: string | null;
+          checkedAt?: string | null;
+          lastRun?: SyncRunSummary | null;
+        }>;
       })
       .then((payload) => {
         if (!active) return;
         setItems(Array.isArray(payload.items) ? payload.items.map(normalizeMaterial) : []);
         setUpdatedAt(payload.updatedAt ?? null);
+        setCheckedAt(payload.checkedAt ?? null);
+        setLastRun(payload.lastRun ?? null);
         setLoadState("ready");
       })
       .catch(() => {
@@ -197,9 +211,19 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
 
   const hasActiveFilters = Boolean(query) || source !== "全部" || topic !== "全部" || importance !== "全部" || bookmarkedOnly;
 
-  const syncLabel = updatedAt
+  const contentUpdateLabel = updatedAt
     ? new Intl.DateTimeFormat("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }).format(new Date(updatedAt))
-    : "持续更新";
+    : "暂无记录";
+  const checkLabel = checkedAt
+    ? new Intl.DateTimeFormat("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }).format(new Date(checkedAt))
+    : "等待检查";
+  const runStatusLabel = lastRun
+    ? lastRun.failureCount > 0
+      ? `本轮检查 ${lastRun.discovered} 篇 · ${lastRun.failureCount} 项异常`
+      : lastRun.processed > 0
+        ? `本轮检查 ${lastRun.discovered} 篇 · 处理 ${lastRun.processed} 篇`
+        : `本轮检查 ${lastRun.discovered} 篇 · 暂无新内容`
+    : "每 6 小时自动检查权威来源";
 
   return (
     <div className="min-h-screen bg-[#f6f1e7] text-[#10233f] [color-scheme:light]">
@@ -236,7 +260,7 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
         <div className="flex items-end gap-8 border-l border-[#ddd5c7] pl-8">
           <div><strong className="block font-serif text-4xl">{String(items.length).padStart(2, "0")}</strong><span className="text-xs text-[#687486]">当前收录</span></div>
           <div><strong className="block font-serif text-4xl text-[#e33b36]">{focusCount}</strong><span className="text-xs text-[#687486]">重点精读</span></div>
-          <div className="hidden lg:block"><strong className="block font-serif text-lg">{syncLabel}</strong><span className="text-xs text-[#687486]">最近同步</span></div>
+          <div className="hidden lg:block"><strong className="block font-serif text-lg">{checkLabel}</strong><span className="text-xs text-[#687486]">最近检查</span></div>
         </div>
       </section>
 
@@ -342,7 +366,11 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
             <button onClick={() => setImportance("重点精读")} className="mt-4 flex w-full cursor-pointer items-center justify-between border border-white/20 px-4 py-2.5 text-xs transition active:scale-[0.98] hover:bg-white/10">
               只看重点文章 <ArrowRight className="h-4 w-4" />
             </button>
-            <p className="mt-4 flex items-center gap-2 text-[10px] text-white/55"><span className="h-2 w-2 rounded-full bg-emerald-400" />每 6 小时自动更新</p>
+            <div className="mt-4 border-t border-white/15 pt-3 text-[10px] leading-5 text-white/55">
+              <p className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-emerald-400" />最近检查 {checkLabel}</p>
+              <p>{runStatusLabel}</p>
+              <p>最近内容变更 {contentUpdateLabel}</p>
+            </div>
           </section>
           <section id="methods" className="border border-[#ddd5c7] bg-[#fffdf8] p-5">
             <h3 className="font-serif text-xl">一篇文章，三遍读法</h3>
