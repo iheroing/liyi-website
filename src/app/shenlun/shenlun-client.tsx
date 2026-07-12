@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
@@ -93,21 +94,25 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
   const [importance, setImportance] = useState<(typeof importanceLevels)[number]>("全部");
   const [query, setQuery] = useState("");
   const [bookmarks, setBookmarks] = useState<number[]>([]);
+  const [bookmarkedOnly, setBookmarkedOnly] = useState(false);
   const [selected, setSelected] = useState<ShenlunMaterial | null>(null);
   const [detailTab, setDetailTab] = useState<DetailTab>("精读分析");
   const [fullTextExpanded, setFullTextExpanded] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const value = window.localStorage.getItem("liyi-shenlun-bookmarks");
-    if (value) {
-      try { setBookmarks(JSON.parse(value)); } catch { setBookmarks([]); }
-    }
+    const frame = window.requestAnimationFrame(() => {
+      if (value) {
+        try { setBookmarks(JSON.parse(value)); } catch { setBookmarks([]); }
+      }
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   useEffect(() => {
     let active = true;
-    setLoadState("loading");
     fetch(apiUrl)
       .then((response) => {
         if (!response.ok) throw new Error("素材接口不可用");
@@ -128,6 +133,11 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setSelected(null);
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setSelected(null);
+        window.requestAnimationFrame(() => searchRef.current?.focus());
+      }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -139,6 +149,7 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
       const matchesSource = source === "全部" || item.source === source;
       const matchesTopic = topic === "全部" || item.topic === topic;
       const matchesImportance = importance === "全部" || materialImportance(item) === importance;
+      const matchesBookmark = !bookmarkedOnly || bookmarks.includes(item.id);
       const text = [
         item.title,
         item.summary,
@@ -150,9 +161,9 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
         item.fullText,
         ...safeTags(item),
       ].filter(Boolean).join(" ").toLowerCase();
-      return matchesSource && matchesTopic && matchesImportance && (!keyword || text.includes(keyword));
+      return matchesSource && matchesTopic && matchesImportance && matchesBookmark && (!keyword || text.includes(keyword));
     });
-  }, [items, query, source, topic, importance]);
+  }, [items, query, source, topic, importance, bookmarkedOnly, bookmarks]);
 
   const focusCount = items.filter((item) => materialImportance(item) === "重点精读").length;
 
@@ -181,7 +192,10 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
     setSource("全部");
     setTopic("全部");
     setImportance("全部");
+    setBookmarkedOnly(false);
   };
+
+  const hasActiveFilters = Boolean(query) || source !== "全部" || topic !== "全部" || importance !== "全部" || bookmarkedOnly;
 
   const syncLabel = updatedAt
     ? new Intl.DateTimeFormat("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }).format(new Date(updatedAt))
@@ -190,7 +204,7 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
   return (
     <div className="min-h-screen bg-[#f6f1e7] text-[#10233f] [color-scheme:light]">
       <header className="sticky top-0 z-40 border-b-4 border-[#e33b36] bg-[#10233f] text-white">
-        <div className="mx-auto flex h-20 max-w-[1440px] items-center gap-8 px-5 md:px-8">
+        <div className="mx-auto flex h-16 max-w-[1440px] items-center gap-8 px-5 md:px-8">
           <Link href="/" className="flex shrink-0 items-center gap-3">
             <span className="grid h-10 w-10 place-items-center rounded-sm bg-[#e33b36] font-serif text-2xl font-bold">申</span>
             <span className="grid">
@@ -209,13 +223,13 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
         </div>
       </header>
 
-      <section className="mx-auto grid max-w-[1440px] gap-10 px-5 pb-10 pt-12 md:grid-cols-[1fr_auto] md:px-8 md:pt-16">
+      <section className="mx-auto grid max-w-[1440px] gap-6 px-5 pb-5 pt-6 md:grid-cols-[1fr_auto] md:px-8 md:pt-7">
         <div>
-          <p className="mb-4 text-xs font-bold tracking-[0.18em] text-[#e33b36]">全文可读 · 重点精读 · 申论转化</p>
-          <h1 className="max-w-4xl font-serif text-5xl font-semibold leading-[1.05] tracking-[-0.04em] md:text-7xl">
+          <p className="mb-3 text-xs font-bold tracking-[0.18em] text-[#e33b36]">全文可读 · 重点精读 · 申论转化</p>
+          <h1 className="max-w-4xl font-serif text-4xl font-semibold leading-[1.08] tracking-[-0.035em] md:text-5xl">
             不止收藏材料，<span className="text-[#e33b36]">更要读懂、会用</span>
           </h1>
-          <p className="mt-6 max-w-3xl text-[15px] leading-8 text-[#687486] md:text-lg">
+          <p className="mt-3 max-w-3xl text-[14px] leading-6 text-[#687486] md:text-[15px]">
             收录权威文章全文，按申论价值分级；对重点文章拆解主旨、结构与分析维度，再转化为可直接调用的论据、表达和题目思路。
           </p>
         </div>
@@ -226,20 +240,32 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
         </div>
       </section>
 
-      <section className="mx-auto mb-8 max-w-[1376px] border border-[#ddd5c7] bg-[#fffdf8] p-4 shadow-[0_18px_45px_rgba(16,35,63,0.06)] md:p-7">
-        <label className="flex h-14 items-center gap-3 border border-[#cfc5b5] bg-white px-4">
+      <section className="mx-auto mb-6 max-w-[1376px] border-y border-[#ddd5c7] bg-[#fffdf8] p-3 shadow-[0_12px_34px_rgba(16,35,63,0.06)] md:border">
+        <div className="flex gap-2">
+        <label className="flex h-11 min-w-0 flex-1 items-center gap-3 border border-[#cfc5b5] bg-white px-4">
           <Search className="h-5 w-5" />
           <input
+            ref={searchRef}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="搜索全文、政策、论点、案例或关键词，例如：基层治理"
             className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-[#9ca3af]"
           />
           {query && <button onClick={() => setQuery("")} aria-label="清除搜索" className="cursor-pointer"><X className="h-4 w-4" /></button>}
+          <kbd className="hidden border border-[#ddd5c7] bg-[#f6f1e7] px-2 py-1 text-[10px] text-[#687486] sm:block">⌘ K</kbd>
         </label>
+        <button
+          onClick={() => setBookmarkedOnly((value) => !value)}
+          className={"flex shrink-0 cursor-pointer items-center gap-2 border px-4 text-xs font-semibold transition active:scale-[0.97] " + (bookmarkedOnly ? "border-[#10233f] bg-[#10233f] text-white" : "border-[#cfc5b5] bg-white/90")}
+        >
+          <Bookmark className="h-4 w-4" fill={bookmarkedOnly ? "currentColor" : "none"} />
+          <span className="hidden sm:inline">我的摘录</span><span>{bookmarks.length}</span>
+        </button>
+        </div>
         <FilterRow label="精读" values={importanceLevels} active={importance} onChange={(value) => setImportance(value as (typeof importanceLevels)[number])} dark />
         <FilterRow label="来源" values={sources} active={source} onChange={(value) => setSource(value as (typeof sources)[number])} />
         <FilterRow label="主题" values={topics} active={topic} onChange={(value) => setTopic(value as (typeof topics)[number])} />
+        {hasActiveFilters && <div className="mt-2 flex justify-end"><button onClick={resetFilters} className="cursor-pointer text-xs text-[#687486] underline decoration-[#cfc5b5] underline-offset-4 hover:text-[#10233f]">清除全部条件</button></div>}
       </section>
 
       <div className="mx-auto grid max-w-[1376px] gap-6 pb-20 lg:grid-cols-[minmax(0,1fr)_310px]">
@@ -306,21 +332,21 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
           </div>
         </main>
 
-        <aside className="grid content-start gap-4 px-5 lg:px-0">
-          <section className="bg-[#10233f] p-6 text-white">
+        <aside className="grid content-start gap-3 px-5 lg:sticky lg:top-20 lg:self-start lg:px-0">
+          <section className="bg-[#10233f] p-5 text-white">
             <p className="text-xs tracking-[0.14em] text-white/55">今日精读台</p>
-            <div className="mt-6 grid grid-cols-2">
+            <div className="mt-4 grid grid-cols-2">
               <div><strong className="block font-serif text-3xl text-[#ff665f]">{String(focusCount).padStart(2, "0")}</strong><span className="text-[11px] text-white/55">重点精读</span></div>
               <div className="border-l border-white/20 pl-5"><strong className="block font-serif text-3xl">{bookmarks.length}</strong><span className="text-[11px] text-white/55">我的摘录</span></div>
             </div>
-            <button onClick={() => setImportance("重点精读")} className="mt-6 flex w-full cursor-pointer items-center justify-between border border-white/20 px-4 py-3 text-xs hover:bg-white/10">
+            <button onClick={() => setImportance("重点精读")} className="mt-4 flex w-full cursor-pointer items-center justify-between border border-white/20 px-4 py-2.5 text-xs transition active:scale-[0.98] hover:bg-white/10">
               只看重点文章 <ArrowRight className="h-4 w-4" />
             </button>
             <p className="mt-4 flex items-center gap-2 text-[10px] text-white/55"><span className="h-2 w-2 rounded-full bg-emerald-400" />每 6 小时自动更新</p>
           </section>
-          <section id="methods" className="border border-[#ddd5c7] bg-[#fffdf8] p-6">
+          <section id="methods" className="border border-[#ddd5c7] bg-[#fffdf8] p-5">
             <h3 className="font-serif text-xl">一篇文章，三遍读法</h3>
-            <ol className="mt-5 grid gap-5">
+            <ol className="mt-4 grid gap-4">
               {[["01", "通读全文", "判断主题、语境与政策方向"], ["02", "拆解论证", "提取主旨、结构与分析维度"], ["03", "完成转化", "积累表达、案例与作答思路"]].map(([step, title, note]) => (
                 <li key={step} className="grid grid-cols-[38px_1fr] gap-3">
                   <b className="font-serif text-[#e33b36]">{step}</b>
@@ -329,7 +355,7 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
               ))}
             </ol>
           </section>
-          <section className="border border-[#ddd5c7] bg-[#fffdf8] p-6">
+          <section className="border border-[#ddd5c7] bg-[#fffdf8] p-5">
             <span className="text-[10px] font-bold tracking-[0.14em] text-[#e33b36]">标注原则</span>
             <p className="mt-4 border-l-2 border-[#e33b36] pl-4 font-serif text-[17px] leading-8">全文是依据，精读是过程，转化为申论表达才是目的。</p>
           </section>
@@ -344,20 +370,22 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
         </div>
       </footer>
 
-      {selected && (
-        <MaterialWorkbench
-          item={selected}
-          tab={detailTab}
-          onTabChange={setDetailTab}
-          onClose={() => setSelected(null)}
-          bookmarked={bookmarks.includes(selected.id)}
-          onBookmark={() => toggleBookmark(selected.id)}
-          copied={copied}
-          onCopy={copyText}
-          fullTextExpanded={fullTextExpanded}
-          onToggleFullText={() => setFullTextExpanded((value) => !value)}
-        />
-      )}
+      <AnimatePresence>
+        {selected && (
+          <MaterialWorkbench
+            item={selected}
+            tab={detailTab}
+            onTabChange={setDetailTab}
+            onClose={() => setSelected(null)}
+            bookmarked={bookmarks.includes(selected.id)}
+            onBookmark={() => toggleBookmark(selected.id)}
+            copied={copied}
+            onCopy={copyText}
+            fullTextExpanded={fullTextExpanded}
+            onToggleFullText={() => setFullTextExpanded((value) => !value)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -386,54 +414,92 @@ function MaterialWorkbench({
   onToggleFullText: () => void;
 }) {
   const level = materialImportance(item);
+  const reducedMotion = useReducedMotion();
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const changeTab = useCallback((nextTab: DetailTab) => {
+    onTabChange(nextTab);
+    contentRef.current?.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
+    setScrollProgress(0);
+  }, [onTabChange, reducedMotion]);
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (!event.altKey) return;
+      const index = Number(event.key) - 1;
+      if (index >= 0 && index < detailTabs.length) changeTab(detailTabs[index]);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [changeTab]);
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = previousOverflow; };
+  }, []);
+
   return (
-    <div className="fixed inset-0 z-50 bg-[#fffdf8]" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+    <motion.div
+      className="fixed inset-0 z-50 bg-[#fffdf8]"
+      initial={reducedMotion ? { opacity: 0 } : { opacity: 0, x: 18, scale: 0.995 }}
+      animate={{ opacity: 1, x: 0, scale: 1 }}
+      exit={reducedMotion ? { opacity: 0 } : { opacity: 0, x: 18, scale: 0.995 }}
+      transition={{ type: "spring", bounce: 0, duration: 0.36 }}
+      onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}
+    >
       <aside role="dialog" aria-modal="true" aria-label={`${item.title}材料标注台`} className="flex h-full w-full flex-col bg-[#fffdf8]">
-        <div className="shrink-0 border-b border-[#ddd5c7] bg-[#fffdf8] px-5 pt-4 md:px-8 xl:px-12">
-          <div className="mx-auto w-full max-w-[1720px]">
-          <div className="flex items-start justify-between gap-5">
-            <div className="flex flex-wrap items-center gap-2 text-xs text-[#687486]">
-              <ImportanceBadge value={level} />
-              <strong className="text-[#10233f]">{item.source}</strong><span>·</span><span>{item.date}</span>
-              {typeof item.wordCount === "number" && <span>· {item.wordCount.toLocaleString("zh-CN")} 字</span>}
-              {typeof item.valueScore === "number" && <span>· 申论价值 {item.valueScore}/100</span>}
+        <div className="shrink-0 border-b border-[#ddd5c7] bg-[#fffdf8]/92 px-4 backdrop-blur-xl md:px-7 xl:px-10">
+          <div className="mx-auto flex min-h-16 w-full max-w-[1720px] items-center gap-3 py-2">
+            <button autoFocus onClick={onClose} className="flex h-10 shrink-0 cursor-pointer items-center gap-2 border border-[#ddd5c7] bg-white px-3 text-xs font-semibold transition active:scale-[0.96] hover:border-[#10233f]" aria-label="返回素材库">
+              <ArrowLeft className="h-4 w-4" /><span className="hidden sm:inline">返回</span>
+            </button>
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2 text-[10px] text-[#687486]">
+                <ImportanceBadge value={level} /><strong className="text-[#10233f]">{item.source}</strong><span>{item.date}</span>
+                {typeof item.wordCount === "number" && <span>{item.wordCount.toLocaleString("zh-CN")} 字</span>}
+                {typeof item.valueScore === "number" && <span>价值 {item.valueScore}/100</span>}
+              </div>
+              <h2 className="mt-1 truncate font-serif text-lg font-semibold leading-tight md:text-xl">{item.title}</h2>
             </div>
-            <button onClick={onClose} className="grid h-10 w-10 shrink-0 cursor-pointer place-items-center border border-[#ddd5c7] bg-white hover:border-[#10233f]" aria-label="关闭"><X className="h-5 w-5" /></button>
+            <button onClick={onBookmark} className="grid h-10 w-10 shrink-0 cursor-pointer place-items-center border border-[#ddd5c7] bg-white transition active:scale-[0.94] hover:border-[#10233f]" aria-label={bookmarked ? "取消摘录" : "加入摘录"}>
+              <Bookmark className="h-4 w-4" fill={bookmarked ? "currentColor" : "none"} />
+            </button>
+            <a href={item.url} target="_blank" rel="noreferrer" className="flex h-10 shrink-0 items-center gap-2 bg-[#10233f] px-3 text-xs text-white transition active:scale-[0.97]">
+              <span className="hidden sm:inline">来源页面</span><ExternalLink className="h-4 w-4" />
+            </a>
           </div>
-          <div className="mt-3 grid gap-3 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
-            <h2 className="max-w-6xl font-serif text-2xl font-semibold leading-[1.35] md:text-3xl">{item.title}</h2>
-            <div className="flex flex-wrap gap-2 xl:justify-end">{safeTags(item).map((tag) => <span key={tag} className="bg-[#f0ebe1] px-3 py-1.5 text-[11px]">{tag}</span>)}</div>
-          </div>
-          <div className="mt-4 flex overflow-x-auto border-t border-[#ddd5c7]">
+          <div className="mx-auto flex w-full max-w-[1720px] items-end gap-4 overflow-x-auto">
             {detailTabs.map((value) => (
-              <button key={value} onClick={() => onTabChange(value)} className={"flex min-w-[124px] cursor-pointer items-center justify-center gap-2 border-b-4 px-4 py-4 text-sm font-semibold transition-colors " + (tab === value ? "border-[#e33b36] text-[#10233f]" : "border-transparent text-[#7a8493] hover:text-[#10233f]") }>
-                {value === "精读分析" ? <Layers3 className="h-4 w-4" /> : value === "申论应用" ? <GraduationCap className="h-4 w-4" /> : <FileText className="h-4 w-4" />}{value}
+              <button key={value} onClick={() => changeTab(value)} className={"flex min-w-[112px] cursor-pointer items-center justify-center gap-2 border-b-3 px-3 py-3 text-xs font-semibold transition-colors active:bg-[#f0ebe1] " + (tab === value ? "border-[#e33b36] text-[#10233f]" : "border-transparent text-[#7a8493] hover:text-[#10233f]") }>
+                {value === "精读分析" ? <Layers3 className="h-4 w-4" /> : value === "申论应用" ? <GraduationCap className="h-4 w-4" /> : <FileText className="h-4 w-4" />}{value}<kbd className="hidden text-[9px] font-normal text-[#9ca3af] lg:inline">⌥{detailTabs.indexOf(value) + 1}</kbd>
               </button>
             ))}
+            <div className="ml-auto hidden max-w-[440px] items-center gap-1.5 overflow-hidden pb-3 xl:flex">
+              {safeTags(item).slice(0, 3).map((tag) => <span key={tag} className="shrink-0 bg-[#f0ebe1] px-2.5 py-1 text-[10px]">{tag}</span>)}
+            </div>
           </div>
-          </div>
+          <div className="h-0.5 bg-transparent"><motion.div className="h-full origin-left bg-[#e33b36]" animate={{ scaleX: scrollProgress }} transition={{ type: "spring", bounce: 0, duration: 0.25 }} /></div>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-7 md:px-8 xl:px-12 xl:py-9">
+        <div
+          ref={contentRef}
+          onScroll={(event) => {
+            const element = event.currentTarget;
+            const maximum = element.scrollHeight - element.clientHeight;
+            setScrollProgress(maximum > 0 ? element.scrollTop / maximum : 0);
+          }}
+          className="min-h-0 flex-1 overflow-y-auto px-5 py-5 md:px-8 xl:px-12 xl:py-6"
+        >
           <div className="mx-auto w-full max-w-[1720px]">
             {tab === "精读分析" && <CloseReading item={item} />}
             {tab === "申论应用" && <ShenlunApplication item={item} copied={copied} onCopy={onCopy} />}
             {tab === "原文全文" && <FullArticle item={item} expanded={fullTextExpanded} onToggle={onToggleFullText} />}
           </div>
         </div>
-
-        <div className="shrink-0 border-t border-[#ddd5c7] bg-[#f6f1e7] px-5 py-3 md:px-8 xl:px-12">
-          <div className="mx-auto flex w-full max-w-[1720px] flex-wrap gap-3">
-            <button onClick={onBookmark} className="flex cursor-pointer items-center justify-center gap-2 border border-[#10233f] px-4 py-3 text-sm">
-              <Bookmark className="h-4 w-4" fill={bookmarked ? "currentColor" : "none"} />{bookmarked ? "已加入摘录" : "加入摘录"}
-            </button>
-            <a href={item.url} target="_blank" rel="noreferrer" className="ml-auto flex items-center justify-center gap-2 bg-[#10233f] px-4 py-3 text-sm text-white">
-              查看来源页面 <ExternalLink className="h-4 w-4" />
-            </a>
-          </div>
-        </div>
       </aside>
-    </div>
+    </motion.div>
   );
 }
 
@@ -550,10 +616,10 @@ function QuickNote({ label, text }: { label: string; text: string }) {
 
 function FilterRow({ label, values, active, onChange, dark = false }: { label: string; values: readonly string[]; active: string; onChange: (value: string) => void; dark?: boolean }) {
   return (
-    <div className="mt-3 grid gap-2 md:grid-cols-[50px_1fr] md:items-center">
+    <div className="mt-2 grid gap-2 md:grid-cols-[50px_1fr] md:items-center">
       <span className="text-xs text-[#867f74]">{label}</span>
       <div className="flex gap-2 overflow-x-auto pb-1">
-        {values.map((value) => <button key={value} onClick={() => onChange(value)} className={"shrink-0 cursor-pointer border px-4 py-2 text-xs transition-colors " + (active === value ? (dark ? "border-[#10233f] bg-[#10233f] text-white" : "border-[#e33b36] bg-[#e33b36] text-white") : "border-[#ddd5c7] bg-white text-[#536075] hover:border-[#10233f]")}>{value}</button>)}
+        {values.map((value) => <button key={value} onClick={() => onChange(value)} className={"shrink-0 cursor-pointer border px-3.5 py-1.5 text-xs transition active:scale-[0.97] " + (active === value ? (dark ? "border-[#10233f] bg-[#10233f] text-white" : "border-[#e33b36] bg-[#e33b36] text-white") : "border-[#ddd5c7] bg-white text-[#536075] hover:border-[#10233f]")}>{value}</button>)}
       </div>
     </div>
   );
