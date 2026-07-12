@@ -55,6 +55,7 @@ export const PROFILE = {
         ],
         apps: [
             { name: "申论素材库", url: "/shenlun", description: "持续收集权威时政材料，由 AI 提炼观点、数据和申论用法。每日更新，原文可追溯。" },
+            { name: "国考岗位智能推荐", url: "/guokao", description: "根据专业、学历、政治面貌与基层经历智能筛选国考职位，辅助比较招录条件和岗位适配度。" },
             { name: "无尽诗骰子", url: "/poetry-dice", description: "把随机词面掷成诗行，再生成可保存的诗句卡片。一个介于游戏、写作练习与灵感抽签之间的小工具。" },
             { name: "爱闪记", url: "https://www.aishanji.com/", description: "AI 生成记忆卡片。用碎片时间，筑起知识宫殿。" },
             { name: "培训师工具箱", url: "https://www.huatupeixun.space/", description: "百款互动工具与教学模型。让课堂的每一秒都精彩。" },

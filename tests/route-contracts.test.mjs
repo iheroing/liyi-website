@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
 const projectRoot = new URL("../", import.meta.url);
@@ -45,4 +45,16 @@ test("shenlun page remains connected to the materials backend", async () => {
     pageSource,
     /https:\/\/shenlun-materials-2026\.infinity88-2025\.chatgpt\.site\/api\/materials(?:\?[^"']*)?/,
   );
+});
+
+test("homepage keeps the Guokao project introduction", async () => {
+  const data = await readProjectFile("src/lib/data.ts");
+
+  assert.match(data, /name:\s*["']国考岗位智能推荐["']/);
+  assert.match(data, /url:\s*["']\/guokao["']/);
+});
+
+test("only the custom site icon is present", async () => {
+  await assert.doesNotReject(access(new URL("src/app/icon.png", projectRoot)));
+  await assert.rejects(access(new URL("src/app/favicon.ico", projectRoot)));
 });
