@@ -39,12 +39,31 @@ test("proxy route contracts remain configured", async () => {
 });
 
 test("shenlun page remains connected to the materials backend", async () => {
-  const pageSource = await readProjectFile("src/app/shenlun/page.tsx");
+  const [pageSource, clientSource] = await Promise.all([
+    readProjectFile("src/app/shenlun/page.tsx"),
+    readProjectFile("src/app/shenlun/shenlun-client.tsx"),
+  ]);
 
   assert.match(
     pageSource,
     /https:\/\/shenlun-materials-2026\.infinity88-2025\.chatgpt\.site\/api\/materials(?:\?[^"']*)?/,
   );
+  assert.match(pageSource, /view=summary/);
+  assert.match(clientSource, /endpoint\.pathname.*item\.id/);
+  assert.match(clientSource, /detailState === "loading"/);
+  assert.doesNotMatch(clientSource, /paragraphs\.slice\(0,\s*12\)/);
+  assert.match(clientSource, /2xl:grid-cols-\[240px_minmax\(0,800px\)_340px\]/);
+});
+
+test("site language and Shenlun detail tabs remain accessible", async () => {
+  const [layout, client] = await Promise.all([
+    readProjectFile("src/app/layout.tsx"),
+    readProjectFile("src/app/shenlun/shenlun-client.tsx"),
+  ]);
+  assert.match(layout, /<html lang="zh-CN"/);
+  assert.match(client, /role="tablist"/);
+  assert.match(client, /role="tabpanel"/);
+  assert.match(client, /aria-selected=/);
 });
 
 test("homepage keeps the Guokao project introduction", async () => {

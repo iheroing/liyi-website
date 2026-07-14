@@ -9,7 +9,6 @@ import {
   Bookmark,
   BookOpen,
   Check,
-  ChevronDown,
   ClipboardCheck,
   Copy,
   ExternalLink,
@@ -23,6 +22,8 @@ import {
   Star,
   Target,
   X,
+  AlertTriangle,
+  LoaderCircle,
 } from "lucide-react";
 import type { ShenlunMaterial } from "./types";
 
@@ -35,6 +36,7 @@ type SyncRunSummary = {
   discovered: number;
   processed: number;
   failureCount: number;
+  warningCount?: number;
 };
 
 function materialImportance(item: ShenlunMaterial): Exclude<(typeof importanceLevels)[number], "全部"> {
@@ -92,6 +94,7 @@ function normalizeMaterial(item: ShenlunMaterial): ShenlunMaterial {
 
 export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
   const [items, setItems] = useState<ShenlunMaterial[]>([]);
+  const [total, setTotal] = useState(0);
   const [updatedAt, setUpdatedAt] = useState<string | null>(null);
   const [checkedAt, setCheckedAt] = useState<string | null>(null);
   const [lastRun, setLastRun] = useState<SyncRunSummary | null>(null);
@@ -104,9 +107,12 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
   const [bookmarkedOnly, setBookmarkedOnly] = useState(false);
   const [selected, setSelected] = useState<ShenlunMaterial | null>(null);
   const [detailTab, setDetailTab] = useState<DetailTab>("精读分析");
-  const [fullTextExpanded, setFullTextExpanded] = useState(false);
+  const [detailState, setDetailState] = useState<"idle" | "loading" | "ready" | "error">("idle");
   const [copied, setCopied] = useState<string | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
+  const detailCache = useRef(new Map<number, ShenlunMaterial>());
+  const detailRequestId = useRef(0);
 
   useEffect(() => {
     const value = window.localStorage.getItem("liyi-shenlun-bookmarks");
@@ -125,6 +131,7 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
         if (!response.ok) throw new Error("素材接口不可用");
         return response.json() as Promise<{
           items?: ShenlunMaterial[];
+          total?: number;
           updatedAt?: string | null;
           checkedAt?: string | null;
           lastRun?: SyncRunSummary | null;
@@ -133,6 +140,7 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
       .then((payload) => {
         if (!active) return;
         setItems(Array.isArray(payload.items) ? payload.items.map(normalizeMaterial) : []);
+        setTotal(Number.isInteger(payload.total) ? payload.total as number : payload.items?.length ?? 0);
         setUpdatedAt(payload.updatedAt ?? null);
         setCheckedAt(payload.checkedAt ?? null);
         setLastRun(payload.lastRun ?? null);
@@ -146,9 +154,14 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setSelected(null);
+      if (event.key === "Escape") {
+        detailRequestId.current += 1;
+        setSelected(null);
+        window.requestAnimationFrame(() => openerRef.current?.focus());
+      }
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
+        detailRequestId.current += 1;
         setSelected(null);
         window.requestAnimationFrame(() => searchRef.current?.focus());
       }
@@ -172,7 +185,6 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
         item.topic,
         item.whyImportant,
         item.thesis,
-        item.fullText,
         ...safeTags(item),
       ].filter(Boolean).join(" ").toLowerCase();
       return matchesSource && matchesTopic && matchesImportance && matchesBookmark && (!keyword || text.includes(keyword));
@@ -182,9 +194,42 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
   const focusCount = items.filter((item) => materialImportance(item) === "重点精读").length;
 
   const openMaterial = (item: ShenlunMaterial, tab: DetailTab = "精读分析") => {
+    const requestId = ++detailRequestId.current;
+    openerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     setSelected(item);
     setDetailTab(tab);
-    setFullTextExpanded(false);
+    const cached = detailCache.current.get(item.id);
+    if (cached) {
+      setSelected(cached);
+      setDetailState("ready");
+      return;
+    }
+    setDetailState("loading");
+    const endpoint = new URL(apiUrl);
+    endpoint.pathname = endpoint.pathname.replace(/\/?$/, `/${item.id}`);
+    endpoint.search = "";
+    fetch(endpoint)
+      .then((response) => {
+        if (!response.ok) throw new Error("详情加载失败");
+        return response.json() as Promise<{ item?: ShenlunMaterial }>;
+      })
+      .then((payload) => {
+        if (!payload.item) throw new Error("详情不存在");
+        const normalized = normalizeMaterial(payload.item);
+        detailCache.current.set(item.id, normalized);
+        if (requestId !== detailRequestId.current) return;
+        setSelected((current) => current?.id === item.id ? normalized : current);
+        setDetailState("ready");
+      })
+      .catch(() => {
+        if (requestId === detailRequestId.current) setDetailState("error");
+      });
+  };
+
+  const closeMaterial = () => {
+    detailRequestId.current += 1;
+    setSelected(null);
+    window.requestAnimationFrame(() => openerRef.current?.focus());
   };
 
   const toggleBookmark = (id: number) => {
@@ -219,11 +264,15 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
     : "等待检查";
   const runStatusLabel = lastRun
     ? lastRun.failureCount > 0
-      ? `本轮检查 ${lastRun.discovered} 篇 · ${lastRun.failureCount} 项异常`
+      ? `本轮检查 ${lastRun.discovered} 篇 · ${lastRun.failureCount} 项故障`
+      : lastRun.warningCount
+        ? `本轮检查 ${lastRun.discovered} 篇 · ${lastRun.warningCount} 项待补充`
       : lastRun.processed > 0
         ? `本轮检查 ${lastRun.discovered} 篇 · 处理 ${lastRun.processed} 篇`
         : `本轮检查 ${lastRun.discovered} 篇 · 暂无新内容`
     : "每 6 小时自动检查权威来源";
+  const statusTone = loadState === "loading" ? "loading" : lastRun?.failureCount ? "failed" : lastRun?.warningCount ? "degraded" : "healthy";
+  const statusLabel = statusTone === "loading" ? "正在核对" : statusTone === "failed" ? "更新异常" : statusTone === "degraded" ? "部分待补充" : "更新正常";
 
   return (
     <div className="min-h-screen bg-[#f6f1e7] text-[#10233f] [color-scheme:light]">
@@ -239,7 +288,7 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
           <nav className="ml-auto hidden items-center gap-8 text-sm text-white/65 md:flex">
             <a href="#materials" className="hover:text-white">材料标注台</a>
             <a href="#methods" className="hover:text-white">精读方法</a>
-            <span className="flex items-center gap-2 text-white/55"><i className="h-2 w-2 rounded-full bg-emerald-400" />AI 自动更新</span>
+            <span className="flex items-center gap-2 text-white/65"><i className={"h-2 w-2 rounded-full " + (statusTone === "failed" ? "bg-red-400" : statusTone === "degraded" ? "bg-amber-400" : statusTone === "loading" ? "bg-white/40" : "bg-emerald-400")} />{statusLabel}</span>
           </nav>
           <Link href="/" className="flex items-center gap-2 border border-white/20 px-4 py-2 text-xs text-white/75 hover:bg-white/10">
             <ArrowLeft className="h-4 w-4" /> 返回个人主页
@@ -258,7 +307,7 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
           </p>
         </div>
         <div className="flex items-end gap-8 border-l border-[#ddd5c7] pl-8">
-          <div><strong className="block font-serif text-4xl">{String(items.length).padStart(2, "0")}</strong><span className="text-xs text-[#687486]">当前收录</span></div>
+          <div><strong className="block font-serif text-4xl">{String(total || items.length).padStart(2, "0")}</strong><span className="text-xs text-[#687486]">当前收录</span></div>
           <div><strong className="block font-serif text-4xl text-[#e33b36]">{focusCount}</strong><span className="text-xs text-[#687486]">重点精读</span></div>
           <div className="hidden lg:block"><strong className="block font-serif text-lg">{checkLabel}</strong><span className="text-xs text-[#687486]">最近检查</span></div>
         </div>
@@ -300,7 +349,7 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
           </div>
           <div className="grid gap-3">
             {loadState === "loading" && <StatusPanel icon={<Sparkles className="h-8 w-8 animate-pulse text-[#e33b36]" />} title="正在同步最新素材" note="连接权威来源、文章全文与 AI 精读结果…" />}
-            {loadState === "error" && <StatusPanel icon={<BookOpen className="h-8 w-8 text-[#e33b36]" />} title="同步暂时中断" note="刷新页面即可重新连接，已入库的全文与标注不会丢失。" />}
+            {loadState === "error" && <StatusPanel icon={<BookOpen className="h-8 w-8 text-[#e33b36]" />} title="同步暂时中断" note="已入库的全文与标注不会丢失。" action="重新连接" onAction={() => window.location.reload()} />}
             {filtered.map((item, index) => {
               const level = materialImportance(item);
               return (
@@ -310,7 +359,7 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
                     <strong className="text-[#10233f]">{item.source}</strong>
                     <span>{item.date}</span>
                     <span>{item.kind}</span>
-                    {item.originMode === "ai" && <span className="flex items-center gap-1 text-[#e33b36]"><Sparkles className="h-3 w-3" /> AI 标注</span>}
+                    <span className={"flex items-center gap-1 " + (item.originMode === "ai" ? "text-[#e33b36]" : "text-[#8a7565]")}>{item.originMode === "ai" ? <Sparkles className="h-3 w-3" /> : <FileText className="h-3 w-3" />}{item.originMode === "ai" ? "AI 精读" : item.originMode === "editorial" ? "人工校核" : "自动提取"}</span>
                     {typeof item.wordCount === "number" && <span className="flex items-center gap-1"><FileText className="h-3 w-3" />{item.wordCount.toLocaleString("zh-CN")} 字</span>}
                     <button onClick={() => toggleBookmark(item.id)} className="ml-auto flex cursor-pointer items-center gap-1.5" aria-label={bookmarks.includes(item.id) ? "取消收藏" : "收藏素材"}>
                       <Bookmark className="h-4 w-4" fill={bookmarks.includes(item.id) ? "currentColor" : "none"} />
@@ -367,7 +416,7 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
               只看重点文章 <ArrowRight className="h-4 w-4" />
             </button>
             <div className="mt-4 border-t border-white/15 pt-3 text-[10px] leading-5 text-white/55">
-              <p className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-emerald-400" />最近检查 {checkLabel}</p>
+              <p className="flex items-center gap-2"><span className={"h-2 w-2 rounded-full " + (statusTone === "failed" ? "bg-red-400" : statusTone === "degraded" ? "bg-amber-400" : "bg-emerald-400")} />最近检查 {checkLabel}</p>
               <p>{runStatusLabel}</p>
               <p>最近内容变更 {contentUpdateLabel}</p>
             </div>
@@ -404,13 +453,12 @@ export function ShenlunClient({ apiUrl }: { apiUrl: string }) {
             item={selected}
             tab={detailTab}
             onTabChange={setDetailTab}
-            onClose={() => setSelected(null)}
+            onClose={closeMaterial}
             bookmarked={bookmarks.includes(selected.id)}
             onBookmark={() => toggleBookmark(selected.id)}
             copied={copied}
             onCopy={copyText}
-            fullTextExpanded={fullTextExpanded}
-            onToggleFullText={() => setFullTextExpanded((value) => !value)}
+            detailState={detailState}
           />
         )}
       </AnimatePresence>
@@ -427,8 +475,7 @@ function MaterialWorkbench({
   onBookmark,
   copied,
   onCopy,
-  fullTextExpanded,
-  onToggleFullText,
+  detailState,
 }: {
   item: ShenlunMaterial;
   tab: DetailTab;
@@ -438,8 +485,7 @@ function MaterialWorkbench({
   onBookmark: () => void;
   copied: string | null;
   onCopy: (text: string, key: string) => void;
-  fullTextExpanded: boolean;
-  onToggleFullText: () => void;
+  detailState: "idle" | "loading" | "ready" | "error";
 }) {
   const level = materialImportance(item);
   const reducedMotion = useReducedMotion();
@@ -498,9 +544,15 @@ function MaterialWorkbench({
               <span className="hidden sm:inline">来源页面</span><ExternalLink className="h-4 w-4" />
             </a>
           </div>
-          <div className="mx-auto flex w-full max-w-[1720px] items-end gap-4 overflow-x-auto">
+          <div role="tablist" aria-label="材料阅读视图" className="mx-auto flex w-full max-w-[1720px] items-end gap-4 overflow-x-auto">
             {detailTabs.map((value) => (
-              <button key={value} onClick={() => changeTab(value)} className={"flex min-w-[112px] cursor-pointer items-center justify-center gap-2 border-b-3 px-3 py-3 text-xs font-semibold transition-colors active:bg-[#f0ebe1] " + (tab === value ? "border-[#e33b36] text-[#10233f]" : "border-transparent text-[#7a8493] hover:text-[#10233f]") }>
+              <button key={value} role="tab" aria-selected={tab === value} aria-controls="shenlun-detail-panel" tabIndex={tab === value ? 0 : -1} onClick={() => changeTab(value)} onKeyDown={(event) => {
+                if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+                event.preventDefault();
+                const direction = event.key === "ArrowRight" ? 1 : -1;
+                const next = (detailTabs.indexOf(value) + direction + detailTabs.length) % detailTabs.length;
+                changeTab(detailTabs[next]);
+              }} className={"flex min-w-[112px] cursor-pointer items-center justify-center gap-2 border-b-3 px-3 py-3 text-xs font-semibold transition-colors active:bg-[#f0ebe1] " + (tab === value ? "border-[#e33b36] text-[#10233f]" : "border-transparent text-[#7a8493] hover:text-[#10233f]") }>
                 {value === "精读分析" ? <Layers3 className="h-4 w-4" /> : value === "申论应用" ? <GraduationCap className="h-4 w-4" /> : <FileText className="h-4 w-4" />}{value}<kbd className="hidden text-[9px] font-normal text-[#9ca3af] lg:inline">⌥{detailTabs.indexOf(value) + 1}</kbd>
               </button>
             ))}
@@ -518,12 +570,16 @@ function MaterialWorkbench({
             const maximum = element.scrollHeight - element.clientHeight;
             setScrollProgress(maximum > 0 ? element.scrollTop / maximum : 0);
           }}
+          id="shenlun-detail-panel"
+          role="tabpanel"
           className="min-h-0 flex-1 overflow-y-auto px-5 py-5 md:px-8 xl:px-12 xl:py-6"
         >
           <div className="mx-auto w-full max-w-[1720px]">
-            {tab === "精读分析" && <CloseReading item={item} />}
-            {tab === "申论应用" && <ShenlunApplication item={item} copied={copied} onCopy={onCopy} />}
-            {tab === "原文全文" && <FullArticle item={item} expanded={fullTextExpanded} onToggle={onToggleFullText} />}
+            {detailState === "loading" ? <DetailLoading /> : detailState === "error" ? <DetailError item={item} /> : <>
+              {tab === "精读分析" && <CloseReading item={item} />}
+              {tab === "申论应用" && <ShenlunApplication item={item} copied={copied} onCopy={onCopy} />}
+              {tab === "原文全文" && <FullArticle item={item} />}
+            </>}
           </div>
         </div>
       </aside>
@@ -589,9 +645,8 @@ function ShenlunApplication({ item, copied, onCopy }: { item: ShenlunMaterial; c
   );
 }
 
-function FullArticle({ item, expanded, onToggle }: { item: ShenlunMaterial; expanded: boolean; onToggle: () => void }) {
+function FullArticle({ item }: { item: ShenlunMaterial }) {
   const paragraphs = textParagraphs(item.fullText);
-  const visible = expanded ? paragraphs : paragraphs.slice(0, 12);
   const structure = Array.isArray(item.structure) ? item.structure : [];
   return (
     <div>
@@ -603,28 +658,21 @@ function FullArticle({ item, expanded, onToggle }: { item: ShenlunMaterial; expa
               <span>来源：{item.source}</span><span>发布日期：{item.date}</span>
             </div>
           </div>
-          <div className="grid items-start gap-8 xl:grid-cols-[240px_minmax(0,780px)_minmax(260px,1fr)] 2xl:grid-cols-[260px_minmax(0,800px)_360px] 2xl:justify-between">
-          <nav aria-label="文章结构目录" className="order-2 bg-[#f0ebe1] p-5 xl:order-1 xl:sticky xl:top-0">
+          <div className="grid items-start gap-8 xl:grid-cols-[minmax(0,780px)_minmax(260px,1fr)] xl:justify-center 2xl:grid-cols-[240px_minmax(0,800px)_340px] 2xl:justify-between">
+          <nav aria-label="文章结构目录" className="order-2 bg-[#f0ebe1] p-5 xl:order-3 xl:col-span-2 2xl:order-1 2xl:col-span-1 2xl:sticky 2xl:top-0">
             <div className="flex items-center gap-2 text-xs font-bold"><ListTree className="h-4 w-4 text-[#e33b36]" />精读目录</div>
             {structure.length > 0 ? <ol className="mt-4 grid gap-3 text-sm text-[#526076]">{structure.map((part, index) => <li key={`${part.title}-${index}`} className="border-t border-[#d8d0c3] pt-3 first:border-0 first:pt-0"><span className="mr-2 font-serif text-[#e33b36]">{String(index + 1).padStart(2, "0")}</span>{part.title}</li>)}</ol> : <p className="mt-4 text-sm leading-7 text-[#687486]">结构目录正在生成，可先通读正文。</p>}
           </nav>
-          <article className="order-1 min-w-0 font-serif text-[17px] leading-[2.05] text-[#263a55] md:text-[18px] xl:order-2">
-            {visible.map((paragraph, index) => <p key={index} className={index === 0 ? "first-letter:float-left first-letter:mr-2 first-letter:font-serif first-letter:text-5xl first-letter:font-bold first-letter:leading-[0.9] first-letter:text-[#e33b36]" : "mt-6"}>{paragraph}</p>)}
+          <article className="order-1 min-w-0 font-serif text-[17px] leading-[2.05] text-[#263a55] md:text-[18px] xl:order-1 2xl:order-2">
+            {paragraphs.map((paragraph, index) => <p key={index} className={index === 0 ? "first-letter:float-left first-letter:mr-2 first-letter:font-serif first-letter:text-5xl first-letter:font-bold first-letter:leading-[0.9] first-letter:text-[#e33b36]" : "mt-6"}>{paragraph}</p>)}
           </article>
-          <aside className="order-3 border-t-4 border-[#e33b36] bg-[#10233f] p-6 text-white xl:sticky xl:top-0">
+          <aside className="order-3 border-t-4 border-[#e33b36] bg-[#10233f] p-6 text-white xl:order-2 xl:sticky xl:top-0 2xl:order-3">
             <div className="text-[10px] font-bold tracking-[0.16em] text-[#ff7771]">申论速记</div>
             <QuickNote label="核心主旨" text={item.thesis || item.viewpoint || "正在提炼"} />
             <QuickNote label="可用论据" text={item.evidence || "正在整理"} />
             <QuickNote label="使用方向" text={item.usage || "正在整理"} />
           </aside>
           </div>
-          {paragraphs.length > 12 && (
-            <div className="mt-9 border-t border-[#ddd5c7] pt-6 text-center">
-              <button onClick={onToggle} className="inline-flex cursor-pointer items-center gap-2 border border-[#10233f] px-5 py-3 text-sm font-semibold">
-                {expanded ? "收起全文" : `继续阅读全文（剩余 ${paragraphs.length - 12} 段）`}<ChevronDown className={"h-4 w-4 transition-transform " + (expanded ? "rotate-180" : "")} />
-              </button>
-            </div>
-          )}
         </>
       ) : (
         <div className="border border-[#ddd5c7] bg-[#f6f1e7] px-6 py-16 text-center">
@@ -640,6 +688,14 @@ function FullArticle({ item, expanded, onToggle }: { item: ShenlunMaterial; expa
 
 function QuickNote({ label, text }: { label: string; text: string }) {
   return <div className="mt-5 border-t border-white/15 pt-4"><h4 className="text-xs font-semibold text-white/65">{label}</h4><p className="mt-2 font-serif text-sm leading-7 text-white/90">{text}</p></div>;
+}
+
+function DetailLoading() {
+  return <div role="status" className="grid min-h-[50vh] place-items-center"><div className="text-center"><LoaderCircle className="mx-auto h-8 w-8 animate-spin text-[#e33b36]" /><h3 className="mt-4 font-serif text-2xl">正在调取全文与精读标注</h3><p className="mt-2 text-sm text-[#687486]">列表保持轻量，详细内容仅在阅读时加载。</p></div></div>;
+}
+
+function DetailError({ item }: { item: ShenlunMaterial }) {
+  return <div role="alert" className="grid min-h-[50vh] place-items-center"><div className="max-w-md text-center"><AlertTriangle className="mx-auto h-9 w-9 text-amber-600" /><h3 className="mt-4 font-serif text-2xl">精读详情暂时未能加载</h3><p className="mt-3 text-sm leading-7 text-[#687486]">摘要与来源仍然可用，可以先核对权威原文，稍后重新打开本篇材料。</p><a href={item.url} target="_blank" rel="noreferrer" className="mt-6 inline-flex items-center gap-2 bg-[#10233f] px-5 py-3 text-sm text-white">查看权威原文 <ExternalLink className="h-4 w-4" /></a></div></div>;
 }
 
 function FilterRow({ label, values, active, onChange, dark = false }: { label: string; values: readonly string[]; active: string; onChange: (value: string) => void; dark?: boolean }) {
@@ -679,6 +735,6 @@ function EmptyAnalysis({ text }: { text: string }) {
   return <div className="border border-dashed border-[#cfc5b5] px-5 py-6 text-sm leading-7 text-[#7a8493]">{text}</div>;
 }
 
-function StatusPanel({ icon, title, note }: { icon: ReactNode; title: string; note: string }) {
-  return <div className="border border-[#ddd5c7] bg-[#fffdf8] px-6 py-20 text-center"><div className="mx-auto grid place-items-center">{icon}</div><h3 className="mt-4 font-serif text-2xl">{title}</h3><p className="mt-2 text-sm text-[#687486]">{note}</p></div>;
+function StatusPanel({ icon, title, note, action, onAction }: { icon: ReactNode; title: string; note: string; action?: string; onAction?: () => void }) {
+  return <div className="border border-[#ddd5c7] bg-[#fffdf8] px-6 py-20 text-center"><div className="mx-auto grid place-items-center">{icon}</div><h3 className="mt-4 font-serif text-2xl">{title}</h3><p className="mt-2 text-sm text-[#687486]">{note}</p>{action && onAction ? <button onClick={onAction} className="mt-5 cursor-pointer bg-[#10233f] px-5 py-2.5 text-xs text-white">{action}</button> : null}</div>;
 }

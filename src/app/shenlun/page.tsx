@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function ShenlunPage() {
   return (
     <ShenlunClient
-      apiUrl="https://shenlun-materials-2026.infinity88-2025.chatgpt.site/api/materials?limit=100"
+      apiUrl="https://shenlun-materials-2026.infinity88-2025.chatgpt.site/api/materials?limit=200&view=summary"
     />
   );
 }
