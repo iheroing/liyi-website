@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
+        source: "/shenlun-api/:path*",
+        destination: "https://shenlun-materials-2026.infinity88-2025.chatgpt.site/api/:path*",
+      },
+      {
         source: "/poetry-dice",
         destination: "https://poetry-dice.vercel.app/poetry-dice",
       },

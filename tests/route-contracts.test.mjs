@@ -20,6 +20,10 @@ test("proxy route contracts remain configured", async () => {
 
   assert.deepEqual(rewrites, [
     {
+      source: "/shenlun-api/:path*",
+      destination: "https://shenlun-materials-2026.infinity88-2025.chatgpt.site/api/:path*",
+    },
+    {
       source: "/poetry-dice",
       destination: "https://poetry-dice.vercel.app/poetry-dice",
     },
@@ -48,12 +52,18 @@ test("shenlun page remains connected to the materials backend", async () => {
     pageSource,
     /https:\/\/shenlun-materials-2026\.infinity88-2025\.chatgpt\.site\/api\/materials(?:\?[^"']*)?/,
   );
+  assert.match(pageSource, /MATERIALS_CLIENT_URL = "\/shenlun-api\/materials/);
   assert.match(pageSource, /view=summary/);
+  assert.match(pageSource, /export const revalidate = 300/);
+  assert.match(pageSource, /initialData=\{initialData\}/);
   assert.match(clientSource, /endpoint\.pathname.*item\.id/);
   assert.match(clientSource, /detailState === "loading"/);
   assert.match(clientSource, /aria-busy="true"/);
   assert.match(clientSource, /正在装订全文与精读标注/);
   assert.match(clientSource, /AnimatePresence initial=\{false\}/);
+  assert.match(clientSource, /hasInitialData/);
+  assert.match(clientSource, /hasInitialData\.current \? 60_000 : 0/);
+  assert.match(clientSource, /项待补采集/);
   assert.doesNotMatch(clientSource, /paragraphs\.slice\(0,\s*12\)/);
   assert.match(clientSource, /2xl:grid-cols-\[240px_minmax\(0,800px\)_340px\]/);
 });
