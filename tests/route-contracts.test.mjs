@@ -51,6 +51,9 @@ test("shenlun page remains connected to the materials backend", async () => {
   assert.match(pageSource, /view=summary/);
   assert.match(clientSource, /endpoint\.pathname.*item\.id/);
   assert.match(clientSource, /detailState === "loading"/);
+  assert.match(clientSource, /aria-busy="true"/);
+  assert.match(clientSource, /正在装订全文与精读标注/);
+  assert.match(clientSource, /AnimatePresence initial=\{false\}/);
   assert.doesNotMatch(clientSource, /paragraphs\.slice\(0,\s*12\)/);
   assert.match(clientSource, /2xl:grid-cols-\[240px_minmax\(0,800px\)_340px\]/);
 });

@@ -575,11 +575,29 @@ function MaterialWorkbench({
           className="min-h-0 flex-1 overflow-y-auto px-5 py-5 md:px-8 xl:px-12 xl:py-6"
         >
           <div className="mx-auto w-full max-w-[1720px]">
-            {detailState === "loading" ? <DetailLoading /> : detailState === "error" ? <DetailError item={item} /> : <>
-              {tab === "精读分析" && <CloseReading item={item} />}
-              {tab === "申论应用" && <ShenlunApplication item={item} copied={copied} onCopy={onCopy} />}
-              {tab === "原文全文" && <FullArticle item={item} />}
-            </>}
+            <AnimatePresence initial={false}>
+              {detailState === "loading" ? (
+                <motion.div key="detail-loading" exit={{ opacity: 0 }} transition={{ duration: reducedMotion ? 0.08 : 0.16 }}>
+                  <DetailLoading item={item} />
+                </motion.div>
+              ) : detailState === "error" ? (
+                <motion.div key="detail-error" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }}>
+                  <DetailError item={item} />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key={`detail-${tab}`}
+                  initial={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 7 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -4 }}
+                  transition={{ type: "spring", bounce: 0, duration: reducedMotion ? 0.12 : 0.28 }}
+                >
+                  {tab === "精读分析" && <CloseReading item={item} />}
+                  {tab === "申论应用" && <ShenlunApplication item={item} copied={copied} onCopy={onCopy} />}
+                  {tab === "原文全文" && <FullArticle item={item} />}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </aside>
@@ -690,8 +708,62 @@ function QuickNote({ label, text }: { label: string; text: string }) {
   return <div className="mt-5 border-t border-white/15 pt-4"><h4 className="text-xs font-semibold text-white/65">{label}</h4><p className="mt-2 font-serif text-sm leading-7 text-white/90">{text}</p></div>;
 }
 
-function DetailLoading() {
-  return <div role="status" className="grid min-h-[50vh] place-items-center"><div className="text-center"><LoaderCircle className="mx-auto h-8 w-8 animate-spin text-[#e33b36]" /><h3 className="mt-4 font-serif text-2xl">正在调取全文与精读标注</h3><p className="mt-2 text-sm text-[#687486]">列表保持轻量，详细内容仅在阅读时加载。</p></div></div>;
+function DetailLoading({ item }: { item: ShenlunMaterial }) {
+  const reducedMotion = useReducedMotion();
+  const pulse = (delay: number) => reducedMotion ? {} : {
+    animate: { opacity: [0.34, 0.72, 0.34] },
+    transition: { duration: 1.45, delay, repeat: Infinity, ease: "easeInOut" as const },
+  };
+  return (
+    <div role="status" aria-live="polite" aria-busy="true" className="min-h-[56vh]">
+      <div className="border border-[#ddd5c7] bg-white">
+        <div className="flex items-center gap-4 border-b border-[#e7e0d5] px-5 py-4 md:px-7">
+          <span className="grid h-10 w-10 shrink-0 place-items-center bg-[#10233f] text-white">
+            <LoaderCircle className={`h-4 w-4 ${reducedMotion ? "" : "animate-spin"}`} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <h3 className="font-serif text-lg font-semibold text-[#10233f]">正在装订全文与精读标注</h3>
+              <span className="text-[10px] font-semibold tracking-[0.12em] text-[#e33b36]">READING WORKSPACE</span>
+            </div>
+            <p className="mt-1 truncate text-xs text-[#687486]">{item.title} · 通常只需片刻</p>
+          </div>
+        </div>
+        <div className="h-0.5 overflow-hidden bg-[#eee8de]" aria-hidden="true">
+          <motion.div
+            className="h-full w-1/3 bg-[#e33b36]"
+            initial={{ x: "-100%" }}
+            animate={reducedMotion ? { x: "0%" } : { x: ["-100%", "300%"] }}
+            transition={reducedMotion ? { duration: 0 } : { duration: 1.15, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </div>
+      </div>
+
+      <div aria-hidden="true" className="mt-5 grid gap-5 xl:grid-cols-2">
+        {[0, 0.12].map((delay, cardIndex) => (
+          <div key={delay} className={`min-h-44 border p-6 ${cardIndex === 0 ? "border-l-4 border-[#e33b36] bg-[#f6f1e7]" : "border-[#ddd5c7] bg-white"}`}>
+            <motion.div {...pulse(delay)} className="h-2.5 w-24 bg-[#c8c0b4]" />
+            <motion.div {...pulse(delay + 0.08)} className="mt-7 h-4 w-[92%] bg-[#d9d2c7]" />
+            <motion.div {...pulse(delay + 0.16)} className="mt-3 h-4 w-[78%] bg-[#e1dbd1]" />
+            <motion.div {...pulse(delay + 0.24)} className="mt-3 h-4 w-[64%] bg-[#e7e1d8]" />
+          </div>
+        ))}
+      </div>
+
+      <div aria-hidden="true" className="mt-8 border-t border-[#ddd5c7] pt-7">
+        <motion.div {...pulse(0.18)} className="h-2.5 w-20 bg-[#d2cabe]" />
+        <div className="mt-5 grid gap-4 lg:grid-cols-2 2xl:grid-cols-3">
+          {[0, 0.1, 0.2].map((delay, index) => (
+            <motion.div key={delay} {...pulse(delay)} className="grid min-h-28 grid-cols-[38px_1fr] gap-4 border border-[#ddd5c7] bg-white p-5">
+              <span className="grid h-9 w-9 place-items-center bg-[#e7e0d5] font-serif text-xs text-[#8a8276]">{index + 1}</span>
+              <span className="space-y-3 pt-1"><i className="block h-3 w-2/3 bg-[#d5cec3]" /><i className="block h-3 w-full bg-[#e4ded5]" /><i className="block h-3 w-4/5 bg-[#ebe6de]" /></span>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+      <span className="sr-only">正在加载完整文章内容，请稍候。</span>
+    </div>
+  );
 }
 
 function DetailError({ item }: { item: ShenlunMaterial }) {
