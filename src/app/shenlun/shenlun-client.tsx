@@ -37,6 +37,8 @@ export type SyncRunSummary = {
   processed: number;
   failureCount: number;
   warningCount?: number;
+  sourceWarningCount?: number;
+  aiWarningCount?: number;
 };
 
 export type ShenlunInitialData = {
@@ -277,19 +279,28 @@ export function ShenlunClient({ apiUrl, initialData = null }: { apiUrl: string; 
   const checkLabel = checkedAt
     ? new Intl.DateTimeFormat("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Shanghai" }).format(new Date(checkedAt))
     : "等待检查";
+  const warningParts = [
+    lastRun?.sourceWarningCount ? `${lastRun.sourceWarningCount} 篇待补全文` : "",
+    lastRun?.aiWarningCount ? `${lastRun.aiWarningCount} 篇待补精读` : "",
+  ].filter(Boolean);
+  const warningLabel = warningParts.length
+    ? warningParts.join(" · ")
+    : `${lastRun?.warningCount ?? 0} 项待处理`;
   const runStatusLabel = lastRun
     ? lastRun.failureCount > 0
       ? `本轮检查 ${lastRun.discovered} 篇 · ${lastRun.failureCount} 项故障`
       : lastRun.warningCount
-        ? `本轮检查 ${lastRun.discovered} 篇 · ${lastRun.warningCount} 项待补采集`
+        ? `本轮检查 ${lastRun.discovered} 篇 · ${warningLabel}`
       : lastRun.processed > 0
         ? `本轮检查 ${lastRun.discovered} 篇 · 处理 ${lastRun.processed} 篇`
         : `本轮检查 ${lastRun.discovered} 篇 · 暂无新内容`
     : "每 6 小时自动检查权威来源";
   const statusTone = loadState === "loading" ? "loading" : lastRun?.failureCount ? "failed" : lastRun?.warningCount ? "degraded" : "healthy";
-  const statusLabel = statusTone === "loading" ? "正在核对" : statusTone === "failed" ? "更新异常" : statusTone === "degraded" ? `${lastRun?.warningCount ?? 0} 项待补采集` : "更新正常";
+  const statusLabel = statusTone === "loading" ? "正在核对" : statusTone === "failed" ? "更新异常" : statusTone === "degraded" ? warningLabel : "更新正常";
   const statusExplanation = statusTone === "degraded"
-    ? "有材料尚未达到完整入库标准；现有内容可以阅读，系统会在后续任务中继续补采。"
+    ? warningParts.length
+      ? `${lastRun?.sourceWarningCount ?? 0} 篇来源正文未完整公开；${lastRun?.aiWarningCount ?? 0} 篇精读结果未通过质量门槛。现有内容可以阅读，系统会继续补全。`
+      : "有材料尚未达到完整入库标准；现有内容可以阅读，系统会在后续任务中继续补全。"
     : statusTone === "failed"
       ? "最近一轮更新遇到故障，已保留此前可用内容。"
       : "最近一轮权威来源检查已完成。";
@@ -438,7 +449,7 @@ export function ShenlunClient({ apiUrl, initialData = null }: { apiUrl: string; 
             <div className="mt-4 border-t border-white/15 pt-3 text-[10px] leading-5 text-white/55">
               <p className="flex items-center gap-2"><span className={"h-2 w-2 rounded-full " + (statusTone === "failed" ? "bg-red-400" : statusTone === "degraded" ? "bg-amber-400" : "bg-emerald-400")} />最近检查 {checkLabel}</p>
               <p>{runStatusLabel}</p>
-              {statusTone === "degraded" ? <p className="mt-1 text-amber-200/80">现有内容可读，系统会继续补采未完整项目。</p> : null}
+              {statusTone === "degraded" ? <p className="mt-1 text-amber-200/80">待补全文会继续采集；待补精读会由双 API 自动重试。</p> : null}
               <p>最近内容变更 {contentUpdateLabel}</p>
             </div>
           </section>
