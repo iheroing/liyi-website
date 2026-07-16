@@ -1,9 +1,6 @@
 name: Production health
 
 on:
-  schedule:
-    # Offset from the top of the hour to reduce GitHub Actions scheduling delays.
-    - cron: "17 * * * *"
   workflow_dispatch:
   workflow_run:
     workflows: ["Verify personal site"]

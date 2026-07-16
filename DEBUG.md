@@ -46,3 +46,57 @@ An unrelated Analytics commit reintroduced Next's default favicon, and the later
 - Remove the unintended default `favicon.ico` so only the custom icon is emitted.
 - Restore a Guokao application card linked to `/guokao`.
 - Add homepage contract tests that prevent either regression.
+
+---
+
+# Shenlun production 404 investigation — 2026-07-16
+
+## Observations
+
+- `https://www.liyi.online/` returns 200, `/guokao` returns 200, and `/icon.png` returns 200.
+- `https://www.liyi.online/shenlun` and `/shenlun-api/materials` both return 404.
+- The independent Sites backend materials API returns 200, so stored content and ingestion are available.
+- `www.liyi.online` currently aliases deployment `dpl_DpXrsQRBYEevqVgF4pXcGyjA7cq8`, created after the Shenlun deployment.
+- That deployment reports source commit `75e7cd4`, message `Personal site should surface the poetry dice app`, `source: cli`, `gitDirty: 1`, and actor `codex`.
+- Commit `75e7cd4` predates the commit that introduced `/shenlun` and the later first-response and warning-status improvements.
+
+## Hypotheses
+
+### H1: A later CLI deployment from an outdated checkout replaced the production alias (ROOT HYPOTHESIS)
+- Supports: the current production deployment is newer but identifies the old `75e7cd4` source commit and has no Shenlun route.
+- Conflicts: none.
+- Test: compare `/shenlun` on the last known-good deployment URL with the current production deployment URL.
+
+### H2: The Shenlun backend is down
+- Supports: users experience the feature as unavailable.
+- Conflicts: the independent materials API returns 200 and current data.
+- Test: request the backend API directly.
+
+### H3: The custom domain or DNS is broken
+- Supports: the user reports the website is down.
+- Conflicts: root, Guokao, and favicon all return 200 through the same domain.
+- Test: compare routes on the same host and inspect the active alias target.
+
+### H4: The current main branch removed the route
+- Supports: a production 404 can be caused by route deletion.
+- Conflicts: `main` contains `/shenlun`, the proxy rewrite, and route contract tests.
+- Test: build the current branch and inspect its route manifest.
+
+## Experiments
+
+- The last known-good deployment `liyi-website-h7wfzo2gt-iheroings-projects.vercel.app` returns 200 for both `/shenlun` and `/shenlun-api/materials`.
+- The current alias target `liyi-website-mwgip2dfx-iheroings-projects.vercel.app` returns 404 for both routes.
+- The independent Sites backend returns 200, and current `main` passes all route tests and builds with `/shenlun` in the route manifest.
+- Result: H1 confirmed; H2, H3, and H4 rejected.
+
+## Root Cause
+
+A later Codex CLI deployment was created from the dirty, outdated `75e7cd4` checkout and replaced the production aliases after the complete Shenlun version had already been published.
+
+## Fix
+
+- Restore production aliases to the verified complete deployment.
+- Re-run route health checks for `/`, `/shenlun`, `/shenlun-api/materials`, `/guokao`, and `/icon.png`.
+- Keep this incident record so future deployment work checks the active alias source commit, not only whether a Vercel build is green.
+- Harden `publish-liyi-project` with a mandatory canonical-checkout and commit-provenance gate before editing and before deployment.
+- Remove the hourly production schedule; keep manual and post-push verification so prevention stays in the publishing path instead of recurring alerts.
