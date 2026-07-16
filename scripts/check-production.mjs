@@ -37,6 +37,12 @@ const pageChecks = [
     markers: ["诗骰", "掷出词面"],
     minBytes: 300,
   },
+  {
+    name: "AI 培训师",
+    url: "https://www.liyi.online/ai-trainer",
+    markers: ["华图AI培训师"],
+    minBytes: 300,
+  },
 ];
 
 const materialsUrl =

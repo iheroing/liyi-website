@@ -26,6 +26,14 @@ const nextConfig: NextConfig = {
         source: "/guokao/:path*",
         destination: "https://guokao-job-advisor.vercel.app/guokao/:path*",
       },
+      {
+        source: "/ai-trainer",
+        destination: "https://ai-trainer-report.vercel.app/ai-trainer/",
+      },
+      {
+        source: "/ai-trainer/:path*",
+        destination: "https://ai-trainer-report.vercel.app/ai-trainer/:path*",
+      },
     ];
   },
 };

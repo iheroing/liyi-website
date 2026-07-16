@@ -39,6 +39,14 @@ test("proxy route contracts remain configured", async () => {
       source: "/guokao/:path*",
       destination: "https://guokao-job-advisor.vercel.app/guokao/:path*",
     },
+    {
+      source: "/ai-trainer",
+      destination: "https://ai-trainer-report.vercel.app/ai-trainer/",
+    },
+    {
+      source: "/ai-trainer/:path*",
+      destination: "https://ai-trainer-report.vercel.app/ai-trainer/:path*",
+    },
   ]);
 });
 
@@ -85,6 +93,13 @@ test("homepage keeps the Guokao project introduction", async () => {
 
   assert.match(data, /name:\s*["']国考岗位智能推荐["']/);
   assert.match(data, /url:\s*["']\/guokao["']/);
+});
+
+test("homepage keeps the AI trainer project introduction", async () => {
+  const data = await readProjectFile("src/lib/data.ts");
+
+  assert.match(data, /name:\s*["']AI 培训师["']/);
+  assert.match(data, /url:\s*["']\/ai-trainer["']/);
 });
 
 test("only the custom site icon is present", async () => {
