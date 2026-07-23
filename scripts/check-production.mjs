@@ -43,6 +43,12 @@ const pageChecks = [
     markers: ["华图AI培训师"],
     minBytes: 300,
   },
+  {
+    name: "雪花密语",
+    url: "https://www.liyi.online/snowflake/",
+    markers: ["雪花密语", "Snowflake Whisper"],
+    minBytes: 1_000,
+  },
 ];
 
 const materialsUrl =

@@ -34,6 +34,14 @@ const nextConfig: NextConfig = {
         source: "/ai-trainer/:path*",
         destination: "https://ai-trainer-report.vercel.app/ai-trainer/:path*",
       },
+      {
+        source: "/snowflake",
+        destination: "https://snowflake-encryption-protocol.vercel.app/snowflake/",
+      },
+      {
+        source: "/snowflake/:path*",
+        destination: "https://snowflake-encryption-protocol.vercel.app/snowflake/:path*",
+      },
     ];
   },
 };

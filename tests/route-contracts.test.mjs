@@ -47,6 +47,14 @@ test("proxy route contracts remain configured", async () => {
       source: "/ai-trainer/:path*",
       destination: "https://ai-trainer-report.vercel.app/ai-trainer/:path*",
     },
+    {
+      source: "/snowflake",
+      destination: "https://snowflake-encryption-protocol.vercel.app/snowflake/",
+    },
+    {
+      source: "/snowflake/:path*",
+      destination: "https://snowflake-encryption-protocol.vercel.app/snowflake/:path*",
+    },
   ]);
 });
 
@@ -100,6 +108,13 @@ test("homepage keeps the AI trainer project introduction", async () => {
 
   assert.match(data, /name:\s*["']AI 培训师["']/);
   assert.match(data, /url:\s*["']\/ai-trainer["']/);
+});
+
+test("homepage keeps the Snowflake Whisper project introduction", async () => {
+  const data = await readProjectFile("src/lib/data.ts");
+
+  assert.match(data, /name:\s*["']雪花密语["']/);
+  assert.match(data, /url:\s*["']\/snowflake["']/);
 });
 
 test("only the custom site icon is present", async () => {
