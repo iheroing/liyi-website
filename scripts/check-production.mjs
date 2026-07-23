@@ -45,7 +45,7 @@ const pageChecks = [
   },
   {
     name: "雪花密语",
-    url: "https://www.liyi.online/snowflake/",
+    url: "https://www.liyi.online/snowflake",
     markers: ["雪花密语", "Snowflake Whisper"],
     minBytes: 1_000,
   },
