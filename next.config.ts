@@ -42,6 +42,14 @@ const nextConfig: NextConfig = {
         source: "/snowflake/:path*",
         destination: "https://snowflake-encryption-protocol.vercel.app/snowflake/:path*",
       },
+      {
+        source: "/atomizer",
+        destination: "https://knowledge-atomizer-web.vercel.app/atomizer",
+      },
+      {
+        source: "/atomizer/:path*",
+        destination: "https://knowledge-atomizer-web.vercel.app/atomizer/:path*",
+      },
     ];
   },
 };

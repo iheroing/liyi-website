@@ -55,6 +55,14 @@ test("proxy route contracts remain configured", async () => {
       source: "/snowflake/:path*",
       destination: "https://snowflake-encryption-protocol.vercel.app/snowflake/:path*",
     },
+    {
+      source: "/atomizer",
+      destination: "https://knowledge-atomizer-web.vercel.app/atomizer",
+    },
+    {
+      source: "/atomizer/:path*",
+      destination: "https://knowledge-atomizer-web.vercel.app/atomizer/:path*",
+    },
   ]);
 });
 
@@ -115,6 +123,13 @@ test("homepage keeps the Snowflake Whisper project introduction", async () => {
 
   assert.match(data, /name:\s*["']雪花密语["']/);
   assert.match(data, /url:\s*["']\/snowflake["']/);
+});
+
+test("homepage keeps the atomizer project introduction", async () => {
+  const data = await readProjectFile("src/lib/data.ts");
+
+  assert.match(data, /name:\s*["']原子笔记["']/);
+  assert.match(data, /url:\s*["']\/atomizer["']/);
 });
 
 test("only the custom site icon is present", async () => {

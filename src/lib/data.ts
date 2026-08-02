@@ -61,7 +61,7 @@ export const PROFILE = {
             { name: "雪花密语", url: "/snowflake", description: "把一句只说一次的话，凝结成独一无二的雪花；端到端加密，主动揭开后密文立即失效。" },
             { name: "爱闪记", url: "https://www.aishanji.com/", description: "AI 生成记忆卡片。用碎片时间，筑起知识宫殿。" },
             { name: "培训师工具箱", url: "https://www.huatupeixun.space/", description: "百款互动工具与教学模型。让课堂的每一秒都精彩。" },
-            { name: "知识原子化中台", url: "https://knowledge-atomizer-liyi.streamlit.app/", description: "知识颗粒的拆解与重组。让复用，成为可能。" }
+            { name: "原子笔记", url: "/atomizer", description: "将 Markdown、Word 和带大纲的 PDF 拆解为可复用的知识原子，并导出到 CSV、Obsidian 或飞书。" }
         ],
         enterprise: [
             { name: "华图培训管理系统", description: "践行数据治理与 AI First。让沉淀的数据成为燃料，接入智能体，为组织进化创造无限可能。" },

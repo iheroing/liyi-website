@@ -49,6 +49,12 @@ const pageChecks = [
     markers: ["雪花密语", "Snowflake Whisper"],
     minBytes: 1_000,
   },
+  {
+    name: "原子笔记",
+    url: "https://www.liyi.online/atomizer",
+    markers: ["原子笔记", "Knowledge Atomizer"],
+    minBytes: 1_000,
+  },
 ];
 
 const materialsUrl =
