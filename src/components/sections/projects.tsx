@@ -66,80 +66,111 @@ export function Projects() {
                     {featured.map((project, index) => {
                         const extensions = collected("collects" in project ? project.collects : undefined)
                         const url = "url" in project ? project.url : undefined
+                        // The first entry runs the full width and splits in two
+                        // inside. That gives the flagship its own rank, and stops
+                        // an odd number of cards from leaving a hole in the grid.
+                        const lead = index === 0
 
-                        return (
-                            <motion.article key={project.name} variants={rise}>
-                                <CardSpotlight className="h-full">
-                                    <div className="flex h-full flex-col p-7 md:p-8">
-                                        <span className="font-mono text-[0.66rem] uppercase tracking-[0.18em] text-ink-4">
-                                            {String(index + 1).padStart(2, "0")} — {project.label}
+                        const head = (
+                            <div className="flex flex-col">
+                                <span className="font-mono text-[0.66rem] uppercase tracking-[0.18em] text-ink-4">
+                                    {String(index + 1).padStart(2, "0")} — {project.label}
+                                </span>
+                                <h3
+                                    className={`headline mt-3 font-medium text-ink-1 ${lead ? "text-[1.85rem] md:text-[2.15rem]" : "text-2xl md:text-[1.75rem]"
+                                        }`}
+                                >
+                                    {project.name}
+                                </h3>
+                                <p
+                                    className={`mt-5 font-medium text-ink-1/90 ${lead ? "text-[1.15rem] leading-9 md:text-[1.25rem]" : "text-[1.05rem] leading-8"
+                                        }`}
+                                >
+                                    {project.headline}
+                                </p>
+                            </div>
+                        )
+
+                        const body = (
+                            <div className="flex flex-1 flex-col">
+                                <p className="text-sm font-light leading-7 text-ink-3 md:text-[0.95rem] md:leading-8">
+                                    {project.description}
+                                </p>
+
+                                <div className="mt-6 flex flex-wrap gap-2">
+                                    {project.focus.map((tag) => (
+                                        <span
+                                            key={tag}
+                                            className="rounded-full bg-foreground/[0.05] px-3 py-1 text-xs font-normal text-ink-3"
+                                        >
+                                            {tag}
                                         </span>
-                                        <h3 className="headline mt-3 text-2xl font-medium text-ink-1 md:text-[1.75rem]">
-                                            {project.name}
-                                        </h3>
+                                    ))}
+                                </div>
 
-                                        <p className="mt-5 text-[1.05rem] font-medium leading-8 text-ink-1/90">
-                                            {project.headline}
-                                        </p>
-                                        <p className="mt-3.5 text-sm font-light leading-7 text-ink-3 md:text-[0.95rem] md:leading-8">
-                                            {project.description}
-                                        </p>
+                                {/* Push the rest to the card floor so cards of unequal
+                                    content still line up along the bottom. */}
+                                <div className="flex-1" />
 
-                                        <div className="mt-6 flex flex-wrap gap-2">
-                                            {project.focus.map((tag) => (
-                                                <span
-                                                    key={tag}
-                                                    className="rounded-full bg-foreground/[0.05] px-3 py-1 text-xs font-normal text-ink-3"
-                                                >
-                                                    {tag}
-                                                </span>
+                                <div className="mt-7 border-t border-hairline pt-5">
+                                    <p className="text-sm font-light leading-7 text-ink-3">{project.note}</p>
+                                </div>
+
+                                {extensions.length > 0 ? (
+                                    <div className="mt-6">
+                                        <p className="mb-3 font-mono text-[0.62rem] uppercase tracking-[0.18em] text-ink-4">
+                                            插件入口
+                                        </p>
+                                        <div className="grid gap-2 sm:grid-cols-2">
+                                            {extensions.map((item) => (
+                                                <Pill key={item.name} href={item.url}>
+                                                    {item.name}
+                                                </Pill>
                                             ))}
                                         </div>
+                                    </div>
+                                ) : url ? (
+                                    <div className="mt-6">
+                                        <Link
+                                            href={url}
+                                            target={isExternal(url) ? "_blank" : undefined}
+                                            rel={isExternal(url) ? "noreferrer" : undefined}
+                                            className="group/link inline-flex w-fit items-center gap-2 rounded-full border border-hairline bg-surface-1 px-5 py-2.5 text-sm text-ink-2 transition-[color,background-color,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-transparent hover:bg-foreground hover:text-background"
+                                        >
+                                            查看项目
+                                            {isExternal(url) ? (
+                                                <ArrowUpRight
+                                                    className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5"
+                                                    strokeWidth={1.6}
+                                                />
+                                            ) : (
+                                                <ArrowRight
+                                                    className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/link:translate-x-0.5"
+                                                    strokeWidth={1.6}
+                                                />
+                                            )}
+                                        </Link>
+                                    </div>
+                                ) : null}
+                            </div>
+                        )
 
-                                        {/* Push the rest to the card floor so cards of unequal
-                                            content still line up along the bottom. */}
-                                        <div className="flex-1" />
-
-                                        <div className="mt-7 border-t border-hairline pt-5">
-                                            <p className="text-sm font-light leading-7 text-ink-3">{project.note}</p>
-                                        </div>
-
-                                        {extensions.length > 0 ? (
-                                            <div className="mt-6">
-                                                <p className="mb-3 font-mono text-[0.62rem] uppercase tracking-[0.18em] text-ink-4">
-                                                    插件入口
-                                                </p>
-                                                <div className="grid gap-2 sm:grid-cols-2">
-                                                    {extensions.map((item) => (
-                                                        <Pill key={item.name} href={item.url}>
-                                                            {item.name}
-                                                        </Pill>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        ) : url ? (
-                                            <div className="mt-6">
-                                                <Link
-                                                    href={url}
-                                                    target={isExternal(url) ? "_blank" : undefined}
-                                                    rel={isExternal(url) ? "noreferrer" : undefined}
-                                                    className="group/link inline-flex w-fit items-center gap-2 rounded-full border border-hairline bg-surface-1 px-5 py-2.5 text-sm text-ink-2 transition-[color,background-color,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-transparent hover:bg-foreground hover:text-background"
-                                                >
-                                                    查看项目
-                                                    {isExternal(url) ? (
-                                                        <ArrowUpRight
-                                                            className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5"
-                                                            strokeWidth={1.6}
-                                                        />
-                                                    ) : (
-                                                        <ArrowRight
-                                                            className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/link:translate-x-0.5"
-                                                            strokeWidth={1.6}
-                                                        />
-                                                    )}
-                                                </Link>
-                                            </div>
-                                        ) : null}
+                        return (
+                            <motion.article
+                                key={project.name}
+                                variants={rise}
+                                className={lead ? "md:col-span-2" : undefined}
+                            >
+                                <CardSpotlight className="h-full">
+                                    <div
+                                        className={
+                                            lead
+                                                ? "grid h-full gap-7 p-7 md:grid-cols-[0.82fr_1fr] md:gap-14 md:p-10"
+                                                : "flex h-full flex-col gap-5 p-7 md:p-8"
+                                        }
+                                    >
+                                        {head}
+                                        {body}
                                     </div>
                                 </CardSpotlight>
                             </motion.article>
