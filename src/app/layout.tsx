@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import { Analytics } from "@vercel/analytics/next"
+import { SITE_URL } from "@/lib/site"
 
 // Latin only — the CJK stack comes from the system, see globals.css. A full CJK
 // webfont would cost megabytes on a page that is mostly Chinese anyway.
@@ -32,14 +33,22 @@ const DESCRIPTION =
   "在教育现场，把复杂经验整理成可交付、可复用、可持续进化的 AI 工具、知识产品与工作流。";
 
 export const metadata: Metadata = {
+  // Without a base, every relative URL Next resolves for OG and canonical tags
+  // is guesswork; with it, the sitemap, the canonical and og:url all name the
+  // same origin the apex redirects to.
+  metadataBase: new URL(SITE_URL),
   title: "李弋 | 知识系统设计",
   description: DESCRIPTION,
   keywords: ["李弋", "知识系统", "教育科技", "AI 工作流", "培训师工具箱", "浏览器插件"],
   authors: [{ name: "李弋" }],
   creator: "李弋",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "zh_CN",
+    url: "/",
     siteName: "李弋 | 知识系统设计",
     title: "李弋 | 知识系统设计",
     description: DESCRIPTION,

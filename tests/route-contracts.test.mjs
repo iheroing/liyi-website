@@ -207,6 +207,23 @@ test("mounted apps do not inherit the personal-site chrome", async () => {
   await assert.rejects(access(new URL("src/app/(site)/shenlun", projectRoot)));
 });
 
+test("discovery files derive from the registry, not a hand-kept list", async () => {
+  const sitemap = await readProjectFile("src/app/sitemap.ts");
+  const robots = await readProjectFile("src/app/robots.ts");
+
+  // A literal path here means the next mount silently goes missing from the
+  // sitemap, which is exactly the drift the derived index avoids elsewhere.
+  assert.match(sitemap, /PROFILE\.products\.apps/);
+  assert.doesNotMatch(sitemap, /["']\/(?:shenlun|guokao|poetry-dice|snowflake|atomizer|ai-trainer)["']/);
+
+  assert.match(robots, /sitemap:/);
+  // The three OpenAI agents are separate controls; collapsing them into one
+  // rule silently changes what is opted in or out of.
+  for (const agent of ["OAI-SearchBot", "GPTBot", "ChatGPT-User"]) {
+    assert.match(robots, new RegExp(agent));
+  }
+});
+
 test("only the custom site icon is present", async () => {
   await assert.doesNotReject(access(new URL("src/app/icon.png", projectRoot)));
   await assert.rejects(access(new URL("src/app/favicon.ico", projectRoot)));
