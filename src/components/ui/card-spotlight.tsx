@@ -4,9 +4,12 @@ import { cn } from "@/lib/utils";
 import React, { useCallback, useRef, useState } from "react";
 
 /**
- * A card that tracks the cursor with a soft light. The highlight is derived
- * from --foreground, so it stays monochrome in both themes instead of the
- * purple tint the original shipped with.
+ * A card that tracks the cursor with a soft light.
+ *
+ * The two layers are themed through --spot-face and --spot-edge rather than
+ * hard-coded, because the effect cannot be the same in both modes: on a white
+ * card any face wash darkens, and a darkening "spotlight" reads as a smudge.
+ * Light mode lights the edge only; dark mode, which has headroom, lights both.
  */
 export const CardSpotlight = ({
     children,
@@ -55,7 +58,7 @@ export const CardSpotlight = ({
                 className="pointer-events-none absolute inset-0 transition-opacity duration-500"
                 style={{
                     opacity: active ? 1 : 0,
-                    background: `radial-gradient(420px circle at ${position.x}px ${position.y}px, color-mix(in oklab, var(--foreground) 5%, transparent), transparent 62%)`,
+                    background: `radial-gradient(420px circle at ${position.x}px ${position.y}px, var(--spot-face), transparent 62%)`,
                 }}
             />
             {/* The same light picked up on the border only — reads as a bevel. */}
@@ -64,7 +67,7 @@ export const CardSpotlight = ({
                 className="pointer-events-none absolute -inset-px rounded-[inherit] p-px transition-opacity duration-500"
                 style={{
                     opacity: active ? 1 : 0,
-                    background: `radial-gradient(380px circle at ${position.x}px ${position.y}px, color-mix(in oklab, var(--foreground) 26%, transparent), transparent 55%)`,
+                    background: `radial-gradient(380px circle at ${position.x}px ${position.y}px, var(--spot-edge), transparent 55%)`,
                     maskImage:
                         "linear-gradient(black, black) content-box, linear-gradient(black, black)",
                     WebkitMaskImage:

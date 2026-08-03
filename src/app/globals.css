@@ -114,6 +114,12 @@
     0 4px 12px rgba(16, 16, 18, 0.04);
   --inner-hi: inset 0 1px 0 rgba(255, 255, 255, 0.7);
 
+  /* Cursor spotlight. Cards here are pure white, so there is no headroom to
+     lighten — a face wash could only ever darken, which reads as a smudge
+     rather than as light. Light mode therefore lights the edge only. */
+  --spot-face: transparent;
+  --spot-edge: color-mix(in oklab, var(--foreground) 20%, transparent);
+
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.17 0 0);
   --sidebar-primary: oklch(0.17 0 0);
@@ -160,6 +166,10 @@
   --elev-2: 0 2px 8px rgba(0, 0, 0, 0.45), 0 8px 28px rgba(0, 0, 0, 0.35);
   --elev-3: 0 4px 16px rgba(0, 0, 0, 0.5), 0 20px 56px rgba(0, 0, 0, 0.42);
   --inner-hi: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  /* Dark surfaces do have headroom, so here the wash reads as illumination. */
+  --spot-face: color-mix(in oklab, white 5%, transparent);
+  --spot-edge: color-mix(in oklab, white 28%, transparent);
 
   --sidebar: oklch(0.196 0.009 250);
   --sidebar-foreground: oklch(0.97 0.003 250);
