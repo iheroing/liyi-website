@@ -4,13 +4,10 @@ import React, { useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Volume2, VolumeX } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { usePathname } from "next/navigation"
 
 export function SoundController() {
-    const pathname = usePathname()
     const [isPlaying, setIsPlaying] = useState(false)
     const audioRef = useRef<HTMLAudioElement | null>(null)
-    const [volume, setVolume] = useState(0)
 
     // Handle fade in/out
     useEffect(() => {
@@ -63,11 +60,9 @@ export function SoundController() {
         setIsPlaying(!isPlaying)
     }
 
-    if (pathname.startsWith("/shenlun")) return null
-
     return (
         <motion.div
-            className="fixed bottom-4 right-4 z-50 flex items-center justify-center"
+            className="fixed bottom-5 right-5 z-50 hidden items-center justify-center md:flex"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2, duration: 1 }}
@@ -75,11 +70,13 @@ export function SoundController() {
             <button
                 onClick={toggleSound}
                 className={cn(
-                    "relative group flex items-center justify-center w-10 h-10 rounded-full transition-all duration-500",
-                    "hover:bg-foreground/5 backdrop-blur-sm",
-                    isPlaying ? "text-foreground/80" : "text-muted-foreground/40"
+                    "group relative flex h-9 w-9 items-center justify-center rounded-full border border-hairline bg-surface-1/70 backdrop-blur-xl elev-1",
+                    "transition-[color,background-color,border-color,transform,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                    "hover:-translate-y-0.5 hover:border-foreground/20 hover:bg-surface-1 hover:elev-2",
+                    isPlaying ? "text-ink-1" : "text-ink-4"
                 )}
-                aria-label="Toggle ambient sound"
+                aria-label={isPlaying ? "关闭环境音" : "播放环境音"}
+                aria-pressed={isPlaying}
             >
                 {/* Visualizer Effect */}
                 {isPlaying && (
@@ -105,7 +102,7 @@ export function SoundController() {
                                 animate={{ scale: 1, opacity: 1 }}
                                 exit={{ scale: 0.5, opacity: 0 }}
                             >
-                                <Volume2 className="w-5 h-5" strokeWidth={1.5} />
+                                <Volume2 className="h-[1.05rem] w-[1.05rem]" strokeWidth={1.5} />
                             </motion.div>
                         ) : (
                             <motion.div
@@ -114,7 +111,7 @@ export function SoundController() {
                                 animate={{ scale: 1, opacity: 1 }}
                                 exit={{ scale: 0.5, opacity: 0 }}
                             >
-                                <VolumeX className="w-5 h-5" strokeWidth={1.5} />
+                                <VolumeX className="h-[1.05rem] w-[1.05rem]" strokeWidth={1.5} />
                             </motion.div>
                         )}
                     </AnimatePresence>
