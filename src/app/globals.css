@@ -1,56 +1,30 @@
 @import "tailwindcss";
-@import "tw-animate-css";
+@import "../../node_modules/tw-animate-css/dist/tw-animate.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-heading: var(--font-heading);
-  --font-serif: var(--font-serif);
+  /* These must NOT be named --font-sans/--font-mono on both sides: a theme key
+     whose value is var(<same key>) self-references, gets dropped, and Tailwind
+     silently falls back to its built-in stack. */
+  --font-sans: var(--stack-sans);
+  --font-heading: var(--stack-heading);
+  --font-serif: var(--stack-serif);
+  --font-mono: var(--stack-mono);
 
-  --animate-aurora: aurora 60s linear infinite;
+  /* Ink scale — the only greys allowed for text.
+     1 headings · 2 body · 3 secondary · 4 meta/eyebrow */
+  --color-ink-1: var(--ink-1);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-ink-4: var(--ink-4);
 
-  @keyframes aurora {
-    from {
-      background-position: 50% 50%, 50% 50%;
-    }
-
-    to {
-      background-position: 350% 50%, 350% 50%;
-    }
-  }
-
-  /* Shimmer Button Animations */
-  @keyframes spin-around {
-    0% {
-      transform: translateZ(0) rotate(0);
-    }
-
-    15%,
-    35% {
-      transform: translateZ(0) rotate(90deg);
-    }
-
-    65%,
-    85% {
-      transform: translateZ(0) rotate(270deg);
-    }
-
-    100% {
-      transform: translateZ(0) rotate(360deg);
-    }
-  }
-
-  @keyframes slide {
-    to {
-      transform: translate(calc(100cqw - 100%), 0);
-    }
-  }
-
-  --spotlight-color: 120 119 198;
-  /* Purple-ish */
+  /* Surface scale — elevation by lightness, not by shadow alone. */
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-hairline: var(--hairline);
 
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -60,11 +34,6 @@
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -91,79 +60,123 @@
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.75rem;
+
+  /* Latin webfont first, CJK from the system — a full CJK webfont would cost
+     megabytes on a page that is mostly Chinese anyway. */
+  --stack-sans: var(--font-inter), "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+  --stack-heading: var(--font-inter), "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+  /* Cormorant stays in front for Latin: /shenlun is a long-form reading surface
+     that sets font-serif, and dropping it would restyle that page. It has no
+     CJK coverage, so Chinese falls through to Songti either way. */
+  --stack-serif: var(--font-cormorant), "Songti SC", "STSong",
+    "Noto Serif CJK SC", Georgia, serif;
+  --stack-mono: var(--font-mono-latin), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Warm paper white — pure #fff reads clinical at this scale. */
   --background: oklch(0.988 0.002 90);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(0.988 0.002 90);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(0.988 0.002 90);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.45 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --surface-1: oklch(1 0 0);
+  --surface-2: oklch(0.972 0.002 90);
+  --hairline: oklch(0.9 0.002 90);
+
+  --foreground: oklch(0.17 0 0);
+  /* Every step clears WCAG AA (4.5:1) against --background and --surface-1,
+     including ink-4, which carries the 11px eyebrows. */
+  --ink-1: oklch(0.17 0 0);
+  --ink-2: oklch(0.36 0 0);
+  --ink-3: oklch(0.48 0 0);
+  --ink-4: oklch(0.542 0 0);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.17 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.17 0 0);
+  --primary: oklch(0.17 0 0);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.965 0.002 90);
+  --secondary-foreground: oklch(0.22 0 0);
+  --muted: oklch(0.965 0.002 90);
+  --muted-foreground: oklch(0.48 0 0);
+  --accent: oklch(0.965 0.002 90);
+  --accent-foreground: oklch(0.22 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --border: oklch(0.9 0.002 90);
+  --input: oklch(0.9 0.002 90);
+  --ring: oklch(0.17 0 0);
+
+  /* Elevation: three steps, tuned tight so cards lift without smearing. */
+  --elev-1: 0 1px 2px rgba(16, 16, 18, 0.04), 0 4px 12px rgba(16, 16, 18, 0.035);
+  --elev-2: 0 1px 2px rgba(16, 16, 18, 0.04), 0 8px 24px rgba(16, 16, 18, 0.05),
+    0 2px 6px rgba(16, 16, 18, 0.03);
+  --elev-3: 0 2px 4px rgba(16, 16, 18, 0.04), 0 16px 48px rgba(16, 16, 18, 0.07),
+    0 4px 12px rgba(16, 16, 18, 0.04);
+  --inner-hi: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+
   --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.17 0 0);
+  --sidebar-primary: oklch(0.17 0 0);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-accent: oklch(0.965 0.002 90);
+  --sidebar-accent-foreground: oklch(0.22 0 0);
+  --sidebar-border: oklch(0.9 0.002 90);
+  --sidebar-ring: oklch(0.17 0 0);
 }
 
 .dark {
-  --background: oklch(0.1 0.01 240);
-  /* Richer dark blue-black */
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  /* One hue (250) across the whole dark ramp — the old theme mixed a blue-black
+     background with neutral-grey cards, which read as muddy. */
+  --background: oklch(0.155 0.008 250);
+  --surface-1: oklch(0.196 0.009 250);
+  --surface-2: oklch(0.23 0.01 250);
+  --hairline: oklch(0.32 0.01 250);
+
+  --foreground: oklch(0.97 0.003 250);
+  --ink-1: oklch(0.97 0.003 250);
+  --ink-2: oklch(0.86 0.006 250);
+  --ink-3: oklch(0.745 0.008 250);
+  --ink-4: oklch(0.645 0.009 250);
+
+  --card: oklch(0.196 0.009 250);
+  --card-foreground: oklch(0.97 0.003 250);
+  --popover: oklch(0.196 0.009 250);
+  --popover-foreground: oklch(0.97 0.003 250);
+  --primary: oklch(0.97 0.003 250);
+  --primary-foreground: oklch(0.18 0.008 250);
+  --secondary: oklch(0.245 0.01 250);
+  --secondary-foreground: oklch(0.97 0.003 250);
+  --muted: oklch(0.245 0.01 250);
+  --muted-foreground: oklch(0.745 0.008 250);
+  --accent: oklch(0.245 0.01 250);
+  --accent-foreground: oklch(0.97 0.003 250);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
+  --border: oklch(1 0 0 / 11%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --ring: oklch(0.72 0.01 250);
+
+  /* Shadows barely read on dark. Carry elevation with a top highlight instead. */
+  --elev-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --elev-2: 0 2px 8px rgba(0, 0, 0, 0.45), 0 8px 28px rgba(0, 0, 0, 0.35);
+  --elev-3: 0 4px 16px rgba(0, 0, 0, 0.5), 0 20px 56px rgba(0, 0, 0, 0.42);
+  --inner-hi: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  --sidebar: oklch(0.196 0.009 250);
+  --sidebar-foreground: oklch(0.97 0.003 250);
+  --sidebar-primary: oklch(0.97 0.003 250);
+  --sidebar-primary-foreground: oklch(0.18 0.008 250);
+  --sidebar-accent: oklch(0.245 0.01 250);
+  --sidebar-accent-foreground: oklch(0.97 0.003 250);
+  --sidebar-border: oklch(1 0 0 / 11%);
+  --sidebar-ring: oklch(0.72 0.01 250);
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+    /* Keep anchored sections clear of the floating header. */
+    scroll-padding-top: 6.5rem;
   }
 
   ::selection {
@@ -172,22 +185,96 @@
   }
 
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
 
   body {
-    @apply bg-background text-foreground leading-relaxed tracking-wide;
+    @apply bg-background text-foreground;
+    font-feature-settings: "kern", "liga", "calt";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     overflow-x: hidden;
   }
 
-  .shadow-premium {
-    box-shadow:
-      0 2px 4px rgba(0, 0, 0, 0.02),
-      0 10px 20px rgba(0, 0, 0, 0.04),
-      0 20px 40px rgba(0, 0, 0, 0.04);
+  /* Visible, consistent keyboard focus. The previous rule hung the ring on `*`,
+     so it never actually landed on the elements that matter. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 
-  .text-shadow-premium {
-    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  /* CJK punctuation must not start a line, and Chinese must not break the way
+     Latin `break-words` does. */
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  li {
+    line-break: strict;
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+}
+
+@layer utilities {
+  /* Headline treatment for mixed CJK/Latin: balanced ragging, plus tracking
+     that tightens Latin without crushing Chinese glyphs. */
+  .headline {
+    text-wrap: balance;
+    letter-spacing: -0.012em;
+  }
+
+  .measure {
+    max-width: 38em;
+    text-wrap: pretty;
+  }
+
+  .elev-1 {
+    box-shadow: var(--elev-1);
+  }
+
+  .elev-2 {
+    box-shadow: var(--elev-2);
+  }
+
+  .elev-3 {
+    box-shadow: var(--elev-3);
+  }
+
+  .elev-2-hi {
+    box-shadow: var(--elev-2), var(--inner-hi);
+  }
+
+  .elev-3-hi {
+    box-shadow: var(--elev-3), var(--inner-hi);
+  }
+
+  /* Hairline rule that fades at both ends — separates sections without drawing
+     a hard box around them. */
+  .rule-fade {
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent,
+        var(--hairline) 18%,
+        var(--hairline) 82%,
+        transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }
