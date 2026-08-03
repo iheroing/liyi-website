@@ -1,10 +1,8 @@
-import { Github, Twitter, Mail, MapPin, Linkedin, Link as LinkIcon, Download } from "lucide-react"
-
 export const PROFILE = {
     name: "李弋",
-    title: "Knowledge Architect",
-    role: "Medicine · Code · Evolution",
-    bio: "这是我的数字花园。在这里，我作为一名「知识架构师」，试着向世界解释我是谁。",
+    title: "知识系统设计者",
+    role: "Education · Medicine · AI Workflow",
+    bio: "把教育现场里的复杂经验，整理成可交付、可复用、可持续进化的系统。",
     location: "北京",
     email: "sjtuliyi@163.com",
     socials: {
@@ -18,34 +16,52 @@ export const PROFILE = {
         about: "关于",
         experience: "经历",
         projects: "作品",
+        philosophy: "方法",
         contact: "联系",
     },
     hero: {
+        eyebrow: "Li Yi · Knowledge Systems",
+        title: ["在教育现场，", "把复杂经验", "变成系统。"],
+        description: "我在医学、教育与代码之间工作。关注那些难以被标准化的经验：课堂判断、教研流程、报考决策、组织培训，以及它们如何被 AI 和工具重新整理、放大和交付。",
         cta_contact: "与我联系",
-        cta_contact_en: "Get in Touch",
-        cta_projects: "探索作品",
-        cta_projects_en: "View Projects",
+        cta_projects: "看代表作品",
         scroll: "以手抵心，上下求索",
+        coordinates: [
+            { label: "Field", value: "教育现场", text: "从真实课堂、培训组织和教研管理里提取问题。" },
+            { label: "System", value: "知识结构", text: "把隐性经验拆成流程、指标、规则和界面。" },
+            { label: "Tool", value: "AI 工作流", text: "用代码和智能体把判断变成可运行的工具。" },
+            { label: "Temper", value: "医学底色", text: "保留证据意识、边界感和对复杂性的尊重。" },
+        ],
     },
-    summary: "医学赋予我严谨，代码赋予我自由。但标签终将过时，唯有进化永恒。在 AI 带来的「智力平权」时代，我不再被单一的专家身份定义。致力于探索人机共生的边界，因为我相信：AI 时代，我们唯一的宿命是无限进步。",
-    avatar: "/placeholder.jpg",
+    summary: "我不太相信抽象的“技术改变教育”。我更关心 AI 如何进入真实流程：减少重复劳动，放大专业判断，让经验不再只停留在某个优秀个体身上，而是可以被复用、被检验、被继续生长。",
+    tags: ["教育现场", "知识系统", "AI Workflow", "工具工程", "医学训练"],
     identities: [
         {
-            role: "教育实践者",
+            role: "现场的人",
             title: "Education Practitioner",
-            description: "在华图教育的一线。我不迷信头衔，只相信「在现场」的力量。培养人，是一场需要耐心的农业活动。"
+            description: "长期在培训、教研和师资培养的一线工作。很多工具不是从概念出发，而是从现场反复出现的低效、误判和沟通成本里长出来的。"
         },
         {
-            role: "独立开发者",
-            title: "Indie Developer",
-            description: "多款 5⭐ 浏览器插件与教育工具的创造者。Claude Code 与 Codex 让智力平权成为可能，我只是那个善用工具的表达者。"
+            role: "造工具的人",
+            title: "Tool Builder",
+            description: "用插件、Web 应用、内部系统和自动化流程，把个人判断变成可复用的工作界面。工具不追求炫技，先追求能被真实使用。"
         },
         {
-            role: "AI 智能体架构师",
-            title: "AI Workflow Architect",
-            description: "拒绝「对话框式」的浅层交互。我致力于构建人机共生的『数字外壳』，在算法的密林中，为人类认知寻找更轻盈的落点。"
+            role: "拆系统的人",
+            title: "Knowledge Systems",
+            description: "习惯把复杂知识拆成结构，把模糊经验拆成规则，把一次性交付拆成可迭代系统。医学训练给了我证据感，代码给了我表达方式。"
         }
     ],
+
+    /**
+     * Machine-facing registry of everything shipped. The publish-liyi-project
+     * skill appends an entry here on every new mount, and
+     * tests/route-contracts.test.mjs asserts these names and urls by regex.
+     *
+     * Do not restructure or rename. Editorial emphasis belongs in `featured`
+     * below; anything here that is not featured still surfaces automatically in
+     * the project index, so a newly mounted app needs no further homepage edit.
+     */
     products: {
         extensions: [
             { name: "MarkWord", version: "v2.1", status: "5星", description: "Markdown 转 Word，保留完美格式。文档转换，从此不再痛苦。", url: "https://chromewebstore.google.com/detail/markword-markdown%E8%BD%ACword%E7%A5%9E%E5%99%A8/nfcbgjehfbamkkgloincpebmmdfhnoje?authuser=0&hl=zh-CN" },
@@ -69,30 +85,97 @@ export const PROFILE = {
             { name: "AI 师资个性化培训", description: "AI 辅助的师资成长引擎。为每一位讲师，打造独一无二的进化方案。" }
         ]
     },
+
+    /**
+     * Editorial layer: a handful of products told properly. Each entry points
+     * back into `products` — by `url` for a single app, by `collects` for a
+     * group — so nothing here can drift into describing something unshipped.
+     * Promotion is a deliberate act; mounting is not.
+     */
+    featured: [
+        {
+            name: "培训师工具箱",
+            label: "Teaching Tools",
+            url: "https://www.huatupeixun.space/",
+            headline: "把课堂里的临场经验，沉淀成可复用的教学工具。",
+            description: "面向培训师和教研团队的工具集合，覆盖课堂互动、讲解组织、题目拆解、活动设计等高频教学场景。它不是一个“工具合集”的展示页，而是一次把一线教学经验产品化的尝试。",
+            focus: ["课堂现场", "教学模型", "工具矩阵", "高频复用"],
+            note: "代表我的核心母题：不是让 AI 替代教师，而是把优秀教师的工作方式拆出来、做成可被更多人使用的结构。"
+        },
+        {
+            name: "浏览器插件矩阵",
+            label: "Browser Extensions",
+            collects: ["MarkWord", "书映 MindFlow", "Code2HTML Pro", "文档查重助手 Pro"],
+            headline: "围绕文档、阅读和代码交付，做一组轻量但高频的生产力工具。",
+            description: "解决的是知识工作里最具体的摩擦：格式转换、阅读结构化、代码展示、教研质检。每一个都小到可以在一次会议的间隙里用完。",
+            focus: ["Chrome 插件", "文档工作流", "阅读结构化", "轻量交付"],
+            note: "这些小工具的价值不在宏大，而在足够贴近人的日常动作：一键、稳定、少解释。"
+        },
+        {
+            name: "申论素材库",
+            label: "Reading System",
+            url: "/shenlun",
+            headline: "让每天读到的时政材料，变成可检索、可追溯的写作弹药。",
+            description: "持续汇集权威来源，由 AI 提炼观点、数据和申论用法，再把全文与精读标注装订在同一个阅读界面里。原文永远可回溯，判断永远有出处。",
+            focus: ["每日更新", "AI 提炼", "全文精读", "来源可溯"],
+            note: "我想验证一件事：AI 做摘要不难，难的是让人愿意回到原文。所以这里把“回到原文”做成了最短路径。"
+        },
+        {
+            name: "国考岗位智能推荐",
+            label: "Decision System",
+            url: "/guokao",
+            headline: "从岗位查询工具，走向可解释的报考决策系统。",
+            description: "先做硬条件筛选，再解释专业匹配、分数余量、审核竞争、限制条件和招录规模，帮助考生形成更可信的报考方案。",
+            focus: ["决策解释", "条件筛选", "对比池", "咨询报告"],
+            note: "把咨询师的判断过程拆开，让机器推荐不只给分数，也给理由。"
+        }
+    ],
+
+    method: [
+        { step: "01", title: "到现场去", description: "先看真实工作怎么发生：谁在判断，哪里重复，哪些环节靠经验硬撑。" },
+        { step: "02", title: "拆成结构", description: "把模糊经验拆成对象、规则、指标、例外和交互，不急着套 AI。" },
+        { step: "03", title: "做成工具", description: "用最小可用界面承载判断，让工具在真实流程里被试用，而不是停在 Demo。" },
+        { step: "04", title: "交付证据", description: "重要系统必须能解释：为什么推荐、依据是什么、边界在哪里、谁需要复核。" },
+        { step: "05", title: "持续进化", description: "系统上线不是结束。每次反馈都应该让知识结构变得更清晰，而不是只修补表层问题。" }
+    ],
+    thinking: [
+        {
+            title: "AI 不是对话框，而是流程的重新布线。",
+            description: "真正有用的 AI 落地，往往不是多一个入口，而是让信息、判断和动作在原流程里少绕几圈。"
+        },
+        {
+            title: "工具的美感，来自对工作现场的尊重。",
+            description: "一个按钮、一段解释、一个默认排序，背后都应该有对用户处境的理解。否则再精致也只是界面。"
+        },
+        {
+            title: "教育产品最难的不是生成内容，而是保存判断。",
+            description: "好的教师留下的不只是讲义，还有取舍、节奏、比喻、追问和临场修正。系统要想办法承接这些东西。"
+        }
+    ],
     experience: [
         {
             period: "2025 - 至今",
-            role: "教育实践者",
+            role: "师资培养与教育系统设计",
             company: "华图教育培训学院",
-            description: "负责师资培养体系。去行政化，回归教育本质。在这里，我们打造高密度的学习型组织。"
-        },
-        {
-            period: "2025.09 - 2025.12",
-            role: "商业观察者",
-            company: "华图教育集团",
-            description: "以产品经理的视角审视业务。战略不是高谈阔论，而是对市场细节的极致敏锐。"
+            description: "负责师资培养体系与培训工具建设。在真实教学组织中，把讲师成长、课程交付和教研协作转化为可运行的流程。"
         },
         {
             period: "2021 - 至今",
-            role: "医疗产品人",
+            role: "医疗教研与产品建设",
             company: "华图医疗研究院",
-            description: "从 0 到 1 搭建医疗教研体系。比起管理团队，我更享受在一线打磨产品的过程。"
+            description: "从医学教研、课程产品到交付系统，持续处理复杂知识如何被讲清楚、练扎实、管起来的问题。"
         },
         {
             period: "2017 - 2021",
-            role: "资深讲师",
+            role: "医学讲师",
             company: "华图教育",
-            description: "10,000+ 小时授课积淀。讲台是最好的试炼场，用极简逻辑，诠释复杂医学考点。"
+            description: "在 10,000+ 小时授课和备课中训练表达、结构化和即时反馈能力。讲台是我理解“用户现场”的第一所学校。"
+        },
+        {
+            period: "长期进行中",
+            role: "独立开发与 AI 工作流实践",
+            company: "个人项目",
+            description: "持续构建浏览器插件、教学工具、知识产品和自动化流程，探索一个人如何借助 AI 与代码完成更高密度的创造。"
         }
     ],
     education: [
@@ -100,13 +183,13 @@ export const PROFILE = {
             period: "2014 - 2017",
             degree: "肿瘤学硕士",
             school: "上海交通大学医学院",
-            description: "在严谨的肿瘤科研中，完成了数理逻辑与循证医学的双重洗礼。这段底色，决定了日后每一行代码的精确与克制。"
+            description: "医学科研训练让我习惯证据、边界和复杂系统。很多产品判断，后来都受这段训练影响。"
         },
         {
             period: "2009 - 2014",
             degree: "临床医学学士",
             school: "中南大学湘雅医学院",
-            description: "「公勇勤慎，诚爱谦廉」——不仅是医学准则，也是我的人生信条。"
+            description: "临床医学给我的不是一个固定身份，而是一套面对不确定性的工作方式。"
         }
     ],
     honors: [
@@ -116,13 +199,4 @@ export const PROFILE = {
         "年度创新奖",
         "春华秋实奖"
     ],
-    tags: ["Vibecoding", "Product Engineering", "System Thinking", "AI First", "Evidence-Based"],
-    philosophy: [
-        { title: "智力平权", description: "AI 抹平了专业与业余的鸿沟。Claude Code 与 Codex 让想象力成为唯一的门槛。" },
-        { title: "原子化内容", description: "喜欢 Obsidian 的颗粒度。将庞大的知识体系拆解为原子，重组为无限可能。" },
-        { title: "AI First", description: "不是在旧流程中加入 AI，而是以 AI 为第一性原理重构一切。" },
-        { title: "心流教学", description: "告别填鸭式灌输。让知识像河流，自然流入大脑。" },
-        { title: "稀缺性转移", description: "'怎么做'变得廉价，'做什么'成为稀缺。人类的价值，在于定方向。" },
-        { title: "率先垂范", description: "要求团队创新之前，自己先做出 Demo。管理者是探路者，不是指挥官。" }
-    ]
 }

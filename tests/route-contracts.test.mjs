@@ -132,6 +132,61 @@ test("homepage keeps the atomizer project introduction", async () => {
   assert.match(data, /url:\s*["']\/atomizer["']/);
 });
 
+test("every mounted app is reachable from the homepage", async () => {
+  const data = await readProjectFile("src/lib/data.ts");
+  const config = await readProjectFile("next.config.ts");
+
+  // Slugs mounted through rewrites, ignoring the :path* companions and the
+  // API-only proxy.
+  const mounted = new Set(
+    rewritePairs(config)
+      .map(({ source }) => source)
+      .filter((source) => !source.includes(":path*") && !source.endsWith("-api")),
+  );
+
+  const listed = new Set(
+    [...data.matchAll(/url:\s*["'](\/[^"']+)["']/g)].map(([, url]) => url),
+  );
+
+  for (const slug of mounted) {
+    assert.ok(
+      listed.has(slug),
+      `${slug} is mounted but nothing on the homepage links to it`,
+    );
+  }
+});
+
+test("featured work only promotes things that actually shipped", async () => {
+  const data = await readProjectFile("src/lib/data.ts");
+
+  const featuredBlock = data.slice(
+    data.indexOf("featured: ["),
+    data.indexOf("method: ["),
+  );
+  assert.ok(featuredBlock.length > 0, "featured block not found in data.ts");
+
+  const productsBlock = data.slice(
+    data.indexOf("products: {"),
+    data.indexOf("featured: ["),
+  );
+
+  for (const [, url] of featuredBlock.matchAll(/url:\s*["']([^"']+)["']/g)) {
+    assert.ok(
+      productsBlock.includes(`"${url}"`),
+      `featured url ${url} is not present in products`,
+    );
+  }
+
+  for (const [, group] of featuredBlock.matchAll(/collects:\s*\[([^\]]+)\]/g)) {
+    for (const [, name] of group.matchAll(/["']([^"']+)["']/g)) {
+      assert.ok(
+        productsBlock.includes(`"${name}"`),
+        `featured entry collects "${name}", which is not in products`,
+      );
+    }
+  }
+});
+
 test("only the custom site icon is present", async () => {
   await assert.doesNotReject(access(new URL("src/app/icon.png", projectRoot)));
   await assert.rejects(access(new URL("src/app/favicon.ico", projectRoot)));
