@@ -49,6 +49,12 @@ export const metadata: Metadata = {
   // of the site to Google and grants nothing to anyone who reads it.
   verification: {
     google: "rXrAfOPorhVsIMNdxF9slmQ6xPico4Xg78yGbdIyCa0",
+    other: {
+      // Bing. Verified by meta tag rather than by importing the Search Console
+      // property, so Microsoft is never granted read access to the Google
+      // account — same result, one fewer cross-vendor authorisation.
+      "msvalidate.01": "BCFFE9A57381DC72F27C37C96CC458C4",
+    },
   },
   openGraph: {
     type: "website",
