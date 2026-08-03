@@ -187,6 +187,26 @@ test("featured work only promotes things that actually shipped", async () => {
   }
 });
 
+test("mounted apps do not inherit the personal-site chrome", async () => {
+  const root = await readProjectFile("src/app/layout.tsx");
+  const site = await readProjectFile("src/app/(site)/layout.tsx");
+
+  // Header/Footer/SoundController in the root layout would render on top of
+  // /shenlun and every future mounted app, stacking two navigations.
+  for (const chrome of ["Header", "Footer", "SoundController"]) {
+    assert.doesNotMatch(
+      root,
+      new RegExp(`<${chrome}\\s*/>`),
+      `${chrome} belongs in src/app/(site)/layout.tsx, not the root layout`,
+    );
+    assert.match(site, new RegExp(`<${chrome}\\s*/>`));
+  }
+
+  // /shenlun must stay outside the (site) group.
+  await assert.doesNotReject(access(new URL("src/app/shenlun/page.tsx", projectRoot)));
+  await assert.rejects(access(new URL("src/app/(site)/shenlun", projectRoot)));
+});
+
 test("only the custom site icon is present", async () => {
   await assert.doesNotReject(access(new URL("src/app/icon.png", projectRoot)));
   await assert.rejects(access(new URL("src/app/favicon.ico", projectRoot)));

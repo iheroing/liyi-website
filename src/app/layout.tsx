@@ -2,9 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
-import { Header } from "@/components/layout/header"
-import { Footer } from "@/components/layout/footer"
-import { SoundController } from "@/components/ui/sound-controller"
 import { Analytics } from "@vercel/analytics/next"
 
 // Latin only — the CJK stack comes from the system, see globals.css. A full CJK
@@ -91,23 +88,17 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-screen flex-col font-sans antialiased">
+        {/* Site chrome — header, footer, ambient sound — lives in the (site)
+            route group, not here. Mounted apps such as /shenlun ship their own
+            full-page interface and their own way back home; rendering the
+            personal-site nav on top of them stacks two headers. */}
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <a
-            href="#projects"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-foreground focus:px-5 focus:py-2.5 focus:text-sm focus:text-background"
-          >
-            跳到主要内容
-          </a>
-          <Header />
-          {/* page.tsx supplies its own <main>; a second one here would nest them. */}
-          <div className="flex-1">{children}</div>
-          <Footer />
-          <SoundController />
+          {children}
           <Analytics />
         </ThemeProvider>
       </body>
