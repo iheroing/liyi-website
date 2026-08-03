@@ -45,6 +45,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  // Ownership proof for Search Console. Public by design — it proves control
+  // of the site to Google and grants nothing to anyone who reads it.
+  verification: {
+    google: "rXrAfOPorhVsIMNdxF9slmQ6xPico4Xg78yGbdIyCa0",
+  },
   openGraph: {
     type: "website",
     locale: "zh_CN",
