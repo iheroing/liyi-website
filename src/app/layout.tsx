@@ -52,10 +52,17 @@ export const metadata: Metadata = {
     title: "李弋 | 知识系统设计",
     description: DESCRIPTION,
   },
+  // The SVG is 1.9 KB and stays sharp at every size, so modern browsers should
+  // take it; the PNG is the fallback, and .ico covers old Windows shortcuts.
+  // Serving one 1024px raster to all three slots meant every visitor paid for
+  // the largest asset just to draw a 16px tab icon.
   icons: {
-    icon: "/icon.png",
-    shortcut: "/icon.png",
-    apple: "/icon.png",
+    icon: [
+      { url: "/brand-icon.svg", type: "image/svg+xml" },
+      { url: "/icon.png", sizes: "512x512", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
   },
 };
 
