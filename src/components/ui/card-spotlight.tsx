@@ -61,19 +61,29 @@ export const CardSpotlight = ({
                     background: `radial-gradient(420px circle at ${position.x}px ${position.y}px, var(--spot-face), transparent 62%)`,
                 }}
             />
-            {/* The same light picked up on the border only — reads as a bevel. */}
+            {/* The same light picked up on the border only — reads as a bevel.
+                The two mask layers are clipped to different boxes and then
+                excluded, leaving just the 1px ring between them. Note the
+                longhands: `mask-image` only accepts images, so folding
+                `content-box` into it makes the whole declaration invalid and the
+                mask silently resolves to none — which paints the full gradient
+                across the card face instead of its edge. */}
             <div
                 aria-hidden
                 className="pointer-events-none absolute -inset-px rounded-[inherit] p-px transition-opacity duration-500"
                 style={{
                     opacity: active ? 1 : 0,
                     background: `radial-gradient(380px circle at ${position.x}px ${position.y}px, var(--spot-edge), transparent 55%)`,
-                    maskImage:
-                        "linear-gradient(black, black) content-box, linear-gradient(black, black)",
-                    WebkitMaskImage:
-                        "linear-gradient(black, black) content-box, linear-gradient(black, black)",
-                    maskComposite: "exclude",
+                    // Prefixed first, standard last, so the standard property
+                    // wins wherever both are understood.
+                    WebkitMaskImage: "linear-gradient(#000 0 0), linear-gradient(#000 0 0)",
+                    WebkitMaskClip: "content-box, border-box",
+                    WebkitMaskOrigin: "content-box, border-box",
                     WebkitMaskComposite: "xor",
+                    maskImage: "linear-gradient(#000 0 0), linear-gradient(#000 0 0)",
+                    maskClip: "content-box, border-box",
+                    maskOrigin: "content-box, border-box",
+                    maskComposite: "exclude",
                 }}
             />
 
