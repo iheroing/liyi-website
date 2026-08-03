@@ -1,136 +1,75 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Brain, Code, MapPin } from "lucide-react"
+import { SectionHeading } from "@/components/ui/section-heading"
 import { PROFILE } from "@/lib/data"
-import { User, Code, Brain } from "lucide-react"
+import { VIEWPORT, rise, stagger } from "@/lib/motion"
 
 const iconMap = {
-    "教育管理者": User,
-    "全栈开发者": Code,
-    "AI 先行者": Brain
-}
-
-// Stagger animation variants
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.15,
-            delayChildren: 0.2
-        }
-    }
-}
-
-const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.6,
-            ease: [0.22, 1, 0.36, 1] as const
-        }
-    }
+    "现场的人": MapPin,
+    "造工具的人": Code,
+    "拆系统的人": Brain,
 }
 
 export function About() {
     return (
-        <section id="about" className="py-28 md:py-36 bg-muted/20">
-            <div className="container px-6 md:px-8 max-w-4xl mx-auto">
-                {/* Section Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                    className="flex flex-col items-center text-center mb-20"
-                >
-                    <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground/60 mb-4">About Me</span>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight font-heading">关于我</h2>
-                    <motion.div
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                        className="w-16 h-[2px] bg-foreground/10 mt-8 origin-left"
-                    />
-                </motion.div>
+        <section id="about" className="relative bg-surface-2 py-24 md:py-32">
+            <div className="container mx-auto max-w-6xl px-6 md:px-8">
+                <SectionHeading
+                    eyebrow="About"
+                    title="不是跨界，"
+                    subtitle="是同一个问题的不同侧面。"
+                    lede={PROFILE.summary}
+                />
 
-                {/* Bio Section */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                    className="text-center mb-16"
-                >
-                    <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto font-light">
-                        {PROFILE.summary}
-                    </p>
-                    <motion.div
-                        className="flex flex-wrap gap-2 justify-center mt-8"
-                        variants={containerVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                    >
-                        {PROFILE.tags.map((tag, i) => (
-                            <motion.div key={tag} variants={itemVariants}>
-                                <Badge
-                                    variant="secondary"
-                                    className="text-sm py-1.5 px-4 font-normal tracking-wide hover:bg-primary/10 transition-colors duration-300"
-                                >
-                                    {tag}
-                                </Badge>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </motion.div>
-
-                {/* Identity Cards */}
-                <motion.div
-                    className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
-                    variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
-                    viewport={{ once: true, margin: "-50px" }}
+                    viewport={VIEWPORT}
+                    variants={stagger(0.09)}
+                    className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6"
                 >
-                    {PROFILE.identities.map((identity, index) => {
-                        const Icon = iconMap[identity.role as keyof typeof iconMap] || User
+                    {PROFILE.identities.map((identity) => {
+                        const Icon = iconMap[identity.role as keyof typeof iconMap]
+
                         return (
-                            <motion.div
-                                key={index}
-                                variants={itemVariants}
-                                whileHover={{ y: -5, transition: { duration: 0.3, ease: "easeOut" } }}
+                            <motion.article
+                                key={identity.role}
+                                variants={rise}
+                                className="group flex h-full flex-col rounded-[1.5rem] border border-hairline bg-surface-1 p-7 transition-[border-color,box-shadow,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-foreground/15 hover:elev-3"
                             >
-                                <Card className="border-none shadow-sm hover:shadow-xl transition-all duration-500 h-full bg-background/80 backdrop-blur-sm group">
-                                    <CardHeader className="flex flex-row items-center gap-4 pb-3">
-                                        <motion.div
-                                            className="h-12 w-12 rounded-full bg-foreground/5 flex items-center justify-center text-foreground/60 group-hover:bg-foreground/10 group-hover:text-foreground transition-all duration-500"
-                                            whileHover={{ rotate: 5, scale: 1.05 }}
-                                        >
-                                            <Icon className="h-5 w-5" strokeWidth={1.5} />
-                                        </motion.div>
-                                        <div>
-                                            <CardTitle className="text-lg font-medium tracking-tight">{identity.role}</CardTitle>
-                                            <p className="text-sm text-muted-foreground/80 font-normal mt-0.5">{identity.title}</p>
-                                        </div>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-base text-muted-foreground leading-relaxed">
-                                            {identity.description}
-                                        </p>
-                                    </CardContent>
-                                </Card>
-                            </motion.div>
+                                <div className="mb-7 flex h-11 w-11 items-center justify-center rounded-[0.9rem] border border-hairline bg-foreground/[0.04] text-ink-3 transition-[background-color,color] duration-500 group-hover:bg-foreground group-hover:text-background">
+                                    <Icon className="h-[1.15rem] w-[1.15rem]" strokeWidth={1.5} />
+                                </div>
+
+                                <h3 className="text-xl font-medium text-ink-1">{identity.role}</h3>
+                                <p className="mt-1.5 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-ink-4">
+                                    {identity.title}
+                                </p>
+                                <p className="mt-5 text-sm font-light leading-7 text-ink-3">{identity.description}</p>
+                            </motion.article>
                         )
                     })}
                 </motion.div>
 
-
+                <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={VIEWPORT}
+                    variants={stagger(0.05, 0.1)}
+                    className="mt-10 flex flex-wrap items-center gap-2"
+                >
+                    {PROFILE.tags.map((tag) => (
+                        <motion.span
+                            key={tag}
+                            variants={rise}
+                            className="rounded-full border border-hairline bg-surface-1 px-4 py-1.5 text-sm font-light text-ink-3"
+                        >
+                            {tag}
+                        </motion.span>
+                    ))}
+                </motion.div>
             </div>
         </section>
     )

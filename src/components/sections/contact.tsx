@@ -1,87 +1,68 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { ArrowRight, Mail, MapPin } from "lucide-react"
+import { ShimmerButton } from "@/components/ui/shimmer-button"
+import { Eyebrow } from "@/components/ui/section-heading"
 import { PROFILE } from "@/lib/data"
-import { Mail, MapPin, ArrowRight } from "lucide-react"
-
-// Premium easing
-const smoothEase = [0.22, 1, 0.36, 1] as const
+import { EASE, VIEWPORT } from "@/lib/motion"
 
 export function Contact() {
     return (
-        <section id="contact" className="py-32 md:py-40 bg-background">
-            <div className="container px-6 md:px-8 max-w-3xl mx-auto">
+        <section id="contact" className="relative bg-surface-2 py-24 md:py-32">
+            <div className="container mx-auto max-w-4xl px-6 md:px-8">
                 <motion.div
-                    initial={{ opacity: 0, y: 40 }}
+                    initial={{ opacity: 0, y: 28 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.8, ease: smoothEase }}
-                    className="flex flex-col items-center text-center"
+                    viewport={VIEWPORT}
+                    transition={{ duration: 0.75, ease: EASE }}
+                    className="relative overflow-hidden rounded-[2rem] border border-hairline bg-surface-1 px-7 py-12 text-center elev-2-hi md:px-14 md:py-16"
                 >
-                    {/* Section Header */}
-                    <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground/60 mb-4">Get in Touch</span>
-                    <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter font-heading">联系我</h2>
-                    <motion.div
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: 0.3, ease: smoothEase }}
-                        className="w-16 h-[2px] bg-foreground/10 mt-8 origin-left"
+                    {/* A single light source from above, matching the hero. */}
+                    <div
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0"
+                        style={{
+                            background:
+                                "radial-gradient(110% 70% at 50% -14%, color-mix(in oklab, var(--foreground) 5%, transparent), transparent 60%)",
+                        }}
                     />
 
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2, ease: smoothEase }}
-                        className="text-muted-foreground/70 max-w-md text-base md:text-lg font-light leading-relaxed mt-8"
-                    >
-                        对教育科技、AI 落地感兴趣，或者只是想交个朋友？欢迎随时联系。
-                    </motion.p>
+                    <div className="relative">
+                        <Eyebrow className="mx-auto mb-6">Contact</Eyebrow>
 
-                    {/* Contact Pills */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.4, ease: smoothEase }}
-                        className="flex flex-col sm:flex-row gap-4 mt-10"
-                    >
-                        <motion.a
-                            href={`mailto:${PROFILE.email}`}
-                            className="flex items-center gap-3 text-muted-foreground/70 hover:text-foreground bg-muted/30 hover:bg-muted/50 px-5 py-3 rounded-full transition-all duration-300 group"
-                            whileHover={{ x: 3 }}
-                        >
-                            <Mail className="h-4 w-4 opacity-50 group-hover:opacity-100 transition-opacity" strokeWidth={1.5} />
-                            <span className="text-sm font-light tracking-wide">{PROFILE.email}</span>
-                        </motion.a>
-                        <motion.div
-                            className="flex items-center gap-3 text-muted-foreground/60 bg-muted/30 px-5 py-3 rounded-full"
-                            whileHover={{ x: 3 }}
-                        >
-                            <MapPin className="h-4 w-4 opacity-50" strokeWidth={1.5} />
-                            <span className="text-sm font-light tracking-wide">{PROFILE.location}</span>
-                        </motion.div>
-                    </motion.div>
+                        <h2 className="headline font-heading text-[2rem] font-medium leading-[1.16] text-ink-1 sm:text-4xl md:text-5xl">
+                            如果你也在处理复杂经验，
+                            <span className="block text-ink-3">我们可以聊聊。</span>
+                        </h2>
 
-                    {/* CTA Button */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.6, ease: smoothEase }}
-                        className="mt-14"
-                    >
-                        <motion.a
-                            href={`mailto:${PROFILE.email}`}
-                            whileHover={{ scale: 1.03 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="inline-flex items-center gap-3 bg-foreground text-background px-10 py-4 rounded-full font-medium text-base tracking-wide hover:bg-foreground/90 transition-colors duration-300 group"
-                        >
-                            发送邮件
-                            <ArrowRight className="h-4 w-4 opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
-                        </motion.a>
-                    </motion.div>
+                        <p className="measure mx-auto mt-7 text-[0.98rem] font-light leading-8 text-ink-3 md:text-base md:leading-9">
+                            教育培训、知识管理、AI 工具落地、内部流程产品化，或者只是某个“明明每天都在发生，却一直没人好好整理”的问题，都值得被认真看一眼。
+                        </p>
+
+                        <div className="mt-10 flex flex-col items-center gap-4">
+                            <ShimmerButton as="a" href={`mailto:${PROFILE.email}`} className="h-13 py-0 pl-7 pr-2.5 text-base">
+                                发送邮件
+                                <span className="ml-2 flex h-8 w-8 items-center justify-center rounded-full bg-background/15 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5">
+                                    <ArrowRight className="h-4 w-4" strokeWidth={1.6} />
+                                </span>
+                            </ShimmerButton>
+
+                            <div className="flex flex-col items-center gap-2 text-sm text-ink-3 sm:flex-row sm:gap-3">
+                                <a
+                                    href={`mailto:${PROFILE.email}`}
+                                    className="inline-flex items-center gap-2 rounded-full border border-hairline bg-surface-2/70 px-4 py-2 transition-colors duration-300 hover:border-foreground/20 hover:text-ink-1"
+                                >
+                                    <Mail className="h-4 w-4 text-ink-4" strokeWidth={1.5} />
+                                    {PROFILE.email}
+                                </a>
+                                <span className="inline-flex items-center gap-2 rounded-full border border-hairline bg-surface-2/70 px-4 py-2">
+                                    <MapPin className="h-4 w-4 text-ink-4" strokeWidth={1.5} />
+                                    {PROFILE.location}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </motion.div>
             </div>
         </section>

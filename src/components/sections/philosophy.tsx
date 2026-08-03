@@ -1,88 +1,91 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { Eyebrow, SectionHeading } from "@/components/ui/section-heading"
 import { PROFILE } from "@/lib/data"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-
-// Premium easing
-const smoothEase = [0.22, 1, 0.36, 1] as const
-
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.12,
-            delayChildren: 0.2
-        }
-    }
-}
-
-const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.6,
-            ease: smoothEase
-        }
-    }
-}
+import { VIEWPORT, rise, stagger } from "@/lib/motion"
 
 export function Philosophy() {
     return (
-        <section id="philosophy" className="py-28 md:py-36 bg-muted/20">
-            <div className="container px-6 md:px-8 max-w-4xl mx-auto">
-                {/* Section Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.8, ease: smoothEase }}
-                    className="flex flex-col items-center text-center mb-20"
-                >
-                    <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground/60 mb-4">Philosophy & Vision</span>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight font-heading">核心理念</h2>
-                    <motion.div
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: 0.3, ease: smoothEase }}
-                        className="w-16 h-[2px] bg-foreground/10 mt-8 origin-left"
-                    />
-                    <p className="text-muted-foreground/70 mt-6 max-w-lg text-base font-light leading-relaxed">
-                        驱动我工作的核心方法论与思维模型
-                    </p>
-                </motion.div>
+        <section id="philosophy" className="relative bg-background py-24 md:py-32">
+            <div className="container mx-auto max-w-6xl px-6 md:px-8">
+                <SectionHeading
+                    eyebrow="Method & Notes"
+                    title="保留锋芒，"
+                    subtitle="落在方法里。"
+                    lede="我不想把个人网站写成冷冰冰的职业说明书。好的表达应该有温度，但每一个判断最好都能回到具体工作：现场、结构、工具和反馈。"
+                />
 
-                {/* Philosophy Cards */}
-                <motion.div
-                    className="grid grid-cols-1 md:grid-cols-2 gap-8"
-                    variants={containerVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-50px" }}
-                >
-                    {PROFILE.philosophy.map((item, index) => (
-                        <motion.div
-                            key={index}
-                            variants={itemVariants}
-                            whileHover={{ y: -5, scale: 1.02, transition: { duration: 0.3, ease: "easeOut" } }}
-                        >
-                            <Card className="h-full border-none shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:hover:shadow-[0_8px_30px_rgb(255,255,255,0.04)] transition-all duration-500 bg-background/60 backdrop-blur-sm group">
-                                <CardHeader className="pb-3">
-                                    <CardTitle className="text-lg md:text-xl font-medium tracking-tight text-foreground group-hover:text-foreground/80 transition-colors duration-300">
-                                        {item.title}
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <p className="text-muted-foreground font-light leading-relaxed text-sm md:text-base">{item.description}</p>
-                                </CardContent>
-                            </Card>
+                <div className="grid gap-5 md:gap-6 lg:grid-cols-[1.02fr_0.78fr]">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={VIEWPORT}
+                        variants={stagger(0.06)}
+                        className="rounded-[1.75rem] border border-hairline bg-surface-2/70 p-7 md:p-9"
+                    >
+                        <motion.div variants={rise} className="mb-7">
+                            <Eyebrow>Operating Method</Eyebrow>
+                            <h3 className="headline mt-4 text-2xl font-medium text-ink-1">我通常这样做系统</h3>
                         </motion.div>
-                    ))}
-                </motion.div>
+
+                        <ol className="space-y-3">
+                            {PROFILE.method.map((item) => (
+                                <motion.li
+                                    key={item.step}
+                                    variants={rise}
+                                    className="group grid gap-x-5 gap-y-2 rounded-[1.15rem] border border-hairline bg-surface-1 p-5 transition-[border-color,box-shadow] duration-500 hover:border-foreground/15 hover:elev-2 sm:grid-cols-[2.5rem_1fr]"
+                                >
+                                    <span className="font-mono text-sm tabular-nums text-ink-4 transition-colors duration-500 group-hover:text-ink-2">
+                                        {item.step}
+                                    </span>
+                                    <div>
+                                        <h4 className="text-[1.05rem] font-medium text-ink-1">{item.title}</h4>
+                                        <p className="mt-2 text-sm font-light leading-7 text-ink-3">{item.description}</p>
+                                    </div>
+                                </motion.li>
+                            ))}
+                        </ol>
+                    </motion.div>
+
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={VIEWPORT}
+                        variants={stagger(0.07, 0.1)}
+                        className="flex flex-col gap-4"
+                    >
+                        <motion.div
+                            variants={rise}
+                            className="rounded-[1.75rem] border border-hairline bg-foreground/[0.035] p-7"
+                        >
+                            <Eyebrow>Recent Thinking</Eyebrow>
+                            <h3 className="headline mt-4 text-2xl font-medium text-ink-1">正在想的几件事</h3>
+                            <p className="mt-3 text-sm font-light leading-7 text-ink-3">
+                                这里保留一点更个人的语言。不是结论墙，而是我最近持续回到的问题。
+                            </p>
+                        </motion.div>
+
+                        {PROFILE.thinking.map((item, i) => (
+                            <motion.article
+                                key={item.title}
+                                variants={rise}
+                                className="relative flex-1 rounded-[1.25rem] border border-hairline bg-surface-1 p-6 transition-[border-color,box-shadow] duration-500 hover:border-foreground/15 hover:elev-2"
+                            >
+                                <span
+                                    aria-hidden
+                                    className="absolute right-6 top-5 font-mono text-[0.62rem] tabular-nums text-ink-4/70"
+                                >
+                                    {String(i + 1).padStart(2, "0")}
+                                </span>
+                                <h4 className="headline max-w-[calc(100%-2rem)] text-[1.05rem] font-medium leading-7 text-ink-1">
+                                    {item.title}
+                                </h4>
+                                <p className="mt-3 text-sm font-light leading-7 text-ink-3">{item.description}</p>
+                            </motion.article>
+                        ))}
+                    </motion.div>
+                </div>
             </div>
         </section>
     )
