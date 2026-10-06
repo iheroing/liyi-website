@@ -66,31 +66,18 @@ test("proxy route contracts remain configured", async () => {
   ]);
 });
 
-test("shenlun page remains connected to the materials backend", async () => {
-  const [pageSource, clientSource] = await Promise.all([
-    readProjectFile("src/app/shenlun/page.tsx"),
-    readProjectFile("src/app/shenlun/shenlun-client.tsx"),
-  ]);
-
-  assert.match(
-    pageSource,
-    /https:\/\/shenlun-materials-2026\.infinity88-2025\.chatgpt\.site\/api\/materials(?:\?[^"']*)?/,
-  );
-  assert.match(pageSource, /MATERIALS_CLIENT_URL = "\/shenlun-api\/materials/);
-  assert.match(pageSource, /view=summary/);
-  assert.match(pageSource, /export const revalidate = 300/);
-  assert.match(pageSource, /initialData=\{initialData\}/);
-  assert.match(clientSource, /endpoint\.pathname.*item\.id/);
-  assert.match(clientSource, /detailState === "loading"/);
-  assert.match(clientSource, /aria-busy="true"/);
-  assert.match(clientSource, /正在装订全文与精读标注/);
-  assert.match(clientSource, /AnimatePresence initial=\{false\}/);
-  assert.match(clientSource, /hasInitialData/);
-  assert.match(clientSource, /hasInitialData\.current \? 60_000 : 0/);
-  assert.match(clientSource, /篇待补全文/);
-  assert.match(clientSource, /篇待补精读/);
-  assert.doesNotMatch(clientSource, /paragraphs\.slice\(0,\s*12\)/);
-  assert.match(clientSource, /2xl:grid-cols-\[240px_minmax\(0,800px\)_340px\]/);
+test("retired Shenlun reader is a static migration page independent of its old backend", async () => {
+  const pageSource = await readProjectFile("src/app/shenlun/page.tsx");
+  assert.match(pageSource, /原网站阅读入口已停用/);
+  assert.match(pageSource, /https:\/\/huatu\.feishu\.cn\/base\/LloMbOivlaqSVDsPjUecLagJnsc/);
+  assert.match(pageSource, /需要登录及相应访问权限/);
+  assert.match(pageSource, /href="\/"/);
+  assert.match(pageSource, /rel="noopener noreferrer"/);
+  assert.doesNotMatch(pageSource, /fetch\(|ShenlunClient|shenlun-api|revalidate/);
+  const data = await readProjectFile("src/lib/data.ts");
+  assert.match(data, /已迁移至飞书多维表格/);
+  const checker = await readProjectFile("scripts/check-production.mjs");
+  assert.doesNotMatch(checker, /checkMaterialsApi|chatgpt\.site\/api\/materials/);
 });
 
 test("site language and Shenlun detail tabs remain accessible", async () => {

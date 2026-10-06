@@ -70,7 +70,7 @@ export const PROFILE = {
             { name: "文档查重助手 Pro", version: "v2.0", status: "已发布", description: "教研质检的守门员。守护每一份原创内容的价值。", url: "https://chromewebstore.google.com/detail/%E6%96%87%E6%A1%A3%E6%9F%A5%E9%87%8D%E5%8A%A9%E6%89%8B-pro/iicjkpmhadepfgmminjoljgbjaaobkef?authuser=0&hl=zh-CN" }
         ],
         apps: [
-            { name: "申论素材库", url: "/shenlun", description: "持续收集权威时政材料，由 AI 提炼观点、数据和申论用法。每日更新，原文可追溯。" },
+            { name: "申论素材库", url: "/shenlun", description: "已迁移至飞书多维表格，集中管理权威文章、重点精读和表达素材；定时抓取与 AI 加工在飞书中继续。" },
             { name: "国考岗位智能推荐", url: "/guokao", description: "根据专业、学历、政治面貌与基层经历智能筛选国考职位，辅助比较招录条件和岗位适配度。" },
             { name: "无尽诗骰子", url: "/poetry-dice", description: "把随机词面掷成诗行，再生成可保存的诗句卡片。一个介于游戏、写作练习与灵感抽签之间的小工具。" },
             { name: "AI 培训师", url: "/ai-trainer", description: "围绕六维度评价、教学亮点、改进建议与课堂笔记，形成清晰完整的单课复盘报告。" },

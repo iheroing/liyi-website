@@ -7,7 +7,6 @@ import tls from "node:tls";
 const DEFAULT_RETRIES = 3;
 const DEFAULT_RETRY_DELAY_MS = 5_000;
 const REQUEST_TIMEOUT_MS = 20_000;
-const MAX_CHECK_AGE_MS = 8 * 60 * 60 * 1_000;
 
 const retries = readNonNegativeInteger(
   process.env.PRODUCTION_CHECK_RETRIES,
@@ -22,7 +21,7 @@ const pageChecks = [
   {
     name: "申论素材库",
     url: "https://www.liyi.online/shenlun",
-    markers: ["申论", "素材", "精读"],
+    markers: ["原网站阅读入口已停用", "前往飞书素材库"],
     minBytes: 1_000,
   },
   {
@@ -57,15 +56,11 @@ const pageChecks = [
   },
 ];
 
-const materialsUrl =
-  "https://shenlun-materials-2026.infinity88-2025.chatgpt.site/api/materials?limit=1";
-
 async function main() {
   console.log(`Starting production checks at ${new Date().toISOString()}`);
 
   const checks = [
     ...pageChecks.map((check) => () => checkPage(check)),
-    () => checkMaterialsApi(),
   ];
 
   const results = await Promise.allSettled(checks.map((check) => check()));
@@ -103,69 +98,6 @@ async function checkPage({ name, url, markers, minBytes }) {
 
     console.log(`PASS ${name}: HTTP ${response.status}, ${bytes} bytes`);
   });
-}
-
-async function checkMaterialsApi() {
-  return withRetry("申论素材 API", async () => {
-    const response = await get(materialsUrl, { accept: "application/json" });
-    assertOk(response, materialsUrl);
-
-    let payload;
-    try {
-      payload = await response.json();
-    } catch (error) {
-      throw new Error(`${materialsUrl} did not return valid JSON: ${formatError(error)}`);
-    }
-
-    if (payload?.storage !== "d1") {
-      throw new Error(`materials API storage is ${JSON.stringify(payload?.storage)}, expected "d1"`);
-    }
-    if (!Array.isArray(payload?.items) || payload.items.length === 0) {
-      throw new Error("materials API returned no items");
-    }
-
-    const checkedAt = parseTimestamp(payload.checkedAt, "checkedAt");
-    parseTimestamp(payload.updatedAt, "updatedAt");
-    assertLastRun(payload.lastRun);
-
-    const ageMs = Date.now() - checkedAt.getTime();
-    if (ageMs < -5 * 60 * 1_000) {
-      throw new Error(`materials API checkedAt is unexpectedly in the future: ${payload.checkedAt}`);
-    }
-    if (ageMs > MAX_CHECK_AGE_MS) {
-      throw new Error(
-        `materials API checkedAt is ${formatDuration(ageMs)} old (maximum: 8 hours)`,
-      );
-    }
-
-    console.log(
-      `PASS 申论素材 API: storage=d1, items=${payload.items.length}, checked ${formatDuration(Math.max(0, ageMs))} ago`,
-    );
-  });
-}
-
-function assertLastRun(lastRun) {
-  if (!lastRun || typeof lastRun !== "object" || Array.isArray(lastRun)) {
-    throw new Error("materials API lastRun must be an object");
-  }
-
-  for (const field of ["discovered", "processed", "saved", "failureCount"]) {
-    if (!Number.isInteger(lastRun[field]) || lastRun[field] < 0) {
-      throw new Error(`materials API lastRun.${field} must be a non-negative integer`);
-    }
-  }
-}
-
-function parseTimestamp(value, field) {
-  if (typeof value !== "string" || value.trim() === "") {
-    throw new Error(`materials API ${field} must be a non-empty timestamp`);
-  }
-
-  const timestamp = new Date(value);
-  if (Number.isNaN(timestamp.getTime())) {
-    throw new Error(`materials API ${field} is invalid: ${JSON.stringify(value)}`);
-  }
-  return timestamp;
 }
 
 async function get(url, headers = {}) {
@@ -282,12 +214,6 @@ function readNonNegativeInteger(value, fallback) {
   if (value === undefined) return fallback;
   const parsed = Number(value);
   return Number.isInteger(parsed) && parsed >= 0 ? parsed : fallback;
-}
-
-function formatDuration(milliseconds) {
-  const minutes = Math.round(milliseconds / 60_000);
-  if (minutes < 60) return `${minutes}m`;
-  return `${(minutes / 60).toFixed(1)}h`;
 }
 
 function formatError(error) {

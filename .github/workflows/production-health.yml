@@ -31,7 +31,7 @@ jobs:
         with:
           node-version: 22
 
-      - name: Check production routes and materials API
+      - name: Check production routes and Shenlun migration page
         env:
           # Accommodates the short propagation window after a Vercel deployment.
           PRODUCTION_CHECK_RETRIES: "3"
