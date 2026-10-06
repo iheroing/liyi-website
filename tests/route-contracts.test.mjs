@@ -68,9 +68,9 @@ test("proxy route contracts remain configured", async () => {
 
 test("retired Shenlun reader is a static migration page independent of its old backend", async () => {
   const pageSource = await readProjectFile("src/app/shenlun/page.tsx");
-  assert.match(pageSource, /原网站阅读入口已停用/);
+  assert.match(pageSource, /申论素材库已搬到飞书/);
   assert.match(pageSource, /https:\/\/huatu\.feishu\.cn\/base\/LloMbOivlaqSVDsPjUecLagJnsc/);
-  assert.match(pageSource, /需要登录及相应访问权限/);
+  assert.match(pageSource, /登录飞书后查看 · 需访问权限/);
   assert.match(pageSource, /href="\/"/);
   assert.match(pageSource, /rel="noopener noreferrer"/);
   assert.doesNotMatch(pageSource, /fetch\(|ShenlunClient|shenlun-api|revalidate/);

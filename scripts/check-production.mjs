@@ -21,7 +21,7 @@ const pageChecks = [
   {
     name: "申论素材库",
     url: "https://www.liyi.online/shenlun",
-    markers: ["原网站阅读入口已停用", "前往飞书素材库"],
+    markers: ["申论素材库已搬到飞书", "前往飞书素材库"],
     minBytes: 1_000,
   },
   {
