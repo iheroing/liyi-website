@@ -21,7 +21,9 @@ const pageChecks = [
   {
     name: "申论素材库",
     url: "https://www.liyi.online/shenlun",
-    markers: ["申论素材库已搬到飞书", "前往飞书素材库"],
+    // Stable page identity, not editorial copy: wording changes should not
+    // mark a still-serving migration page as down before deployment finishes.
+    markers: ["申论素材库已迁移", "https://huatu.feishu.cn/base/LloMbOivlaqSVDsPjUecLagJnsc"],
     minBytes: 1_000,
   },
   {
