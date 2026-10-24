@@ -107,7 +107,7 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable} ${cormorant.variable}`}
       suppressHydrationWarning
     >
-      <body className="flex min-h-screen flex-col font-sans antialiased">
+      <body className="relative flex min-h-screen flex-col font-sans antialiased">
         {/* Site chrome — header, footer, ambient sound — lives in the (site)
             route group, not here. Mounted apps such as /shenlun ship their own
             full-page interface and their own way back home; rendering the
@@ -119,7 +119,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
-          <Analytics />
+          {process.env.VERCEL === "1" && <Analytics />}
         </ThemeProvider>
       </body>
     </html>
