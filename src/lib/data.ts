@@ -71,15 +71,17 @@ export const PROFILE = {
         ],
         apps: [
             { name: "申论素材库", url: "/shenlun", description: "已迁移至飞书多维表格，集中管理权威文章、重点精读和表达素材；定时抓取与 AI 加工在飞书中继续。" },
-            { name: "国考岗位智能推荐", url: "/guokao", description: "根据专业、学历、政治面貌与基层经历智能筛选国考职位，辅助比较招录条件和岗位适配度。" },
-            { name: "无尽诗骰子", url: "/poetry-dice", description: "把随机词面掷成诗行，再生成可保存的诗句卡片。一个介于游戏、写作练习与灵感抽签之间的小工具。" },
             { name: "AI 培训师", url: "/ai-trainer", description: "围绕六维度评价、教学亮点、改进建议与课堂笔记，形成清晰完整的单课复盘报告。" },
             { name: "雪花密语", url: "/snowflake", description: "把一句只说一次的话，凝结成独一无二的雪花；端到端加密，主动揭开后密文立即失效。" },
             { name: "爱闪记", url: "https://www.aishanji.com/", description: "AI 生成记忆卡片。用碎片时间，筑起知识宫殿。" },
             { name: "培训师工具箱", url: "https://www.huatupeixun.space/", description: "百款互动工具与教学模型。让课堂的每一秒都精彩。" },
             { name: "原子笔记", url: "/atomizer", description: "将 Markdown、Word 和带大纲的 PDF 拆解为可复用的知识原子，并导出到 CSV、Obsidian 或飞书。" }
         ],
+        miniPrograms: [
+            { name: "诗骰", description: "选择词包、掷出词面、排成诗句，保存并分享诗笺。", entry: "微信搜索「诗骰」" }
+        ],
         enterprise: [
+            { name: "国考报岗指导", description: "内部正式上线。结合招录条件与岗位适配度，为报岗咨询提供筛选、比较与决策支持。" },
             { name: "华图培训管理系统", description: "践行数据治理与 AI First。让沉淀的数据成为燃料，接入智能体，为组织进化创造无限可能。" },
             { name: "医疗交付管理平台", description: "复杂业务的透明化中枢。连接 200+ 团队的协作脉络，让流程井然有序。" },
             { name: "AI 师资个性化培训", description: "AI 辅助的师资成长引擎。为每一位讲师，打造独一无二的进化方案。" }
@@ -97,15 +99,28 @@ export const PROFILE = {
             name: "培训师工具箱",
             label: "Teaching Tools",
             url: "https://www.huatupeixun.space/",
-            headline: "把课堂里的临场经验，沉淀成可复用的教学工具。",
-            description: "面向培训师和教研团队的工具集合，覆盖课堂互动、讲解组织、题目拆解、活动设计等高频教学场景。它不是一个“工具合集”的展示页，而是一次把一线教学经验产品化的尝试。",
+            shot: "/images/work/huatu.jpg",
+            headline: "为教学准备趁手的工具，也为课堂留一点实验空间。",
+            description: "面向培训师和教研团队，把实用工具与教学实验放在同一个工作台。覆盖课堂互动、讲解组织、题目拆解与活动设计，从教学现场出发，持续打磨。",
             focus: ["课堂现场", "教学模型", "工具矩阵", "高频复用"],
             note: "代表我的核心母题：不是让 AI 替代教师，而是把优秀教师的工作方式拆出来、做成可被更多人使用的结构。"
+        },
+        {
+            name: "诗骰",
+            label: "WeChat Mini Program",
+            shot: "/images/work/poetry-dice.jpg",
+            entry: "微信搜索「诗骰」",
+            codeImage: "/images/poetry-dice-miniprogram.jpg",
+            headline: "掷出几个词，写一首自己的诗。",
+            description: "已上线的微信小程序。选择一位诗人的词包，掷出词面，再把零散的词排成诗句，保存为一张可以分享的诗笺。",
+            focus: ["微信小程序", "词包", "排词成诗", "诗笺分享"],
+            note: "给日常留一点偶然，也给表达留一点余地。"
         },
         {
             name: "浏览器插件矩阵",
             label: "Browser Extensions",
             collects: ["MarkWord", "书映 MindFlow", "Code2HTML Pro", "文档查重助手 Pro"],
+            shot: "/images/work/plugins.jpg",
             headline: "围绕文档、阅读和代码交付，做一组轻量但高频的生产力工具。",
             description: "解决的是知识工作里最具体的摩擦：格式转换、阅读结构化、代码展示、教研质检。每一个都小到可以在一次会议的间隙里用完。",
             focus: ["Chrome 插件", "文档工作流", "阅读结构化", "轻量交付"],
@@ -115,6 +130,7 @@ export const PROFILE = {
             name: "雪花密语",
             label: "Ephemeral Message",
             url: "/snowflake",
+            shot: "/images/work/snowflake.jpg",
             headline: "把一句只想说一次的话，交出去之后就不再属于任何人。",
             description: "端到端加密，密钥只存在于链接本身，服务端拿不到明文。收信人主动揭开后密文立即失效，每条消息还会生成一片不会重复的雪花，读完即化。",
             focus: ["端到端加密", "阅后即焚", "无需账号", "一次性链接"],
@@ -124,19 +140,11 @@ export const PROFILE = {
             name: "爱闪记",
             label: "Memory System",
             url: "https://www.aishanji.com/",
+            shot: "/images/work/aishanji.jpg",
             headline: "把读过的东西，变成会主动来找你的记忆卡片。",
             description: "AI 从材料里生成问答卡，再按遗忘曲线安排复习。重点不在生成得多快，而在于让零散的碎片时间，最终落到同一套知识结构上。",
             focus: ["AI 生成卡片", "间隔复习", "碎片时间", "知识宫殿"],
             note: "记忆这件事上，工具能帮的其实只有一件：在你快要忘记的那一刻出现。"
-        },
-        {
-            name: "国考岗位智能推荐",
-            label: "Decision System",
-            url: "/guokao",
-            headline: "从岗位查询工具，走向可解释的报考决策系统。",
-            description: "先做硬条件筛选，再解释专业匹配、分数余量、审核竞争、限制条件和招录规模，帮助考生形成更可信的报考方案。",
-            focus: ["决策解释", "条件筛选", "对比池", "咨询报告"],
-            note: "把咨询师的判断过程拆开，让机器推荐不只给分数，也给理由。"
         }
     ],
 
@@ -163,45 +171,24 @@ export const PROFILE = {
     ],
     experience: [
         {
-            period: "2025 - 至今",
-            role: "师资培养与教育系统设计",
-            company: "华图教育培训学院",
-            description: "负责师资培养体系与培训工具建设。在真实教学组织中，把讲师成长、课程交付和教研协作转化为可运行的流程。"
+            role: "医学训练",
+            description: "在湘雅学临床，在上海交大读肿瘤学。医学训练让我习惯追问依据，也谨慎对待结论。"
         },
         {
-            period: "2021 - 至今",
-            role: "医疗教研与产品建设",
-            company: "华图医疗研究院",
-            description: "从医学教研、课程产品到交付系统，持续处理复杂知识如何被讲清楚、练扎实、管起来的问题。"
+            role: "教学与教研",
+            description: "从医学讲师到教研与师资培养，把知识讲透，也把教学经验整理成更多人用得上的方法。"
         },
         {
-            period: "2017 - 2021",
-            role: "医学讲师",
-            company: "华图教育",
-            description: "在 10,000+ 小时授课和备课中训练表达、结构化和即时反馈能力。讲台是我理解“用户现场”的第一所学校。"
+            role: "业务与战略",
+            description: "把视野从课堂延伸到业务与组织，判断什么值得做、什么应该先做，以及怎样把事情推进下去。"
         },
         {
-            period: "长期进行中",
-            role: "独立开发与 AI 工作流实践",
-            company: "个人项目",
-            description: "持续构建浏览器插件、教学工具、知识产品和自动化流程，探索一个人如何借助 AI 与代码完成更高密度的创造。"
-        }
-    ],
-    education: [
-        {
-            period: "2014 - 2017",
-            degree: "肿瘤学硕士",
-            school: "上海交通大学医学院",
-            description: "医学科研训练让我习惯证据、边界和复杂系统。很多产品判断，后来都受这段训练影响。"
-        },
-        {
-            period: "2009 - 2014",
-            degree: "临床医学学士",
-            school: "中南大学湘雅医学院",
-            description: "临床医学给我的不是一个固定身份，而是一套面对不确定性的工作方式。"
+            role: "产品与开发",
+            description: "做小程序、插件，也做内部系统。工具的题目，来自教学与工作中反复遇到的问题。"
         }
     ],
     honors: [
+        "AI 先锋大赛特等奖 × 2",
         "教师风采大赛特等奖",
         "明日之星奖",
         "银图奖",

@@ -1,0 +1,109 @@
+/* Lower-page editorial layout. All selectors stay inside the portfolio. */
+.portfolio-site .ps-section {
+    --pf-bg: #171918;
+    --pf-text: #f0eee7;
+    --pf-muted: #aaa9a2;
+    --pf-accent: #e26751;
+    --pf-line: rgba(255,255,255,.12);
+    background: var(--pf-bg);
+    color: var(--pf-text);
+    padding: 64px 0;
+    scroll-margin-top: 88px;
+}
+.portfolio-site .ps-wrap { width: min(1320px, calc(100% - 96px)); margin-inline: auto; }
+.portfolio-site .ps-editorial { display: grid; grid-template-columns: minmax(140px, 1fr) minmax(0, 4fr); gap: 40px; }
+.portfolio-site .ps-label { margin: 5px 0 0; font-size: 14px; letter-spacing: .1em; color: var(--pf-accent); }
+.portfolio-site .ps-title { margin: 0; font-size: clamp(28px, 3.1vw, 44px); line-height: 1.35; font-weight: 500; letter-spacing: -.045em; text-wrap: balance; }
+.portfolio-site .ps-intro { max-width: 750px; margin: 22px 0 0; color: var(--pf-muted); font-size: 16px; line-height: 1.9; }
+.portfolio-site .ps-identities { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin-top: 32px; }
+.portfolio-site .ps-identities h3, .portfolio-site .ps-method h3, .portfolio-site .ps-thinking h3 { margin: 0; font-size: 17px; font-weight: 500; line-height: 1.6; }
+.portfolio-site .ps-caption { display: block; margin-top: 3px; font-size: 14px; letter-spacing: .06em; color: var(--pf-muted); }
+.portfolio-site .ps-identities p, .portfolio-site .ps-method p, .portfolio-site .ps-thinking p { margin: 10px 0 0; color: var(--pf-muted); font-size: 16px; line-height: 1.85; }
+.portfolio-site .ps-tags { margin: 26px 0 0; color: var(--pf-muted); font-size: 14px; word-spacing: 5px; line-height: 1.8; }
+.portfolio-site .ps-section + .ps-section .ps-wrap { padding-top: 96px; }
+.portfolio-site .ps-section + .ps-section { padding-top: 0; }
+.portfolio-site .ps-method { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 28px; margin: 32px 0 0; padding: 0; list-style: none; }
+.portfolio-site .ps-method li { padding-top: 26px; }
+.portfolio-site .ps-notes { background: rgba(240,238,231,.045); margin-top: 32px; padding: 20px 24px; }
+.portfolio-site .ps-notes summary { cursor: pointer; font-size: 16px; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.portfolio-site .ps-notes summary::-webkit-details-marker { display: none; }
+.portfolio-site .ps-notes-toggle { color: var(--pf-accent); transition: transform .2s ease; }
+.portfolio-site .ps-notes[open] .ps-notes-toggle { transform: rotate(45deg); }
+.portfolio-site .ps-note-intro { color: var(--pf-muted); font-size: 16px; margin: 16px 0; }
+.portfolio-site .ps-thinking { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; padding-bottom: 8px; }
+.portfolio-site .ps-thinking h3 { font-size: 16px; }
+.portfolio-site .ps-side-title { font-size: 26px; font-weight: 500; margin: 18px 0 0; letter-spacing: -.04em; }
+.portfolio-site .ps-experience { list-style: none; margin: 0; padding: 0; }
+.portfolio-site .ps-experience li { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 16px; padding: 22px 0; align-items: baseline; }
+.portfolio-site .ps-experience li:first-child { padding-top: 0; }
+.portfolio-site .ps-experience h3 { margin: 0; font-size: 16px; font-weight: 500; }
+.portfolio-site .ps-experience p { margin: 0; font-size: 16px; line-height: 1.85; color: var(--pf-muted); }
+.portfolio-site .ps-honors { display: flex; gap: 28px; margin-top: 24px; }
+.portfolio-site .ps-honors h3 { flex-shrink: 0; margin: 0; font-size: 16px; font-weight: 400; line-height: 1.9; }
+.portfolio-site .ps-honors ul { display: flex; flex-wrap: wrap; gap: 6px 22px; list-style: none; padding: 0; margin: 0; font-size: 16px; line-height: 1.9; color: var(--pf-muted); }
+.portfolio-site .ps-contact { padding-bottom: 72px; }
+.portfolio-site .ps-email { display: flex; width: fit-content; max-width: 100%; gap: 24px; align-items: center; margin-top: 24px; font-size: clamp(22px, 3.8vw, 52px); letter-spacing: -.045em; line-height: 1.5; color: var(--pf-text); text-decoration: none; overflow-wrap: anywhere; }
+.portfolio-site .ps-email span { color: var(--pf-accent); font-size: .65em; transition: transform .2s ease; }
+.portfolio-site .ps-email:hover span { transform: translate(3px, -3px); }
+.portfolio-site .ps-contact-links { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: baseline; margin-top: 24px; font-size: 16px; color: var(--pf-muted); }
+.portfolio-site .ps-contact-links a { color: var(--pf-text); text-decoration: none; text-underline-offset: 5px; }
+.portfolio-site .ps-contact-links a:hover { color: var(--pf-accent); text-decoration: underline; }
+.portfolio-site .ps-contact-links p { margin: 0; }
+.portfolio-site .ps-wechat { color: var(--pf-text); margin-left: 10px; }
+.portfolio-site .ps-section a:focus-visible, .portfolio-site .ps-notes summary:focus-visible { outline: 2px solid var(--pf-accent); outline-offset: 6px; }
+@media (max-width: 900px) {
+    .portfolio-site .ps-editorial { grid-template-columns: 110px minmax(0, 1fr); gap: 24px; }
+    .portfolio-site .ps-identities { gap: 18px; }
+    .portfolio-site .ps-method { gap: 18px; }
+    .portfolio-site .ps-experience li { grid-template-columns: 100px minmax(0, 1fr); gap: 12px; }
+}
+@media (max-width: 640px) {
+    .portfolio-site .ps-section { padding: 44px 0; scroll-margin-top: 72px; }
+    .portfolio-site .ps-wrap { width: calc(100% - 40px); }
+    .portfolio-site .ps-editorial { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    /* The editorial side-column collapses here, which would stack these small
+       tracked labels straight above each heading. The headings say what each
+       section is, and the nav names them too, so the label goes rather than
+       becoming a kicker. 北京 lives in the contact block so nothing is lost. */
+    .portfolio-site .ps-label { display: none; }
+    .portfolio-site .ps-section + .ps-section { padding-top: 0; }
+    .portfolio-site .ps-section + .ps-section .ps-wrap { padding-top: 32px; }
+    .portfolio-site .ps-title { font-size: 29px; }
+    .portfolio-site .ps-intro { font-size: 16px; margin-top: 18px; }
+    .portfolio-site .ps-identities, .portfolio-site .ps-thinking { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+    .portfolio-site .ps-identities { margin-top: 26px; }
+    .portfolio-site .ps-identities article { padding-left: 16px; }
+    .portfolio-site .ps-method { grid-template-columns: minmax(0, 1fr); gap: 18px; margin-top: 26px; }
+    .portfolio-site .ps-method li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .portfolio-site .ps-method p { margin-top: 6px; }
+    .portfolio-site .ps-experience li { grid-template-columns: minmax(0, 1fr); }
+    .portfolio-site .ps-experience p { grid-column: 1; }
+    .portfolio-site .ps-honors { gap: 20px; }
+    .portfolio-site .ps-side-title { margin-top: 12px; }
+    .portfolio-site .ps-email { gap: 12px; font-size: clamp(21px, 6.8vw, 38px); }
+    .portfolio-site .ps-contact-links { gap: 18px 24px; }
+    .portfolio-site .ps-contact-links p { flex-basis: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .portfolio-site .ps-notes-toggle, .portfolio-site .ps-email span { transition: none; }
+    .portfolio-site .ps-email:hover span { transform: none; }
+}
+
+@keyframes ps-rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .portfolio-site .ps-title,
+        .portfolio-site .ps-intro,
+        .portfolio-site .ps-identities article,
+        .portfolio-site .ps-method li,
+        .portfolio-site .ps-thinking article,
+        .portfolio-site .ps-experience li,
+        .portfolio-site .ps-notes,
+        .portfolio-site .ps-email {
+            animation: ps-rise linear both;
+            animation-timeline: view();
+            animation-range: entry 8% entry 58%;
+        }
+    }
+}

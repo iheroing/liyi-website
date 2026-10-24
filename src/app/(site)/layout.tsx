@@ -1,3 +1,4 @@
+import "./portfolio.css"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { SoundController } from "@/components/ui/sound-controller"
@@ -17,7 +18,7 @@ export default function SiteLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <>
+        <div className="portfolio-site">
             <a
                 href="#projects"
                 className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-foreground focus:px-5 focus:py-2.5 focus:text-sm focus:text-background"
@@ -29,6 +30,6 @@ export default function SiteLayout({
             <div className="flex-1">{children}</div>
             <Footer />
             <SoundController />
-        </>
+        </div>
     )
 }
