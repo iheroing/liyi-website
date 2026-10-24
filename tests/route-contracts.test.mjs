@@ -94,11 +94,12 @@ test("site language and Shenlun detail tabs remain accessible", async () => {
   assert.match(client, /aria-selected=/);
 });
 
-test("homepage keeps the Guokao project introduction", async () => {
+test("homepage introduces the internal Guokao system without a demo link", async () => {
   const data = await readProjectFile("src/lib/data.ts");
 
-  assert.match(data, /name:\s*["']国考岗位智能推荐["']/);
-  assert.match(data, /url:\s*["']\/guokao["']/);
+  assert.match(data, /name:\s*["']国考报岗指导["']/);
+  assert.match(data, /内部正式上线/);
+  assert.doesNotMatch(data, /url:\s*["']\/guokao["']/);
 });
 
 test("homepage keeps the AI trainer project introduction", async () => {
@@ -122,7 +123,7 @@ test("homepage keeps the atomizer project introduction", async () => {
   assert.match(data, /url:\s*["']\/atomizer["']/);
 });
 
-test("every mounted app is reachable from the homepage", async () => {
+test("public mounted apps are reachable from the homepage", async () => {
   const data = await readProjectFile("src/lib/data.ts");
   const config = await readProjectFile("next.config.ts");
 
@@ -138,12 +139,46 @@ test("every mounted app is reachable from the homepage", async () => {
     [...data.matchAll(/url:\s*["'](\/[^"']+)["']/g)].map(([, url]) => url),
   );
 
+  // Retain old direct URLs for compatibility, without promoting the internal demo.
+  mounted.delete("/guokao");
+  // 诗骰 also ships a web build and an iOS app, but the site presents it as the
+  // mini program only. The rewrite stays so existing /poetry-dice links keep
+  // working; the homepage deliberately does not advertise that entrance.
+  mounted.delete("/poetry-dice");
+
   for (const slug of mounted) {
     assert.ok(
       listed.has(slug),
       `${slug} is mounted but nothing on the homepage links to it`,
     );
   }
+});
+
+test("mounted slugs are listed as mounted, and never prefetched", async () => {
+  const config = await readProjectFile("next.config.ts");
+  const routes = await readProjectFile("src/lib/mounted-routes.ts");
+  const projects = await readProjectFile("src/components/sections/projects.tsx");
+
+  const mounted = rewritePairs(config)
+    .map(({ source }) => source)
+    .filter((source) => !source.includes(":path*") && !source.endsWith("-api"))
+    .sort();
+
+  const declared = [
+    ...routes.matchAll(/^\s+"(\/[^"]+)",$/gm),
+  ]
+    .map(([, slug]) => slug)
+    .sort();
+
+  // A slug missing here goes back to being rendered as <Link>, which prefetches
+  // `?_rsc=` against a deployment that has no idea what that is.
+  assert.deepEqual(declared, mounted);
+
+  // Every link out of the work section has to route through WorkLink, which is
+  // what decides <a> versus <Link>. WorkLink itself holds the only <Link> in
+  // the file; a second one means some card started linking on its own again.
+  assert.match(projects, /function WorkLink\(/);
+  assert.equal((projects.match(/<Link\s+href=/g) ?? []).length, 1);
 });
 
 test("featured work only promotes things that actually shipped", async () => {
