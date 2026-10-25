@@ -44,7 +44,7 @@ export function Philosophy() {
                             继承拿不到强调色。markerUnits 设成 userSpaceOnUse，
                             箭头才不会跟着线宽一起变大。 */}
                         <defs>
-                            {[["ps-loop-arrow", "rgba(240,238,231,.3)"], ["ps-loop-arrow-on", "#e26751"]].map(([id, fill]) => (
+                            {[["ps-loop-arrow", "rgba(240,238,231,.3)"], ["ps-loop-arrow-on", "#5fa386"]].map(([id, fill]) => (
                                 <marker key={id} id={id} viewBox="0 0 10 10" refX="7.2" refY="5"
                                     markerWidth="3.4" markerHeight="3.4" markerUnits="userSpaceOnUse" orient="auto">
                                     <path d="M 0 1.6 L 8 5 L 0 8.4 z" fill={fill} />

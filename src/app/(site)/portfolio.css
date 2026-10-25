@@ -2,14 +2,14 @@
     --pf-bg: #171918;
     --pf-text: #f0eee7;
     --pf-muted: #aaa9a2;
-    --pf-accent: #e26751;
+    --pf-accent: #5fa386;
     --pf-line: rgba(255,255,255,.12);
     --pf-ease: cubic-bezier(.22,1,.36,1);
     color: var(--pf-text);
     font-family: var(--stack-sans);
 }
 .portfolio-site { background: var(--pf-bg); min-height: 100vh; }
-.portfolio-site ::selection, .pf-dialog-content ::selection { background: #e26751; color: #171918; }
+.portfolio-site ::selection, .pf-dialog-content ::selection { background: var(--pf-accent); color: #171918; }
 .portfolio-site :focus-visible, .pf-dialog-content :focus-visible { outline: 2px solid var(--pf-accent); outline-offset: 5px; }
 .pf-frame { width: min(1320px, calc(100% - 96px)); margin-inline: auto; }
 .pf-header { position: relative; z-index: 40; background: var(--pf-bg); }
@@ -78,7 +78,10 @@
 .pf-footer-name { font-size: clamp(100px, 17vw, 230px); font-weight: 500; letter-spacing: -.08em; line-height: 1.1; margin-block: 25px 40px; }
 .pf-footer-bottom { font-size: 14px; }
 .pf-dialog-overlay { position: fixed; inset: 0; background: rgba(7,10,9,.84); z-index: 80; }
-.pf-dialog-content { background: #eeece4; color: #292c27; position: fixed; z-index: 90; inset: 24px max(24px,calc((100vw - 1080px)/2)); overflow-y: auto; overscroll-behavior: contain; border-radius: 6px; outline: none; scrollbar-width: thin; scrollbar-color: #8d8f83 #eeece4; --pf-muted: #61655b; }
+.pf-dialog-content { background: #eeece4; color: #292c27; position: fixed; z-index: 90; inset: 24px max(24px,calc((100vw - 1080px)/2)); overflow-y: auto; overscroll-behavior: contain; border-radius: 6px; outline: none; scrollbar-width: thin; scrollbar-color: #8d8f83 #eeece4; --pf-muted: #61655b;
+    /* 弹层是浅底：深色版面那支强调色压在 #eeece4 上只有 2.82:1，
+       焦点框要的 3:1 都不到。这里换一支深的，5.31:1。 */
+    --pf-accent: #2f6b52; }
 .pf-case-top { position: sticky; top: 0; z-index: 5; padding: 15px 26px; display: flex; align-items: center; justify-content: space-between; background: #eeece4; font-size: 14px; }
 .pf-case-close { display: flex; align-items: center; gap: 15px; min-height: 44px; cursor: pointer; font-size: 14px; }
 .pf-case-art { position: relative; width: 100%; aspect-ratio: 2.4 / 1; overflow: hidden; background: #202326; }
