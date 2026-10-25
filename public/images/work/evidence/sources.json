@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "collected_at": "2026-10-24T15:48:02.863899+08:00",
+  "collected_at": "2026-10-24T21:50:50.914555+08:00",
   "write_scope": "/Users/liyi/Developer/09-Coding/liyi-website/public/images/work/evidence",
   "policy": [
     "诗骰只使用微信小程序截图，禁止使用同仓库 Web/iOS 或宣传主视觉冒充界面",
@@ -503,144 +503,204 @@
       "capture_context": "1440×900 CSS viewport，deviceScaleFactor=2，light colorScheme，zh-CN；仅原有 UI 操作，未替换 DOM"
     },
     {
-      "file": "plugins-markword-listing-2026-10-24.png",
-      "public_path": "/images/work/evidence/plugins-markword-listing-2026-10-24.png",
+      "file": "plugins-markword-promo-2026-10-24.png",
+      "public_path": "/images/work/evidence/plugins-markword-promo-2026-10-24.png",
       "project": "plugins",
-      "title": "MarkWord - Markdown转Word神器 · Chrome 应用商店页面",
-      "platform": "Chrome 应用商店",
-      "kind": "existing_browser_screenshot",
+      "title": "MarkWord - Markdown转Word神器 · 商店产品图",
+      "platform": "Chrome 应用商店（作者上传素材）",
+      "kind": "store_listing_asset_by_author",
       "recommended_for_detail": true,
-      "source_file": "/tmp/plugcap/shots/markword.png",
-      "source_sha256": "592faf82238b547268c018d2f01bfe407c55e0fa3372753cf7fa9b9da179af5c",
       "source_url": "https://chromewebstore.google.com/detail/nfcbgjehfbamkkgloincpebmmdfhnoje",
-      "source_capture_script": "/tmp/plugcap/capture-extensions.mjs",
-      "source_capture_script_sha256": "7cbe861a82670976049a88ea2af43b8441978e9020876cbdb20f034616862cc5",
       "capture_date": "2026-10-24",
-      "capture_date_basis": "本次运行抓取；Asia/Shanghai",
-      "source_file_mtime": "2026-10-24T15:47:03.735689+08:00",
+      "capture_date_basis": "本次运行下载；Asia/Shanghai",
       "captured_this_run": true,
       "version": null,
       "is_current_local_runtime": false,
       "is_latest_published_version": true,
       "is_generated_visual": false,
       "transforms": [
-        "按 h1 位置计算 clip：x=40, y=标题顶部-70, 1080×675 CSS，deviceScaleFactor=2"
+        "从商店图集下载作者上传的产品图；1280x800 原图；统一为 1280×800"
       ],
       "limitations": [
-        "商店页面为发布记录，非扩展运行时界面",
-        "页面内的产品截图由商店listing提供，非本次实拍",
-        "未登录状态抓取，安装按钮为禁用态"
+        "这是作者为上架制作的宣传素材，不是本次实拍的运行时界面",
+        "图中文案由素材本身烘焙，非网站排版"
       ],
-      "width": 2160,
-      "height": 1350,
-      "sha256": "592faf82238b547268c018d2f01bfe407c55e0fa3372753cf7fa9b9da179af5c",
-      "bytes": 677503,
-      "capture_context": "1440×1100 CSS viewport，deviceScaleFactor=2，light colorScheme，zh-CN；裁去右侧推荐栏，避免他人扩展出现在作品集中"
+      "width": 1280,
+      "height": 800,
+      "sha256": "cdb7c639f4732d48dfac8aa89a27e784636ee992a5f521a00c75323fd1ed3e1d",
+      "bytes": 905834,
+      "capture_context": "直接取商店图集中的原始素材，未经过浏览器页面截图"
     },
     {
-      "file": "plugins-mindflow-listing-2026-10-24.png",
-      "public_path": "/images/work/evidence/plugins-mindflow-listing-2026-10-24.png",
+      "file": "plugins-mindflow-promo-2026-10-24.png",
+      "public_path": "/images/work/evidence/plugins-mindflow-promo-2026-10-24.png",
       "project": "plugins",
-      "title": "书映 MindFlow · Chrome 应用商店页面",
-      "platform": "Chrome 应用商店",
-      "kind": "existing_browser_screenshot",
+      "title": "书映 MindFlow · 商店产品图",
+      "platform": "Chrome 应用商店（作者上传素材）",
+      "kind": "store_listing_asset_by_author",
       "recommended_for_detail": true,
-      "source_file": "/tmp/plugcap/shots/mindflow.png",
-      "source_sha256": "5c3657ef94ef058a432624a79c028e1de2be79e48f6acb175fba144ed6425c1d",
       "source_url": "https://chromewebstore.google.com/detail/degeinlckofhmknnmenpeglapopcamif",
-      "source_capture_script": "/tmp/plugcap/capture-extensions.mjs",
-      "source_capture_script_sha256": "7cbe861a82670976049a88ea2af43b8441978e9020876cbdb20f034616862cc5",
       "capture_date": "2026-10-24",
-      "capture_date_basis": "本次运行抓取；Asia/Shanghai",
-      "source_file_mtime": "2026-10-24T15:47:12.339208+08:00",
+      "capture_date_basis": "本次运行下载；Asia/Shanghai",
       "captured_this_run": true,
       "version": null,
       "is_current_local_runtime": false,
       "is_latest_published_version": true,
       "is_generated_visual": false,
       "transforms": [
-        "按 h1 位置计算 clip：x=40, y=标题顶部-70, 1080×675 CSS，deviceScaleFactor=2"
+        "从商店图集下载作者上传的产品图；1280x800 原图；统一为 1280×800"
       ],
       "limitations": [
-        "商店页面为发布记录，非扩展运行时界面",
-        "页面内的产品截图由商店listing提供，非本次实拍",
-        "未登录状态抓取，安装按钮为禁用态"
+        "这是作者为上架制作的宣传素材，不是本次实拍的运行时界面",
+        "图中文案由素材本身烘焙，非网站排版"
       ],
-      "width": 2160,
-      "height": 1350,
-      "sha256": "5c3657ef94ef058a432624a79c028e1de2be79e48f6acb175fba144ed6425c1d",
-      "bytes": 115025,
-      "capture_context": "1440×1100 CSS viewport，deviceScaleFactor=2，light colorScheme，zh-CN；裁去右侧推荐栏，避免他人扩展出现在作品集中"
+      "width": 1280,
+      "height": 800,
+      "sha256": "4c84a3d3c36b8351b52bf639b15a82de9dd56963d3b0aa6c6b5c86d70d380782",
+      "bytes": 135547,
+      "capture_context": "直接取商店图集中的原始素材，未经过浏览器页面截图"
     },
     {
-      "file": "plugins-code2html-listing-2026-10-24.png",
-      "public_path": "/images/work/evidence/plugins-code2html-listing-2026-10-24.png",
+      "file": "plugins-code2html-promo-2026-10-24.png",
+      "public_path": "/images/work/evidence/plugins-code2html-promo-2026-10-24.png",
       "project": "plugins",
-      "title": "Code2HTML Pro · Chrome 应用商店页面",
-      "platform": "Chrome 应用商店",
-      "kind": "existing_browser_screenshot",
+      "title": "Code2HTML Pro · 商店产品图",
+      "platform": "Chrome 应用商店（作者上传素材）",
+      "kind": "store_listing_asset_by_author",
       "recommended_for_detail": true,
-      "source_file": "/tmp/plugcap/shots/code2html.png",
-      "source_sha256": "c08334d4a1391d240efa43bea71aca00a9c4829d4164a19ed8335d18f673b18a",
       "source_url": "https://chromewebstore.google.com/detail/iiggflpmjjdkdpobemhjpjlljohpglip",
-      "source_capture_script": "/tmp/plugcap/capture-extensions.mjs",
-      "source_capture_script_sha256": "7cbe861a82670976049a88ea2af43b8441978e9020876cbdb20f034616862cc5",
       "capture_date": "2026-10-24",
-      "capture_date_basis": "本次运行抓取；Asia/Shanghai",
-      "source_file_mtime": "2026-10-24T15:47:19.168539+08:00",
+      "capture_date_basis": "本次运行下载；Asia/Shanghai",
       "captured_this_run": true,
       "version": null,
       "is_current_local_runtime": false,
       "is_latest_published_version": true,
       "is_generated_visual": false,
       "transforms": [
-        "按 h1 位置计算 clip：x=40, y=标题顶部-70, 1080×675 CSS，deviceScaleFactor=2"
+        "从商店图集下载作者上传的产品图；商店仅提供 640x400，等比放大一倍；统一为 1280×800"
       ],
       "limitations": [
-        "商店页面为发布记录，非扩展运行时界面",
-        "页面内的产品截图由商店listing提供，非本次实拍",
-        "未登录状态抓取，安装按钮为禁用态"
+        "这是作者为上架制作的宣传素材，不是本次实拍的运行时界面",
+        "图中文案由素材本身烘焙，非网站排版"
       ],
-      "width": 2160,
-      "height": 1350,
-      "sha256": "c08334d4a1391d240efa43bea71aca00a9c4829d4164a19ed8335d18f673b18a",
-      "bytes": 116291,
-      "capture_context": "1440×1100 CSS viewport，deviceScaleFactor=2，light colorScheme，zh-CN；裁去右侧推荐栏，避免他人扩展出现在作品集中"
+      "width": 1280,
+      "height": 800,
+      "sha256": "70787832b7a7a796b0d311c21885dc2ed983def18c40a4ddcf1619f0d1c01d7a",
+      "bytes": 94509,
+      "capture_context": "直接取商店图集中的原始素材，未经过浏览器页面截图"
     },
     {
-      "file": "plugins-dupcheck-listing-2026-10-24.png",
-      "public_path": "/images/work/evidence/plugins-dupcheck-listing-2026-10-24.png",
+      "file": "plugins-dupcheck-promo-2026-10-24.png",
+      "public_path": "/images/work/evidence/plugins-dupcheck-promo-2026-10-24.png",
       "project": "plugins",
-      "title": "文档查重助手 Pro · Chrome 应用商店页面",
-      "platform": "Chrome 应用商店",
-      "kind": "existing_browser_screenshot",
+      "title": "文档查重助手 Pro · 商店产品图",
+      "platform": "Chrome 应用商店（作者上传素材）",
+      "kind": "store_listing_asset_by_author",
       "recommended_for_detail": true,
-      "source_file": "/tmp/plugcap/shots/dupcheck.png",
-      "source_sha256": "a2df8acf59a3a1465acd135237abe0acbbe518939761283966bbb75ccc0d00c1",
       "source_url": "https://chromewebstore.google.com/detail/iicjkpmhadepfgmminjoljgbjaaobkef",
-      "source_capture_script": "/tmp/plugcap/capture-extensions.mjs",
-      "source_capture_script_sha256": "7cbe861a82670976049a88ea2af43b8441978e9020876cbdb20f034616862cc5",
       "capture_date": "2026-10-24",
-      "capture_date_basis": "本次运行抓取；Asia/Shanghai",
-      "source_file_mtime": "2026-10-24T15:47:27.516853+08:00",
+      "capture_date_basis": "本次运行下载；Asia/Shanghai",
       "captured_this_run": true,
       "version": null,
       "is_current_local_runtime": false,
       "is_latest_published_version": true,
       "is_generated_visual": false,
       "transforms": [
-        "按 h1 位置计算 clip：x=40, y=标题顶部-70, 1080×675 CSS，deviceScaleFactor=2"
+        "从商店图集下载作者上传的产品图；1280x800 原图；统一为 1280×800"
       ],
       "limitations": [
-        "商店页面为发布记录，非扩展运行时界面",
-        "页面内的产品截图由商店listing提供，非本次实拍",
-        "未登录状态抓取，安装按钮为禁用态"
+        "这是作者为上架制作的宣传素材，不是本次实拍的运行时界面",
+        "图中文案由素材本身烘焙，非网站排版"
       ],
-      "width": 2160,
-      "height": 1350,
-      "sha256": "a2df8acf59a3a1465acd135237abe0acbbe518939761283966bbb75ccc0d00c1",
-      "bytes": 145781,
-      "capture_context": "1440×1100 CSS viewport，deviceScaleFactor=2，light colorScheme，zh-CN；裁去右侧推荐栏，避免他人扩展出现在作品集中"
+      "width": 1280,
+      "height": 800,
+      "sha256": "b3cd5be931f8311e98b52ff08dddcfa86ba73e53e85e8a84e22e69750568380d",
+      "bytes": 110186,
+      "capture_context": "直接取商店图集中的原始素材，未经过浏览器页面截图"
+    },
+    {
+      "file": "shenlun-home-2026-10-24.jpg",
+      "public_path": "/images/work/evidence/shenlun-home-2026-10-24.jpg",
+      "project": "shenlun",
+      "title": "申论素材库首页",
+      "platform": "Web",
+      "kind": "existing_browser_screenshot",
+      "recommended_for_detail": false,
+      "source_url": "https://www.liyi.online/shenlun",
+      "capture_date": "2026-10-24",
+      "capture_date_basis": "本次运行抓取；Asia/Shanghai",
+      "captured_this_run": true,
+      "version": null,
+      "is_current_local_runtime": false,
+      "is_latest_published_version": true,
+      "is_generated_visual": false,
+      "transforms": [
+        "1440×900 CSS，deviceScaleFactor=2；等比缩到 1200 宽，JPEG q82"
+      ],
+      "limitations": [
+        "列表缩略图用途，非案例详情的主要证据"
+      ],
+      "width": 1200,
+      "height": 750,
+      "sha256": "db99b39d88ac5a2c9ac628bbe14daf415e2e98aa9240d13616921fc315e3b058",
+      "bytes": 40770,
+      "capture_context": "light colorScheme，zh-CN；仅原有 UI，未替换 DOM"
+    },
+    {
+      "file": "ai-trainer-report-2026-10-24.jpg",
+      "public_path": "/images/work/evidence/ai-trainer-report-2026-10-24.jpg",
+      "project": "ai-trainer",
+      "title": "AI 培训师单课复盘报告",
+      "platform": "Web",
+      "kind": "existing_browser_screenshot",
+      "recommended_for_detail": false,
+      "source_url": "https://www.liyi.online/ai-trainer",
+      "capture_date": "2026-10-24",
+      "capture_date_basis": "本次运行抓取；Asia/Shanghai",
+      "captured_this_run": true,
+      "version": null,
+      "is_current_local_runtime": false,
+      "is_latest_published_version": true,
+      "is_generated_visual": false,
+      "transforms": [
+        "1440×900 CSS，deviceScaleFactor=2；等比缩到 1200 宽，JPEG q82"
+      ],
+      "limitations": [
+        "列表缩略图用途，非案例详情的主要证据"
+      ],
+      "width": 1200,
+      "height": 750,
+      "sha256": "76781ab64359af2a5e9117b11df240ba4f055a6ee59f63172ccd86ce3470ce2a",
+      "bytes": 129875,
+      "capture_context": "light colorScheme，zh-CN；仅原有 UI，未替换 DOM"
+    },
+    {
+      "file": "atomizer-workspace-2026-10-24.jpg",
+      "public_path": "/images/work/evidence/atomizer-workspace-2026-10-24.jpg",
+      "project": "atomizer",
+      "title": "原子笔记工作区",
+      "platform": "Web",
+      "kind": "existing_browser_screenshot",
+      "recommended_for_detail": false,
+      "source_url": "https://www.liyi.online/atomizer",
+      "capture_date": "2026-10-24",
+      "capture_date_basis": "本次运行抓取；Asia/Shanghai",
+      "captured_this_run": true,
+      "version": null,
+      "is_current_local_runtime": false,
+      "is_latest_published_version": true,
+      "is_generated_visual": false,
+      "transforms": [
+        "1440×900 CSS，deviceScaleFactor=2；等比缩到 1200 宽，JPEG q82"
+      ],
+      "limitations": [
+        "列表缩略图用途，非案例详情的主要证据"
+      ],
+      "width": 1200,
+      "height": 750,
+      "sha256": "505c20a3c5e13a14aab45e217120343fbe1d60336346bae99deba3a1373ee3fa",
+      "bytes": 99299,
+      "capture_context": "light colorScheme，zh-CN；仅原有 UI，未替换 DOM"
     }
   ],
   "historical_material_audit": [
