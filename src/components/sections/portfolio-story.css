@@ -13,34 +13,16 @@
 .portfolio-site .ps-wrap { width: min(1320px, calc(100% - 96px)); margin-inline: auto; }
 .portfolio-site .ps-editorial { display: grid; grid-template-columns: minmax(140px, 1fr) minmax(0, 4fr); gap: 40px; }
 .portfolio-site .ps-label { margin: 5px 0 0; font-size: 14px; letter-spacing: .1em; color: var(--pf-accent); }
-.portfolio-site .ps-title { margin: 0; font-size: clamp(28px, 3.1vw, 44px); line-height: 1.35; font-weight: 500; letter-spacing: -.045em; text-wrap: balance; }
-.portfolio-site .ps-intro { max-width: 750px; margin: 22px 0 0; color: var(--pf-muted); font-size: 16px; line-height: 1.9; }
-.portfolio-site .ps-identities { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin-top: 32px; }
-.portfolio-site .ps-identities h3, .portfolio-site .ps-method h3, .portfolio-site .ps-thinking h3 { margin: 0; font-size: 17px; font-weight: 500; line-height: 1.6; }
+.portfolio-site .ps-title { margin: 0; font-family: var(--font-heading); font-size: clamp(32px, 4vw, 58px); line-height: 1.3; font-weight: 600; letter-spacing: -.02em; text-wrap: balance; }
+.portfolio-site .ps-intro { max-width: 46ch; margin: 26px 0 0; color: var(--pf-muted); font-size: 18px; line-height: 1.9; }
 .portfolio-site .ps-caption { display: block; margin-top: 3px; font-size: 14px; letter-spacing: .06em; color: var(--pf-muted); }
-.portfolio-site .ps-identities p, .portfolio-site .ps-method p, .portfolio-site .ps-thinking p { margin: 10px 0 0; color: var(--pf-muted); font-size: 16px; line-height: 1.85; }
-.portfolio-site .ps-tags { margin: 26px 0 0; color: var(--pf-muted); font-size: 14px; word-spacing: 5px; line-height: 1.8; }
 .portfolio-site .ps-section + .ps-section .ps-wrap { padding-top: 96px; }
 .portfolio-site .ps-section + .ps-section { padding-top: 0; }
-.portfolio-site .ps-method { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 28px; margin: 32px 0 0; padding: 0; list-style: none; }
-.portfolio-site .ps-method li { padding-top: 26px; }
 .portfolio-site .ps-notes { background: rgba(240,238,231,.045); margin-top: 32px; padding: 20px 24px; }
 .portfolio-site .ps-notes summary { cursor: pointer; font-size: 16px; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .portfolio-site .ps-notes summary::-webkit-details-marker { display: none; }
 .portfolio-site .ps-notes-toggle { color: var(--pf-accent); transition: transform .2s ease; }
 .portfolio-site .ps-notes[open] .ps-notes-toggle { transform: rotate(45deg); }
-.portfolio-site .ps-note-intro { color: var(--pf-muted); font-size: 16px; margin: 16px 0; }
-.portfolio-site .ps-thinking { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; padding-bottom: 8px; }
-.portfolio-site .ps-thinking h3 { font-size: 16px; }
-.portfolio-site .ps-side-title { font-size: 26px; font-weight: 500; margin: 18px 0 0; letter-spacing: -.04em; }
-.portfolio-site .ps-experience { list-style: none; margin: 0; padding: 0; }
-.portfolio-site .ps-experience li { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 16px; padding: 22px 0; align-items: baseline; }
-.portfolio-site .ps-experience li:first-child { padding-top: 0; }
-.portfolio-site .ps-experience h3 { margin: 0; font-size: 16px; font-weight: 500; }
-.portfolio-site .ps-experience p { margin: 0; font-size: 16px; line-height: 1.85; color: var(--pf-muted); }
-.portfolio-site .ps-honors { display: flex; gap: 28px; margin-top: 24px; }
-.portfolio-site .ps-honors h3 { flex-shrink: 0; margin: 0; font-size: 16px; font-weight: 400; line-height: 1.9; }
-.portfolio-site .ps-honors ul { display: flex; flex-wrap: wrap; gap: 6px 22px; list-style: none; padding: 0; margin: 0; font-size: 16px; line-height: 1.9; color: var(--pf-muted); }
 .portfolio-site .ps-contact { padding-bottom: 72px; }
 .portfolio-site .ps-email { display: flex; width: fit-content; max-width: 100%; gap: 24px; align-items: center; margin-top: 24px; font-size: clamp(22px, 3.8vw, 52px); letter-spacing: -.045em; line-height: 1.5; color: var(--pf-text); text-decoration: none; overflow-wrap: anywhere; }
 .portfolio-site .ps-email span { color: var(--pf-accent); font-size: .65em; transition: transform .2s ease; }
@@ -53,9 +35,6 @@
 .portfolio-site .ps-section a:focus-visible, .portfolio-site .ps-notes summary:focus-visible { outline: 2px solid var(--pf-accent); outline-offset: 6px; }
 @media (max-width: 900px) {
     .portfolio-site .ps-editorial { grid-template-columns: 110px minmax(0, 1fr); gap: 24px; }
-    .portfolio-site .ps-identities { gap: 18px; }
-    .portfolio-site .ps-method { gap: 18px; }
-    .portfolio-site .ps-experience li { grid-template-columns: 100px minmax(0, 1fr); gap: 12px; }
 }
 @media (max-width: 640px) {
     .portfolio-site .ps-section { padding: 44px 0; scroll-margin-top: 72px; }
@@ -70,16 +49,6 @@
     .portfolio-site .ps-section + .ps-section .ps-wrap { padding-top: 32px; }
     .portfolio-site .ps-title { font-size: 29px; }
     .portfolio-site .ps-intro { font-size: 16px; margin-top: 18px; }
-    .portfolio-site .ps-identities, .portfolio-site .ps-thinking { grid-template-columns: minmax(0, 1fr); gap: 22px; }
-    .portfolio-site .ps-identities { margin-top: 26px; }
-    .portfolio-site .ps-identities article { padding-left: 16px; }
-    .portfolio-site .ps-method { grid-template-columns: minmax(0, 1fr); gap: 18px; margin-top: 26px; }
-    .portfolio-site .ps-method li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
-    .portfolio-site .ps-method p { margin-top: 6px; }
-    .portfolio-site .ps-experience li { grid-template-columns: minmax(0, 1fr); }
-    .portfolio-site .ps-experience p { grid-column: 1; }
-    .portfolio-site .ps-honors { gap: 20px; }
-    .portfolio-site .ps-side-title { margin-top: 12px; }
     .portfolio-site .ps-email { gap: 12px; font-size: clamp(21px, 6.8vw, 38px); }
     .portfolio-site .ps-contact-links { gap: 18px 24px; }
     .portfolio-site .ps-contact-links p { flex-basis: 100%; }
@@ -89,21 +58,319 @@
     .portfolio-site .ps-email:hover span { transform: none; }
 }
 
-@keyframes ps-rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@keyframes ps-rise { from { transform: translateY(24px); } to { transform: none; } }
 
 @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
         .portfolio-site .ps-title,
         .portfolio-site .ps-intro,
-        .portfolio-site .ps-identities article,
-        .portfolio-site .ps-method li,
-        .portfolio-site .ps-thinking article,
-        .portfolio-site .ps-experience li,
         .portfolio-site .ps-notes,
         .portfolio-site .ps-email {
             animation: ps-rise linear both;
             animation-timeline: view();
-            animation-range: entry 8% entry 58%;
+            animation-range: entry 0% entry 32%;
         }
+    }
+}
+
+/* 每一节换一种骨架，否则连着几屏都是同一个模板，整页就显出模子来了：
+   我是谁是通栏大标题 + 卡片，方法是左文右环，联系是一句陈述。 */
+.portfolio-site #contact .ps-editorial { grid-template-columns: minmax(0, 1fr); gap: 0; }
+/* 通栏之后标签会直接叠在标题上方，就成了 kicker。导航里已经有章节名，
+   标题本身也说得清，所以不要标签。 */
+.portfolio-site #contact .ps-label { display: none; }
+
+/* 联系：当作一句陈述来排，邮箱是落点 */
+.portfolio-site #contact .ps-intro { font-size: 19px; max-width: 52ch; }
+.portfolio-site .ps-cta { display: inline-flex; align-items: center; gap: 12px; margin-top: 34px;
+    padding: 15px 30px; border-radius: 999px; background: var(--pf-text); color: var(--pf-bg);
+    font-size: 16px; font-weight: 500; text-decoration: none; transition: opacity .25s ease; }
+.portfolio-site .ps-cta:hover { opacity: .86; }
+
+/* 通栏的标题下面跟一条窄引文会显得没接住；让它用上版心宽度 */
+.portfolio-site #philosophy .ps-intro { max-width: 62ch; font-size: 19px; }
+
+/* 同上：联系方式那一行的链接和折叠块在手机上也不够点。 */
+@media (max-width: 760px) {
+    .portfolio-site .ps-contact-links a,
+    .portfolio-site .ps-notes > summary {
+        display: inline-flex; align-items: center;
+        min-height: 44px; padding-block: 11px; margin-block: -11px;
+    }
+    .portfolio-site .ps-notes > summary { width: 100%; }
+}
+
+@media (hover: hover) {
+    /* 主按钮：抬起并带一点投影，比压暗透明度更像被按下的前兆 */
+    .portfolio-site .ps-cta { transition: transform .5s cubic-bezier(.22,.61,.28,1), box-shadow .5s, opacity .3s; }
+    .portfolio-site .ps-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(0,0,0,.2); opacity: 1; }
+    .portfolio-site .ps-cta:active { transform: translateY(-1px); }
+
+    .portfolio-site .ps-email { transition: color .25s; }
+    .portfolio-site .ps-email:hover { color: var(--pf-accent); }
+
+    .portfolio-site .ps-contact-links a { transition: color .3s, transform .5s cubic-bezier(.22,.61,.28,1); }
+    .portfolio-site .ps-contact-links a:hover { transform: translateY(-1.5px); }
+
+    .portfolio-site .ps-notes summary, .pf-internal > summary { transition: color .22s; }
+    .portfolio-site .ps-notes summary:hover, .pf-internal > summary:hover { color: var(--pf-accent); }
+}
+
+.portfolio-site .ps-method-loop-note { margin: 34px 0 0; font-size: 15px; color: var(--pf-muted); }
+
+/* ── 正在想的几件事：三条对照 ──────────────────────────────────
+   每条拆成「不是…」和「而是…」上下两行，右边跟一段说明。三条并排
+   成一张对照表，关系一眼可见；以前那种一条一屏的排法，读者翻完三屏
+   也拼不出它们在讲同一件事的三层。
+
+   划掉那半句的线用伪元素画，滚动时从左画到右 —— 和升起用的 transform
+   分在两个元素上，互不打架（方法那一段的老教训）。 */
+.portfolio-site .ps-thinking-section { padding-top: 0; }
+.portfolio-site .ps-thinking-lead {
+    margin: 0 0 56px; font-size: 15px; font-weight: 400; color: var(--pf-muted); letter-spacing: .02em;
+}
+.portfolio-site .ps-think-list {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-direction: column;
+}
+.portfolio-site .ps-think-item {
+    display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 24px 64px; align-items: start;
+    /* 不画分隔线：三条本来就各有「划掉的一行 + 大字主张」这个形状，
+       间距足够把它们分开，再加线只是多一层网格。 */
+    padding: 46px 0;
+}
+.portfolio-site .ps-think-item h3 { margin: 0; font-weight: 400; }
+.portfolio-site .ps-think-not {
+    position: relative; display: inline-block;
+    font-size: 17px; line-height: 1.6; color: var(--pf-muted);
+}
+/* position: relative 放在 em 上，划线才是贴着被否定的那个短语量的；
+   挂在外层再用 left: 2em 跳过「不是」两个字，换一版文案就对不齐了。
+   bottom 取 .76em：汉字的字面中线，低了会读成下划线。 */
+.portfolio-site .ps-think-not em { position: relative; font-style: normal; }
+.portfolio-site .ps-think-not em::after {
+    content: ""; position: absolute; right: 0; bottom: .76em; left: 0; height: 1.5px;
+    background: var(--pf-accent); opacity: .85;
+    transform: scaleX(0); transform-origin: left;
+}
+.portfolio-site .ps-think-but {
+    display: block; margin-top: 12px;
+    font-family: var(--font-heading); font-size: clamp(25px, 2.6vw, 36px);
+    font-weight: 600; line-height: 1.45; letter-spacing: -.018em; color: var(--pf-text);
+}
+/* 说明对齐到「而是」那一行的顶，而不是浮在它上面 */
+.portfolio-site .ps-think-item p {
+    margin: 0; padding-top: 41px;
+    font-size: 16.5px; line-height: 1.95; color: var(--pf-muted);
+}
+@media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+        .portfolio-site .ps-think-item {
+            transform: translateY(26px);
+            animation: think-rise linear both; animation-timeline: view(); animation-range: entry 2% entry 36%;
+        }
+        .portfolio-site .ps-think-not em::after {
+            animation: think-rule linear both; animation-timeline: view(); animation-range: entry 20% entry 56%;
+        }
+    }
+}
+@keyframes think-rise { to { transform: none; } }
+@keyframes think-rule { to { transform: scaleX(1); } }
+@media (max-width: 860px) {
+    .portfolio-site .ps-think-item { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 34px 0; }
+    .portfolio-site .ps-think-item p { padding-top: 0; }
+}
+
+/* 「关于」的上一个兄弟是作品区（不是 .ps-section），所以那条
+   「相邻段落加 96px」的规则命中不到它 —— 结果它紧贴着作品区收尾，
+   上一段的末行读起来像它的小标签。这里补上同样的分隔。 */
+.portfolio-site #about .ps-wrap { padding-top: 104px; }
+
+/* ── 我是谁：四段路，各留下一样东西 ─────────────────────────────
+   原来「关于」和「经历」是两节，各讲一半，读者得自己把身份和履历
+   对上。合成一节之后只有一条线：每张卡的下半截是「留下」，四张横着
+   比，关系一眼就看出来。
+
+   入场动画用 --lift 这个变量，终帧写成 translateY(var(--lift))，
+   所以悬停改 --lift 时，被动画钉住的 transform 也跟着变 —— 作品
+   卡片上同样的办法。直接在悬停里写 transform 会被动画压掉。 */
+.portfolio-site .ps-identity-section { padding-bottom: 0; }
+.portfolio-site .ps-identity-head { max-width: 760px; }
+.portfolio-site .ps-identity-head .ps-intro { max-width: 44ch; line-height: 1.78; }
+
+.portfolio-site .ps-journey {
+    list-style: none; margin: 72px 0 0; padding: 0;
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px; background: var(--pf-line);
+}
+/* 同一行里两张卡的上半截可能一高一矮（文字行数不一样），底色那一半
+   就会错开，横着比「留下」的那一行读起来是断的。subgrid 让标题、
+   正文、留下这三段各自对齐到同一条基线上。 */
+@media (min-width: 761px) {
+    @supports (grid-template-rows: subgrid) {
+        .portfolio-site .ps-journey { grid-template-rows: repeat(2, auto auto 1fr); }
+        .portfolio-site .ps-journey-step { display: grid; grid-template-rows: subgrid; grid-row: span 3; }
+    }
+}
+.portfolio-site .ps-journey-step {
+    --lift: 0px;
+    position: relative;
+    padding: 36px 40px 40px;
+    background: #191b1a;
+    transform: translateY(var(--lift));
+    transition: transform .6s cubic-bezier(.22,.61,.28,1), background-color .45s ease;
+}
+.portfolio-site .ps-journey-head { display: flex; gap: 14px; align-items: baseline; }
+/* 定宽，于是序号 + gap 永远是 44px，和下面两块的左缩进对得上 */
+.portfolio-site .ps-journey-index {
+    flex-shrink: 0; width: 44px; font-size: 13px; line-height: 1.9;
+    letter-spacing: .04em; color: var(--pf-accent); opacity: .8;
+}
+.portfolio-site .ps-journey-step h3 {
+    margin: 0; font-family: var(--font-heading); font-size: 25px;
+    font-weight: 600; line-height: 1.5; letter-spacing: -.02em;
+}
+.portfolio-site .ps-journey-what {
+    margin: 18px 0 0; padding-left: 58px;
+    font-size: 16px; line-height: 1.9; color: var(--pf-muted);
+}
+/* 「留下」铺满卡片下半截并换一层底色：一张卡自己分成两半 ——
+   上半是当时在做什么，下半是今天还在用的东西。左右和下方用负外边距
+   顶到卡片边缘，内缩进再补回来，于是文字仍和上面那两行对齐。 */
+.portfolio-site .ps-journey-keeps {
+    margin: 30px -40px -40px; padding: 26px 40px 40px 98px;
+    /* 换底色已经把上下两半分开了，再画一条线是多余的 */
+    background: rgba(240,238,231,.038);
+    transition: background-color .45s ease;
+}
+.portfolio-site .ps-journey-keeps strong {
+    display: block;
+    font-family: var(--font-heading); font-size: clamp(27px, 2.6vw, 34px);
+    font-weight: 600; letter-spacing: -.01em; line-height: 1.4;
+    color: var(--pf-text); transition: color .4s ease;
+}
+.portfolio-site .ps-journey-keeps p {
+    margin: 14px 0 0; font-size: 15.5px; line-height: 1.9; color: var(--pf-muted);
+}
+
+.portfolio-site .ps-identity-foot { margin-top: 64px; }
+.portfolio-site .ps-identity-now {
+    margin: 0; max-width: 54ch;
+    font-size: 19px; line-height: 1.8; color: var(--pf-muted);
+}
+.portfolio-site .ps-identity-now em { font-style: normal; color: var(--pf-text); }
+.portfolio-site .ps-identity-honors {
+    display: flex; flex-wrap: wrap; gap: 8px 26px;
+    list-style: none; margin: 26px 0 0; padding: 0;
+    font-size: 14px; line-height: 1.9; color: var(--pf-muted); opacity: .78;
+}
+
+@media (hover: hover) {
+    .portfolio-site .ps-journey-step:hover { --lift: -4px; background: #1d201e; }
+    .portfolio-site .ps-journey-step:hover .ps-journey-keeps { background: rgba(240,238,231,.058); }
+    .portfolio-site .ps-journey-step:hover .ps-journey-keeps strong { color: var(--pf-accent); }
+}
+@media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+        .portfolio-site .ps-journey-step {
+            animation: ps-step-rise linear both;
+            animation-timeline: view(); animation-range: entry 4% entry 42%;
+        }
+    }
+}
+/* 只动 transform，不碰 opacity：深链接或打印时，卡片不会停在隐身状态 */
+@keyframes ps-step-rise {
+    from { transform: translateY(calc(var(--lift) + 30px)); }
+    to   { transform: translateY(var(--lift)); }
+}
+
+@media (max-width: 1040px) {
+    .portfolio-site .ps-journey-step { padding: 30px 28px 34px; }
+    .portfolio-site .ps-journey-what { padding-left: 0; }
+    .portfolio-site .ps-journey-keeps { margin: 26px -28px -34px; padding: 24px 28px 34px; }
+}
+@media (max-width: 760px) {
+    .portfolio-site .ps-journey { grid-template-columns: minmax(0, 1fr); margin-top: 48px; }
+    .portfolio-site .ps-identity-foot { margin-top: 44px; }
+    .portfolio-site .ps-identity-now { font-size: 17px; }
+}
+
+/* subgrid 下，底色那一半是被 1fr 撑满的，不再需要负的下外边距去够到
+   卡片底边 —— 留着它会多伸出 40px，盖掉两行之间的那条缝。改成卡片
+   不留下内边距，由面板自己补上。放在断点之后，才压得过上面的覆盖。
+   只在双栏时成立：手机上是单栏，那套行模板会把四张卡错配。 */
+@media (min-width: 761px) {
+    @supports (grid-template-rows: subgrid) {
+        .portfolio-site .ps-journey-step { padding-bottom: 0; }
+        .portfolio-site .ps-journey-keeps { margin-bottom: 0; }
+    }
+}
+
+/* ── 方法：一个真的环 ───────────────────────────────────────────
+   原来是五列等宽文字，谁也看不出第五步会回到第一步 —— 那个环只靠
+   底下一句小字在说。现在五个节点坐在一个圆上，弧线带箭头指明方向，
+   环自己把「闭合」说清楚。
+
+   同时做了减法：五段说明不再同时摊开，一次只读一段，落在圆心。
+   五段并排硬读本来也没人读。
+
+   圆不会被拉扁：viewBox 是正方形，容器 aspect-ratio 也是 1。 */
+.portfolio-site .ps-method-layout {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 560px);
+    gap: 72px; align-items: center;
+}
+.portfolio-site .ps-method-head { max-width: 30em; }
+
+.portfolio-site .ps-loop { position: relative; width: 100%; aspect-ratio: 1; }
+.portfolio-site .ps-loop-ring { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.portfolio-site .ps-loop-arc {
+    fill: none; stroke: currentColor; stroke-width: .35; stroke-linecap: round;
+    color: rgba(240,238,231,.22);
+    transition: color .45s ease, stroke-width .45s ease;
+}
+.portfolio-site .ps-loop-arc.is-active { color: var(--pf-accent); stroke-width: .62; }
+
+.portfolio-site .ps-loop-nodes { position: absolute; inset: 0; }
+.portfolio-site .ps-loop-node {
+    position: absolute; left: var(--nx); top: var(--ny);
+    transform: translate(-50%, -50%);
+    /* 和版底同色，于是节点在环上咬出一个缺口，像串在线上 */
+    background: var(--pf-bg); color: var(--pf-muted);
+    border: 1px solid var(--pf-line); border-radius: 30px;
+    /* 13 + 13 + 16×1.2 ≈ 45px，刚过 44px 的最小点击高度 */
+    padding: 13px 18px; font-size: 16px; line-height: 1.2; white-space: nowrap;
+    cursor: pointer; transition: color .35s ease, border-color .35s ease, background-color .35s ease;
+}
+.portfolio-site .ps-loop-node.is-active {
+    color: var(--pf-text); border-color: var(--pf-accent); background: #1e2120;
+}
+.portfolio-site .ps-loop-node:focus-visible { outline: 2px solid var(--pf-accent); outline-offset: 4px; }
+
+.portfolio-site .ps-loop-center {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 58%; text-align: center;
+}
+.portfolio-site .ps-loop-step {
+    display: block; font-size: 13px; letter-spacing: .1em; color: var(--pf-accent); opacity: .85;
+}
+.portfolio-site .ps-loop-center p {
+    margin: 14px 0 0; font-size: 16px; line-height: 1.95; color: var(--pf-muted);
+}
+
+@media (max-width: 1080px) {
+    .portfolio-site .ps-method-layout { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+    .portfolio-site .ps-loop { max-width: 520px; margin-inline: auto; }
+}
+/* 窄屏上圆排不开：节点收成一行标签，说明接在下面。交互不变。 */
+@media (max-width: 680px) {
+    .portfolio-site .ps-loop { aspect-ratio: auto; max-width: none; }
+    .portfolio-site .ps-loop-ring { display: none; }
+    .portfolio-site .ps-loop-nodes {
+        position: static; display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .portfolio-site .ps-loop-node { position: static; transform: none; padding: 13px 15px; font-size: 15px; }
+    .portfolio-site .ps-loop-center {
+        position: static; transform: none; width: auto; text-align: left; margin-top: 26px;
     }
 }
