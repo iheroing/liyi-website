@@ -1,3 +1,7 @@
+/* 强调色只干两件事：标记动作（联系处那个按钮），以及「你正在看的是
+   这一个」（方法环的选中态）。焦点框和选区是系统可达性，不算装饰 ——
+   库里禁的是把强调色用在标题、图标、项目符号、边框和下划线上。
+   其余一概用中性色；悬停改成提亮到正文色，在深底上比换色相更明确。 */
 .portfolio-site, .pf-dialog-content, .pf-dialog-overlay {
     --pf-bg: #171918;
     --pf-text: #f0eee7;
@@ -15,7 +19,7 @@
 .pf-header { position: relative; z-index: 40; background: var(--pf-bg); }
 .pf-header-inner { display: flex; height: 100px; align-items: center; gap: 40px; }
 .pf-wordmark { display: inline-flex; align-items: baseline; font-size: 29px; font-weight: 600; letter-spacing: -.07em; margin-right: auto; }
-.pf-wordmark > span:first-child { color: var(--pf-accent); }
+.pf-wordmark > span:first-child { color: var(--pf-muted); }
 .pf-wordmark .pf-wordmark-latin { margin-left: 14px; font-size: 16px; font-weight: 400; letter-spacing: -.03em; color: var(--pf-muted); }
 .pf-desktop-nav { display: flex; gap: 32px; font-size: 15px; }
 .pf-desktop-nav a { padding-block: 12px; color: var(--pf-muted); transition: color .2s; }
@@ -63,7 +67,7 @@
 .pf-more-links > a { display: flex; align-items: start; gap: 18px; padding-block: 24px; }
 .pf-more-links strong { display: block; font-size: 21px; font-weight: 500; margin-bottom: 14px; }
 .pf-more-links a > span > span { display: block; color: var(--pf-muted); font-size: 16px; line-height: 1.8; }
-.pf-more-links svg { flex-shrink: 0; margin-top: 2px; color: var(--pf-accent); transition: transform .25s; }
+.pf-more-links svg { flex-shrink: 0; margin-top: 2px; color: var(--pf-muted); transition: transform .25s, color .25s; }
 .pf-more-links > a:hover svg { transform: translate(3px,-3px); }
 .pf-internal { margin-top: 36px; padding: 22px 26px; background: #202320; }
 .pf-internal summary { cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 24px; font-size: 17px; list-style: none; }
@@ -226,7 +230,7 @@
 }
 
 /* 页面上有两个折叠块，原先一个用箭头、一个用加号。统一成加号，展开时转成叉。 */
-.pf-internal .ps-notes-toggle { font-style: normal; color: var(--pf-accent); display: inline-block;
+.pf-internal .ps-notes-toggle { font-style: normal; color: var(--pf-muted); display: inline-block;
     transition: transform .2s ease; }
 .pf-internal[open] .ps-notes-toggle { transform: rotate(45deg); }
 
