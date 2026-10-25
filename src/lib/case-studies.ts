@@ -38,11 +38,11 @@ export const CASE_STUDIES: CaseStudy[] = [
             { title: "阅读与表达", text: "书映整理阅读结构，Code2HTML 处理代码片段的网页展示。" },
             { title: "检查与交付", text: "文档查重助手面向教研质检，把常用动作放进浏览器。" },
         ], screens: [
-            { src: "/images/work/evidence/plugins-markword-listing-2026-10-24.png", alt: "MarkWord 的 Chrome 应用商店页面", caption: "MarkWord · Markdown 转 Word", width: 2160, height: 1350 },
-            { src: "/images/work/evidence/plugins-mindflow-listing-2026-10-24.png", alt: "书映 MindFlow 的 Chrome 应用商店页面", caption: "书映 MindFlow · 把书读成结构", width: 2160, height: 1350 },
-            { src: "/images/work/evidence/plugins-code2html-listing-2026-10-24.png", alt: "Code2HTML Pro 的 Chrome 应用商店页面", caption: "Code2HTML Pro · 代码片段转网页", width: 2160, height: 1350 },
-            { src: "/images/work/evidence/plugins-dupcheck-listing-2026-10-24.png", alt: "文档查重助手 Pro 的 Chrome 应用商店页面", caption: "文档查重助手 Pro · 教研质检", width: 2160, height: 1350 },
-        ], evidenceNote: "四个扩展的 Chrome 应用商店页面，2026 年 10 月抓取；页面是发布记录，不是扩展运行时界面。",
+            { src: "/images/work/evidence/plugins-markword-promo-2026-10-24.png", alt: "MarkWord 的编辑器与 Word 预览双栏界面", caption: "MarkWord · Markdown 与 Word 双向转换", width: 1280, height: 800 },
+            { src: "/images/work/evidence/plugins-mindflow-promo-2026-10-24.png", alt: "书映 MindFlow 把章节生成为思维导图", caption: "书映 MindFlow · 把一本书读成结构", width: 1280, height: 800 },
+            { src: "/images/work/evidence/plugins-code2html-promo-2026-10-24.png", alt: "Code2HTML Pro 的粘贴与下载界面", caption: "Code2HTML Pro · 代码片段转可交付网页", width: 1280, height: 800 },
+            { src: "/images/work/evidence/plugins-dupcheck-promo-2026-10-24.png", alt: "文档查重助手 Pro 的相似度阈值界面", caption: "文档查重助手 Pro · 教研质检的守门员", width: 1280, height: 800 },
+        ], evidenceNote: "四个扩展在 Chrome 应用商店的产品图，由作者本人为上架制作；不是本次实拍的运行时界面。",
     },
     {
         kind: "一次性的加密消息", tone: "#202d32", summary: "把只想说一次的话，交给一片雪花。",

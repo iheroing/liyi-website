@@ -27,26 +27,29 @@
 .pf-mobile-nav a { padding: 12px 0; display: flex; gap: 12px; align-items: center; }
 .pf-exhibition { position: relative; overflow: clip; background: var(--project-tone, #222b28); transition: background-color .55s ease; padding-top: 34px; padding-bottom: 26px; }
 .pf-intro { display: grid; grid-template-columns: 1.2fr 1fr; align-items: end; gap: 70px; position: relative; z-index: 1; }
-.pf-intro h1 { margin: 0; font-size: clamp(44px, 5.4vw, 78px); font-weight: 450; line-height: 1.18; letter-spacing: -.055em; }
+.pf-intro h1 { margin: 0; font-family: var(--font-heading); font-size: clamp(44px, 5.4vw, 78px); font-weight: 600; line-height: 1.24; letter-spacing: -.022em; }
 .pf-intro-note { padding-bottom: 8px; }
 .pf-intro-note p { max-width: 420px; font-size: 17px; line-height: 1.9; color: #d2d1c9; }
 .pf-intro-note a { display: inline-flex; align-items: center; gap: 14px; margin-top: 22px; font-size: 15px; }
 .pf-gallery { position: relative; height: 404px; margin-top: 12px; isolation: isolate; }
 .pf-card-rail { display: flex; align-items: center; justify-content: center; gap: clamp(14px, 2.3vw, 34px); width: min(1220px, calc(100% - 100px)); margin: 0 auto; height: 100%; padding-top: 16px; }
-.pf-work-card { position: relative; display: flex; flex-direction: column; flex: 1 1 0; max-width: 218px; min-width: 0; padding: 7px; color: #292923; background: #e9e6de; cursor: pointer; transform: translateY(var(--card-y)) rotate(var(--card-angle)); transform-origin: center 115%; transition: transform .65s var(--pf-ease), background-color .3s, box-shadow .4s; text-align: left; border-radius: 3px; }
-.pf-work-card.is-active { transform: translateY(calc(var(--card-y) - 24px)) rotate(0deg) scale(1.045); z-index: 3; background: #f6f3eb; }
+.pf-work-card { position: relative; display: flex; flex-direction: column; flex: 1 1 0; max-width: 218px; min-width: 0; padding: 7px; color: #292923; background: #e9e6de; cursor: pointer; --fan: 1; --lift: 0px; --zoom: 1; --active-lift: 0px; --active-zoom: 1; --tilt-x: 0deg; --tilt-y: 0deg; transform: perspective(900px) translateY(calc(var(--card-y) + var(--lift) + var(--active-lift))) rotate(calc(var(--card-angle) * var(--fan))) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(calc(var(--zoom) * var(--active-zoom))); transform-origin: center 115%; transition: transform var(--tilt-speed, .62s) cubic-bezier(.22,.61,.28,1), background-color .4s, box-shadow .62s; text-align: left; border-radius: 3px; }
+.pf-work-card.is-active { --active-lift: -18px; --active-zoom: 1.045; --fan: 0; z-index: 3; background: #f6f3eb; }
 .pf-card-image { position: relative; width: 100%; aspect-ratio: 1 / 1.05; overflow: hidden; background: #202326; border-radius: 1px; }
 .pf-card-image img { object-fit: cover; }
 .pf-card-caption { position: relative; min-height: 77px; display: flex; flex-direction: column; justify-content: center; padding: 10px 24px 8px 9px; }
-.pf-card-caption > span:first-child { font-size: clamp(15px, 1.2vw, 18px); font-weight: 550; line-height: 1.4; }
-.pf-card-kind { font-size: 13px; margin-top: 5px; color: #66655c; }
+.pf-card-caption > span:first-child { font-family: var(--font-heading); font-size: clamp(17px, 1.35vw, 21px); font-weight: 600; line-height: 1.3; letter-spacing: -.01em; }
+.pf-card-kind { font-size: 13px; margin-top: 7px; color: #63625a; letter-spacing: .01em; }
 .pf-card-arrow { position: absolute; right: 3px; top: 18px; opacity: 0; transform: translate(-4px,4px); transition: opacity .2s,transform .3s; }
 .pf-work-card.is-active .pf-card-arrow { opacity: 1; transform: none; }
-.pf-gallery-bottom { display: flex; align-items: center; justify-content: space-between; gap: 28px; padding-top: 8px; }
+.pf-gallery-bottom { display: flex; align-items: center; justify-content: space-between; gap: 28px; padding-top: 52px; }
 .pf-project-focus { min-height: 86px; }
 .pf-project-focus h2 { font-size: 24px; font-weight: 500; margin: 0 0 10px; letter-spacing: -.025em; }
 .pf-project-focus p { font-size: 16px; color: #c5c7be; margin: 0; }
+/* 右边留出固定的声音按钮那一块（96px 宽 + 22px 边距），不然
+   「下一个」会被压住。手机上那个按钮是隐藏的，所以只在桌面留。 */
 .pf-gallery-controls { display: flex; align-items: center; gap: 10px; }
+@media (min-width: 761px) { .pf-gallery-controls, .pf-gallery-foot a { margin-right: 126px; } }
 .pf-gallery-position { font-size: 14px; color: #c5c7be; margin-right: 18px; font-variant-numeric: tabular-nums; }
 .pf-gallery-controls button { display: flex; justify-content: center; align-items: center; width: 46px; height: 46px; border-radius: 50%; background: rgba(240,238,231,.09); transition: background .2s; cursor: pointer; }
 .pf-gallery-controls button:hover { background: rgba(240,238,231,.2); }
@@ -54,7 +57,7 @@
 .pf-gallery-foot a { display: inline-flex; align-items: center; gap: 8px; }
 .pf-other-work { padding-block: 110px 80px; }
 .pf-section-heading { display: flex; justify-content: space-between; gap: 48px; align-items: end; margin-bottom: 34px; }
-.pf-section-heading h2 { font-size: clamp(28px, 3vw, 42px); letter-spacing: -.045em; line-height: 1.4; font-weight: 450; }
+.pf-section-heading h2 { font-family: var(--font-heading); font-size: clamp(28px, 3vw, 42px); letter-spacing: -.02em; line-height: 1.34; font-weight: 600; }
 .pf-section-heading > p { font-size: 16px; line-height: 1.8; color: var(--pf-muted); max-width: 320px; }
 .pf-more-links { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; }
 .pf-more-links > a { display: flex; align-items: start; gap: 18px; padding-block: 24px; }
@@ -82,7 +85,7 @@
 .pf-case-art img { object-fit: cover; }
 .pf-case-body { padding: 48px 58px 30px; }
 .pf-case-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-.pf-case-intro h2 { font-size: clamp(32px,4vw,52px); line-height: 1.2; font-weight: 500; letter-spacing: -.045em; margin: 0 0 18px; }
+.pf-case-intro h2 { font-family: var(--font-heading); font-size: clamp(32px,4vw,52px); line-height: 1.26; font-weight: 600; letter-spacing: -.02em; margin: 0 0 18px; }
 .pf-case-intro p { font-size: 17px; line-height: 1.9; }
 .pf-case-intro > p { color: #61655b; font-size: 16px; }
 .pf-case-process { margin-top: 54px; }
@@ -184,9 +187,134 @@
 }
 @media (prefers-reduced-motion: reduce) {
     .portfolio-site *, .pf-dialog-content *, .pf-dialog-overlay { scroll-behavior: auto !important; transition-duration: .001ms !important; animation: none !important; }
-    .pf-work-card.is-active { transform: translateY(var(--card-y)) rotate(var(--card-angle)); }
+    /* 偏好减少动效：留下选中的那一点抬起，去掉放大和倾斜 */
+    .pf-work-card.is-active { --active-zoom: 1; --fan: 1; --tilt-x: 0deg; --tilt-y: 0deg; }
 }
+/* 固定在右下角。左下角试过，但联系那一段的邮箱是一行大字、左对齐，
+   按钮正好压住它的后四分之一；右侧只和作品区的翻页控件撞车，那是
+   页面里自己的元素，给它留出宽度就行（见 .pf-gallery-controls）。 */
 .pf-sound { position: fixed; right: 22px; bottom: 22px; z-index: 35; }
 .pf-sound button { display: flex; align-items: center; gap: 9px; min-height: 44px; color: #d4d5cc; background: #272b27; padding: 10px 14px; border-radius: 30px; cursor: pointer; font-size: 13px; }
 @media (max-width: 760px) { .pf-sound { display: none; } }
 @media (max-width: 760px) and (prefers-reduced-motion: reduce) { .pf-work-card.is-active { transform: none; } }
+
+/* 标志性动作：发牌。五张从中间一摞散开，落到各自的角度上。
+   只在桌面跑——手机上卡片是横向滚动的轨道，transform 被置空。
+   用 animation 而不是改 transform 过渡，所以结束后仍回到 .pf-work-card
+   自己的静止 transform，与悬停、选中的过渡互不打架。
+   文件末尾的 reduced-motion 块里有 animation:none，这里不必再写一遍。 */
+@media (min-width: 761px) {
+    .pf-work-card {
+        animation: pf-deal .92s cubic-bezier(.2,.78,.26,1.06) both;
+        animation-delay: calc(140ms + var(--card-i, 0) * 115ms);
+    }
+    @keyframes pf-deal {
+        from { opacity: 0; transform: translate(var(--deal-x, 0), 150px) rotate(calc(var(--card-angle) * -1.6)) scale(.88); }
+        /* 终帧必须和 .pf-work-card 的静止 transform 逐字一致：animation
+           带 both，结束后这一帧会一直钉着，悬停、选中、倾斜全靠里面的
+           变量生效。写死任何一项，那一项就永远不会动。 */
+        to   { opacity: 1; transform: perspective(900px) translateY(calc(var(--card-y) + var(--lift) + var(--active-lift))) rotate(calc(var(--card-angle) * var(--fan))) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(calc(var(--zoom) * var(--active-zoom))); }
+    }
+}
+
+/* 平板宽度下版心只有 668px，±14° 的外侧卡片会探出左右边缘；把扇形收一半。 */
+@media (min-width: 761px) and (max-width: 1040px) {
+    .pf-work-card { --fan: .45; }
+}
+
+/* 页面上有两个折叠块，原先一个用箭头、一个用加号。统一成加号，展开时转成叉。 */
+.pf-internal .ps-notes-toggle { font-style: normal; color: var(--pf-accent); display: inline-block;
+    transition: transform .2s ease; }
+.pf-internal[open] .ps-notes-toggle { transform: rotate(45deg); }
+
+/* 手机上这些入口只有 20–24px 高，拇指点不准。把命中区撑到 44px，
+   再用负外边距把多出来的部分吃掉，所以排版位置不变。 */
+@media (max-width: 760px) {
+    .pf-header-contact,
+    .pf-gallery-foot a,
+    .pf-footer-top a,
+    .pf-internal > summary {
+        display: inline-flex; align-items: center;
+        min-height: 44px; padding-block: 11px; margin-block: -11px;
+    }
+    .pf-internal > summary { width: 100%; }
+    .pf-gallery-controls button { width: 44px; height: 44px; }
+}
+
+/* 悬停不只是换色。手指指过去，东西要有反应：抬起来、让一点光、
+   箭头往它要去的方向走一点。全部走 transform/opacity，
+   文件末尾的 reduced-motion 块会把时长压到 0。 */
+@media (hover: hover) {
+    .pf-work-card:hover { --lift: -7px; --zoom: 1.012; box-shadow: 0 16px 38px rgba(0,0,0,.16); }
+    .pf-work-card:hover .pf-card-arrow { opacity: 1; transform: translate(0,0); }
+
+    /* 导航：下划线从左长出来，比单纯变色更像「可以点」 */
+    .pf-desktop-nav a { position: relative; }
+    .pf-desktop-nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 6px; height: 1px;
+        background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .5s cubic-bezier(.22,.61,.28,1); }
+    .pf-desktop-nav a:hover::after { transform: scaleX(1); }
+
+    .pf-gallery-controls button { transition: background .3s, transform .5s cubic-bezier(.22,.61,.28,1); }
+    .pf-gallery-controls button:hover { transform: scale(1.045); }
+    .pf-gallery-controls button:active { transform: scale(.96); }
+
+    .pf-header-contact { transition: transform .5s cubic-bezier(.22,.61,.28,1), color .3s; }
+    .pf-header-contact:hover { transform: translateY(-1.5px); }
+
+    .pf-more-links > a { transition: background-color .4s, transform .5s cubic-bezier(.22,.61,.28,1); }
+    .pf-more-links > a:hover { transform: translateY(-2px); }
+
+    .pf-gallery-foot a svg, .pf-footer-top a svg { transition: transform .5s cubic-bezier(.22,.61,.28,1); }
+    .pf-gallery-foot a:hover svg { transform: translateY(3px); }
+    .pf-footer-top a:hover svg { transform: translate(3px,-3px); }
+}
+
+/* 插件案例有四张来源不同的产品图（分辨率、疏密都不一样）。
+   统一的框比修图更管用：同比例、同内衬、同底色，差异就读成「一组」而不是「乱」。 */
+.pf-case-grid .pf-screen-collection { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.pf-case-grid .pf-screen-collection figure { margin: 0; }
+.pf-case-grid .pf-screen-collection img {
+    width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top;
+    background: #e7e4dc; padding: 10px; border-radius: 2px;
+}
+@media (max-width: 760px) {
+    .pf-case-grid .pf-screen-collection { grid-template-columns: 1fr; gap: 16px; }
+}
+
+/* 「还有一些」原来只有文字，和上面五张有图的卡片不是一回事。
+   给它们各自的真实界面，比例和作品卡一致。 */
+.pf-more-links > a { flex-direction: column; align-items: stretch; gap: 16px; }
+.pf-more-thumb { position: relative; display: block; width: 100%; aspect-ratio: 16 / 10;
+    overflow: hidden; background: #202326; border-radius: 2px; }
+.pf-more-thumb img { object-fit: cover; object-position: top; transition: transform .7s cubic-bezier(.22,.61,.28,1); }
+@media (hover: hover) { .pf-more-links > a:hover .pf-more-thumb img { transform: scale(1.03); } }
+
+/* ── 案例弹层：大屏上把封面挪到左栏 ───────────────────────────────
+   原来封面是 2.4:1 横幅压在最上面，占掉首屏一半还多，项目名和
+   「从问题到作品」都被推到折线以下 —— 点开一个作品，先看到的
+   是一张图，想知道它是什么还得滚。
+
+   左栏钉住封面，右栏从标题直接开始：打开就能看到名字、一句话
+   和三步过程。窄屏和很矮的窗口保持原来的横幅，不然左栏会太窄。 */
+@media (min-width: 1000px) and (min-height: 560px) {
+    .pf-dialog-content {
+        display: grid;
+        grid-template-columns: minmax(0, 400px) minmax(0, 1fr);
+        grid-template-rows: auto 1fr;
+        align-items: start;
+    }
+    .pf-case-top { grid-column: 1 / -1; }
+    .pf-case-art {
+        position: sticky; top: 50px;
+        aspect-ratio: auto; height: calc(100dvh - 48px - 50px);
+        border-bottom-left-radius: 6px;
+    }
+    .pf-case-body { padding: 36px 52px 30px 44px; }
+    .pf-case-intro { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+    .pf-case-intro h2 { font-size: clamp(30px, 2.7vw, 44px); margin-bottom: 14px; }
+    .pf-case-process { margin-top: 38px; }
+    .pf-case-process h3 { font-size: 22px; margin-bottom: 18px; }
+    /* 右栏放不下三栏并排，改成竖排：序号靠左，文字成一列 */
+    .pf-case-process ol { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+    .pf-case-process h4 { margin-bottom: 6px; }
+}

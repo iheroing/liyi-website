@@ -70,12 +70,12 @@ export const PROFILE = {
             { name: "文档查重助手 Pro", version: "v2.0", status: "已发布", description: "教研质检的守门员。守护每一份原创内容的价值。", url: "https://chromewebstore.google.com/detail/%E6%96%87%E6%A1%A3%E6%9F%A5%E9%87%8D%E5%8A%A9%E6%89%8B-pro/iicjkpmhadepfgmminjoljgbjaaobkef?authuser=0&hl=zh-CN" }
         ],
         apps: [
-            { name: "申论素材库", url: "/shenlun", description: "已迁移至飞书多维表格，集中管理权威文章、重点精读和表达素材；定时抓取与 AI 加工在飞书中继续。" },
-            { name: "AI 培训师", url: "/ai-trainer", description: "围绕六维度评价、教学亮点、改进建议与课堂笔记，形成清晰完整的单课复盘报告。" },
+            { name: "申论素材库", url: "/shenlun", thumb: "/images/work/evidence/shenlun-home-2026-10-24.jpg", description: "已迁移至飞书多维表格，集中管理权威文章、重点精读和表达素材；定时抓取与 AI 加工在飞书中继续。" },
+            { name: "AI 培训师", url: "/ai-trainer", thumb: "/images/work/evidence/ai-trainer-report-2026-10-24.jpg", description: "围绕六维度评价、教学亮点、改进建议与课堂笔记，形成清晰完整的单课复盘报告。" },
             { name: "雪花密语", url: "/snowflake", description: "把一句只说一次的话，凝结成独一无二的雪花；端到端加密，主动揭开后密文立即失效。" },
             { name: "爱闪记", url: "https://www.aishanji.com/", description: "AI 生成记忆卡片。用碎片时间，筑起知识宫殿。" },
             { name: "培训师工具箱", url: "https://www.huatupeixun.space/", description: "百款互动工具与教学模型。让课堂的每一秒都精彩。" },
-            { name: "原子笔记", url: "/atomizer", description: "将 Markdown、Word 和带大纲的 PDF 拆解为可复用的知识原子，并导出到 CSV、Obsidian 或飞书。" }
+            { name: "原子笔记", url: "/atomizer", thumb: "/images/work/evidence/atomizer-workspace-2026-10-24.jpg", description: "将 Markdown、Word 和带大纲的 PDF 拆解为可复用的知识原子，并导出到 CSV、Obsidian 或飞书。" }
         ],
         miniPrograms: [
             { name: "诗骰", description: "选择词包、掷出词面、排成诗句，保存并分享诗笺。", entry: "微信搜索「诗骰」" }

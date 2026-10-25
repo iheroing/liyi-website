@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useRef, useState, type CSSProperties, type ComponentProps, type KeyboardEvent } from "react"
+import { useCallback, useRef, useState, type CSSProperties, type ComponentProps, type KeyboardEvent, type PointerEvent } from "react"
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-motion"
 import * as Dialog from "@radix-ui/react-dialog"
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, X } from "lucide-react"
@@ -9,6 +9,7 @@ import Image from "next/image"
 import { PROFILE } from "@/lib/data"
 import { isMounted } from "@/lib/mounted-routes"
 import { CASE_STUDIES } from "@/lib/case-studies"
+import { playHover, playOpen } from "@/lib/sound"
 
 const { featured, products } = PROFILE
 const restOfApps = products.apps.filter(app => !featured.some(item => "url" in item && item.url === app.url))
@@ -19,6 +20,34 @@ function WorkLink({ href = "", children, ...props }: ComponentProps<"a">) {
         return <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel={href.startsWith("http") ? "noopener noreferrer" : undefined} {...props}>{children}</a>
     }
     return <Link href={href} {...props}>{children}</Link>
+}
+
+/**
+ * 卡片跟着光标倾斜。
+ *
+ * 角度写进 --tilt-x / --tilt-y，而不是直接设 transform —— 发牌动画
+ * 带 both，终帧会把 transform 永久钉住，直接写会被压掉（portfolio.css
+ * 里那条注释说的就是这件事）。
+ *
+ * 跟随时把过渡缩到 90ms，不然 .62s 的曲线会让卡片追着鼠标晃半天；
+ * 鼠标离开时把这个覆盖删掉，于是回正用回原来那条慢曲线。
+ */
+function tiltToPointer(event: PointerEvent<HTMLButtonElement>) {
+    if (event.pointerType !== "mouse") return
+    const card = event.currentTarget
+    const rect = card.getBoundingClientRect()
+    const dx = (event.clientX - rect.left) / rect.width - .5
+    const dy = (event.clientY - rect.top) / rect.height - .5
+    card.style.setProperty("--tilt-speed", "90ms")
+    card.style.setProperty("--tilt-y", `${(dx * 13).toFixed(2)}deg`)
+    card.style.setProperty("--tilt-x", `${(-dy * 10).toFixed(2)}deg`)
+}
+
+function tiltBack(event: PointerEvent<HTMLButtonElement>) {
+    const card = event.currentTarget
+    card.style.removeProperty("--tilt-speed")
+    card.style.setProperty("--tilt-y", "0deg")
+    card.style.setProperty("--tilt-x", "0deg")
 }
 
 export function Projects() {
@@ -93,12 +122,16 @@ export function Projects() {
                                 key={project.name}
                                 ref={node => { cards.current[index] = node }}
                                 className={`pf-work-card${active === index ? " is-active" : ""}`}
-                                style={{ "--card-angle": `${(index - 2) * 7}deg`, "--card-y": `${Math.abs(index - 2) * 19}px` } as CSSProperties}
+                                style={{ "--card-angle": `${(index - 2) * 7}deg`, "--card-y": `${Math.abs(index - 2) * 19}px`,
+                                    // 发牌用：出场次序，以及这张牌要从牌堆往外走多远
+                                    "--card-i": index, "--deal-x": `${(2 - index) * 132}px` } as CSSProperties}
                                 aria-label={`查看${project.name}案例`}
                                 aria-haspopup="dialog"
-                                onPointerEnter={event => { if (event.pointerType === "mouse") setActive(index) }}
+                                onPointerEnter={event => { if (event.pointerType === "mouse") { setActive(index); playHover() } }}
+                                onPointerMove={reduceMotion ? undefined : tiltToPointer}
+                                onPointerLeave={reduceMotion ? undefined : tiltBack}
                                 onFocus={() => setActive(index)}
-                                onClick={event => openProject(index, event.currentTarget)}
+                                onClick={event => { playOpen(); openProject(index, event.currentTarget) }}
                             >
                                 <motion.div className="pf-card-image" layoutId={reduceMotion ? undefined : `art-${index}`}>
                                     <Image src={project.shot} alt={`${project.name}概念主视觉`} fill priority={index < 2} sizes="(max-width: 760px) 76vw, 260px" />
@@ -117,7 +150,8 @@ export function Projects() {
                     <div className="pf-project-focus" aria-live="polite" aria-atomic="true">
                         <AnimatePresence mode="wait" initial={false}>
                             <motion.div key={current.name} initial={reduceMotion ? false : { opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: .18 }}>
-                                <h2>{current.name}</h2>
+                                {/* 卡面已经写了项目名，这里只说它解决什么 */}
+                                <h2 className="sr-only">{current.name}</h2>
                                 <p>{currentCase.summary}</p>
                             </motion.div>
                         </AnimatePresence>
@@ -128,13 +162,13 @@ export function Projects() {
                         <button type="button" aria-label="下一个作品" onClick={() => choose(active + 1)}><ArrowRight size={20} /></button>
                     </div>
                 </div>
-                <div className="pf-gallery-foot pf-frame"><span>选一件作品，展开看看。</span><a href="#more-work">继续向下 <ArrowDown size={14} /></a></div>
+                <div className="pf-gallery-foot pf-frame"><span></span><a href="#more-work">往下看 <ArrowDown size={14} /></a></div>
             </section>
 
             <section id="more-work" className="pf-other-work pf-frame" aria-labelledby="other-work-title">
                 <div className="pf-section-heading"><h2 id="other-work-title">还有一些，<br />正在解决具体的问题。</h2><p>从一堂课、一份文档，到组织里的日常协作。</p></div>
-                <div className="pf-more-links">{restOfApps.map(app => <WorkLink key={app.name} href={app.url}><span><strong>{app.name}</strong><span>{app.description}</span></span><ArrowUpRight size={24} aria-hidden="true" /></WorkLink>)}</div>
-                <details className="pf-internal"><summary>组织内部的实践 <span>{products.enterprise.length} 个项目 <ArrowDown size={16} /></span></summary><div>{products.enterprise.map(project => <article key={project.name}><h3>{project.name}</h3><p>{project.description}</p></article>)}</div></details>
+                <div className="pf-more-links">{restOfApps.map(app => <WorkLink key={app.name} href={app.url}>{"thumb" in app && app.thumb ? <span className="pf-more-thumb"><Image src={app.thumb} alt={`${app.name}界面`} fill sizes="(max-width: 760px) 90vw, 380px" /></span> : null}<span><strong>{app.name}</strong><span>{app.description}</span></span><ArrowUpRight size={24} aria-hidden="true" /></WorkLink>)}</div>
+                <details className="pf-internal"><summary>组织内部的实践 <span>{products.enterprise.length} 个项目 <i aria-hidden="true" className="ps-notes-toggle">＋</i></span></summary><div>{products.enterprise.map(project => <article key={project.name}><h3>{project.name}</h3><p>{project.description}</p></article>)}</div></details>
             </section>
 
             <Dialog.Root open={selected !== null} onOpenChange={open => { if (!open) setSelected(null) }}>
@@ -143,7 +177,7 @@ export function Projects() {
                         <Dialog.Portal forceMount>
                             <Dialog.Overlay asChild><motion.div className="pf-dialog-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduceMotion ? 0 : .2 }} /></Dialog.Overlay>
                             <Dialog.Content asChild onOpenAutoFocus={event => { event.preventDefault(); closeButton.current?.focus() }} onCloseAutoFocus={event => { event.preventDefault(); returnFocus.current?.focus({ preventScroll: true }) }} aria-describedby="case-summary">
-                                <motion.div className="pf-dialog-content" initial={reduceMotion ? false : { opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: reduceMotion ? 0 : 20 }} transition={{ duration: reduceMotion ? 0 : .35, ease }}>
+                                <motion.div className={`pf-dialog-content${selected !== 1 && detailCase.screens.length > 1 ? " pf-case-grid" : ""}`} initial={reduceMotion ? false : { opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: reduceMotion ? 0 : 20 }} transition={{ duration: reduceMotion ? 0 : .35, ease }}>
                                     <div className="pf-case-top"><span>{detailCase.kind}</span><Dialog.Close asChild><button type="button" ref={closeButton} className="pf-case-close" aria-label="关闭案例"><span>返回作品</span><X size={20} /></button></Dialog.Close></div>
                                     <motion.div className="pf-case-art" layoutId={reduceMotion ? undefined : `art-${selected}`}><Image src={detail.shot} alt={`${detail.name}概念主视觉`} fill sizes="(max-width: 760px) 100vw, 1040px" /></motion.div>
                                     <div className="pf-case-body">
