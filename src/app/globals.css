@@ -204,7 +204,10 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    overflow-x: hidden;
+    /* 不要在 body 上写 overflow-x：一个轴设成非 visible 会把另一个轴
+       变成 auto，body 就成了滚动容器，于是 animation-timeline: view()
+       全都对着一个不滚动的盒子量，进度永远是 1 —— 滚动驱动的动画
+       看起来「已完成」，一帧都不会动。html 上那条已经足够裁掉横向溢出。 */
   }
 
   /* Visible, consistent keyboard focus. The previous rule hung the ring on `*`,
