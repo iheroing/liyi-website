@@ -66,7 +66,7 @@
      megabytes on a page that is mostly Chinese anyway. */
   --stack-sans: var(--font-inter), "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
-  --stack-heading: var(--font-inter), "PingFang SC", "Hiragino Sans GB",
+  --stack-heading: var(--font-noto-serif-sc), var(--font-inter), "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
   /* Cormorant stays in front for Latin: /shenlun is a long-form reading surface
      that sets font-serif, and dropping it would restyle that page. It has no

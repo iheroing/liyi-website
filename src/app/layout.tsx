@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Inter, JetBrains_Mono } from "next/font/google";
+import { Cormorant_Garamond, Inter, JetBrains_Mono, Noto_Serif_SC } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import { Analytics } from "@vercel/analytics/next"
@@ -21,6 +21,15 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 // Retained for /shenlun, which sets font-serif across its reading interface.
+// 展示级标题用思源宋体：这个站的世界是纸、墨与印章，黑体标题撑不起来。
+// Google 按 unicode-range 切片下发，浏览器只取用到的那几块。
+const notoSerifSC = Noto_Serif_SC({
+  variable: "--font-noto-serif-sc",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  display: "swap",
+});
+
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
@@ -104,7 +113,7 @@ export default function RootLayout({
     // Keep `lang` on this line: tests/route-contracts.test.mjs matches the
     // literal `<html lang="zh-CN"`.
     <html lang="zh-CN"
-      className={`${inter.variable} ${jetbrainsMono.variable} ${cormorant.variable}`}
+      className={`${inter.variable} ${jetbrainsMono.variable} ${cormorant.variable} ${notoSerifSC.variable}`}
       suppressHydrationWarning
     >
       <body className="relative flex min-h-screen flex-col font-sans antialiased">
